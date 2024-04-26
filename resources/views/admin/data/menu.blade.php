@@ -64,6 +64,11 @@
             </x-dropdown-link>
 
 
+            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                <x-dropdown-link href="{{ route('api-tokens.index') }}" class="text-gray-700 hover:bg-gray-10">
+                    {{ __('API Tokens') }}
+                </x-dropdown-link>
+            @endif
 
 
 
@@ -71,16 +76,15 @@
 
 
 
-
-          <li class="nav-item">
-          <form method="POST" action="{{ route('logout') }}" x-data>
-                    @csrf
-                    <x-dropdown-link href="{{ route('logout') }}"
-                                     @click.prevent="$root.submit();" class="text-gray-800 hover:bg-gray-50">
-                        {{ __('Log Out') }}
-                        <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
-                    </x-dropdown-link>
-                </form>
+            <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-dropdown-link href="{{ route('logout') }}"
+                         onclick="event.preventDefault(); this.closest('form').submit();" class="text-gray-800 hover:bg-gray-50">
+                  {{ __('Log Out') }}
+                  <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                </x-dropdown-link>
+              </form>
             </li>
 
 

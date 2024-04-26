@@ -2,8 +2,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="{{ asset('admin') }}/dist/img/LOGO.jpg" alt="AdminLTE Logo"
-           style="opacity: .8">
+      <img src="https://i.imgur.com/pK5pgii.png" alt="AdminLTE Logo"
+           style="width: 450px; height: auto; max-width: 100%;">
     </a>
 
     <!-- Sidebar -->
@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('admin') }}/dist/img/alperen.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="https://i.imgur.com/4TSHF9j.png" style="width: 50px; height: auto; max-width: 100%;" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Emirhan Güzel</a>

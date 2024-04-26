@@ -1,55 +1,4 @@
 @extends('admin.tema')
-@section('css')
-
-<style>
-  .form-group.row {
-    display: flex; /* Flexbox kullanarak düzenleme */
-    align-items: center; /* İçerikleri dikey olarak ortalar */
-    margin-bottom: 10px; /* Daha az boşluk için */
-    gap: 100px; /* Etiket ve input arasında boşluk */
-  }
-
-  .form-group.row > label {
-    flex-basis: 20%; /* Etiket genişliği */
-    flex-shrink: 0; /* Ekran daraltıldığında etiketin daralmamasını sağlar */
-    margin-bottom: 0; /* Alt boşluğu kaldırır */
-    white-space: nowrap; /* Etiketin tek satırda kalmasını sağlar */
-    overflow: hidden; /* Uzun metinleri keser */
-    text-overflow: ellipsis; /* Kesilen metinlerin sonuna üç nokta koyar */
-  }
-
-  .form-group.row > div {
-    flex-grow: 1; /* Kalan alanı input bölümüne verir */
-  }
-
-  .form-control {
-    width: 100%; /* Input'u div'in genişliğine sığdırır */
-  }
-
-  .dimensions-input-group {
-    display: flex;
-    gap: 5px; /* Inputlar arasında boşluk */
-    flex-wrap: wrap; /* Gerekirse yeni satıra geçer */
-  }
-
-  .dimensions-input-group input {
-    flex-grow: 1; /* Inputları esnek yapar */
-    padding: 0.375rem 0.75rem; /* Bootstrap varsayılanı */
-    font-size: 1rem; /* Bootstrap varsayılanı */
-    line-height: 1.5; /* Bootstrap varsayılanı */
-    color: #495057; /* Bootstrap varsayılanı */
-    background-color: #fff; /* Bootstrap varsayılanı */
-    background-clip: padding-box; /* Bootstrap varsayılanı */
-    border: 1px solid #ced4da; /* Bootstrap varsayılanı */
-    border-radius: 0.25rem; /* Bootstrap varsayılanı */
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Bootstrap varsayılanı */
-  }
-</style>
-
-
-
-@endsection
-
 
 
 @section('master')
@@ -80,27 +29,27 @@
                   <div class="card-body">
                   <form role="form" id="projeForm" action="{{ route('proje.store') }}" method="post">
                   @csrf
-                  <div class="row">
-                    <div class="col-sm-2">
+                  <div class="project_add_upper row">
+                    <div class="col-sm-3">
                       <!-- text input -->
                       <div class="form-group">
                         <label>Proje Kodu</label>
                         <input type="number"  name="proje_kodu" class="form-control" placeholder="Enter ...">
                       </div>
                     </div>
-                    <div class="col-sm-3" style="margin-left:30px;">
+                    <div class="col-sm-3">
                     <div class="form-group">
                         <label>Proje Adı</label>
                         <input type="text" name="proje_adi" class="form-control" placeholder="Enter ...">
                       </div>
                     </div>
-                    <div class="col-sm-2" style="margin-left:30px;">
+                    <div class="col-sm-3">
                     <div class="form-group">
                         <label>Müşteri</label>
                         <input type="text" name="musteri" class="form-control" placeholder="Enter ...">
                       </div>
                     </div>
-                    <div class="col-sm-2" style="margin-left:30px;">
+                    <div class="col-sm-3">
                     <div class="form-group">
                     <label>Teslim Tarihi:</label>
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -112,7 +61,7 @@
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="project_add_upper row">
                     <div class="col-sm-3">
                     <div class="form-group">
                     <label>Ürün Ailesi</label>
@@ -229,21 +178,21 @@
             </div>
           </div>
           <div class="form-group">
-  <label for="dimensions" class="dimensions-label">Arka Direk (En/Boy/Kalınlık):</label>
-  <div class="dimensions-input-group">
-    <input type="text" id="width" name="width" placeholder="En">
-    <input type="text" id="height" name="height" placeholder="Boy">
-    <input type="text" id="thickness" name="thickness" placeholder="Kalınlık">
-  </div>
-</div>
-<div class="form-group">
-  <label for="dimensions" class="dimensions-label">Karkas (En/Yükseklik/EK):</label>
-  <div class="dimensions-input-group">
-    <input type="text" id="width" name="width" placeholder="En">
-    <input type="text" id="height" name="height" placeholder="Boy">
-    <input type="text" id="thickness" name="thickness" placeholder="Kalınlık">
-  </div>
-</div>
+            <label for="dimensions" class="dimensions-label">Arka Direk (En/Boy/Kalınlık):</label>
+              <div class="dimensions-input-group">
+              <input type="text" id="width" name="width" placeholder="En">
+              <input type="text" id="height" name="height" placeholder="Boy">
+              <input type="text" id="thickness" name="thickness" placeholder="Kalınlık">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dimensions" class="dimensions-label">Karkas (En/Yükseklik/EK):</label>
+            <div class="dimensions-input-group">
+              <input type="text" id="width" name="width" placeholder="En">
+              <input type="text" id="height" name="height" placeholder="Boy">
+              <input type="text" id="thickness" name="thickness" placeholder="Kalınlık">
+            </div>
+          </div>
           <!-- Diğer input satırları benzer şekilde eklenecek... -->
         </form>
       </div>

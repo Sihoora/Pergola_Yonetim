@@ -36,15 +36,15 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fas fa-text-width"></i>
-                  Primary Block Quotes
+                <i class="fa fa-book"></i>
+                  Kerim Kur'an
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <blockquote>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+                  <p>O halde her fırsatta kararlılıkla yeni şeyler yapmaya giriş.</p>
+                  <small>İnşirah Suresi</small>
                 </blockquote>
               </div>
               <!-- /.card-body -->
@@ -56,15 +56,15 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fas fa-text-width"></i>
-                  Secondary Block Quotes
+                  <i class='fas fa-user-alt'></i>
+                  Sözler
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body clearfix">
                 <blockquote class="quote-secondary">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                  <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+                  <p>Güç zihninizdedir, dışarıda bir yerlerde değil. Bunu anladığınızda dayanıklılık gücünüzü de bulacaksınız.</p>
+                  <small>Marcus Aurelius</small>
                 </blockquote>
               </div>
               <!-- /.card-body -->

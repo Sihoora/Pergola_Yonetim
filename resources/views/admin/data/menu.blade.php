@@ -50,9 +50,43 @@
                   <p>İstasyonlar</p>
                 </a>
               </li>
-              
             </ul>
+
           </li>
+
+
+
+
+
+
+            <x-dropdown-link href="{{ route('profile.show') }}" class="text-gray-700 hover:bg-gray-300">
+              {{ __('Profile') }}
+            </x-dropdown-link>
+
+
+
+
+
+
+
+
+
+
+          <li class="nav-item">
+          <form method="POST" action="{{ route('logout') }}" x-data>
+                    @csrf
+                    <x-dropdown-link href="{{ route('logout') }}"
+                                     @click.prevent="$root.submit();" class="text-gray-800 hover:bg-gray-50">
+                        {{ __('Log Out') }}
+                        <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                    </x-dropdown-link>
+                </form>
+            </li>
+
+
+
+
+           
           
            
            

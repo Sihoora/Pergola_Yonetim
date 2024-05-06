@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminYonetim;
 use App\Http\Controllers\ProjeController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardController;   
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +16,13 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-// Anasayfa ve Giriş Yap/Kayıt Ol sayfaları için
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('guest'); // Sadece misafirler erişebilir.
+    // Anasayfa ve Giriş Yap/Kayıt Ol sayfaları için
+    Route::get('/', function () {
+        return view('welcome');
+    })->middleware('guest'); // Sadece misafirler erişebilir.
 
-// Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    // Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 
     

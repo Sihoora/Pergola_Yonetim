@@ -17,12 +17,8 @@ class ProjeController extends Controller
     $proje->proje_adi = $request->input('proje_adi');
     $proje->musteri = $request->input('musteri');
     $proje->teslim_tarihi = $request->input('teslim_tarihi');
-    $proje->urun_ailesi = $request->input('urun_ailesi');
-    $proje->urun_grubu = $request->input('urun_grubu');
-    $proje->urun_alt_grubu = $request->input('urun_alt_grubu');
-    $proje->uretim_sablonu = $request->input('uretim_sablonu');
-
     $proje->save();
+    dd($proje);
 
     $request->validate([
         'proje_kodu' => 'required|integer',

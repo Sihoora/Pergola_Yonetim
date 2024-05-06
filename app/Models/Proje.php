@@ -18,10 +18,6 @@ class Proje extends Model
         'proje_adi', 
         'musteri', 
         'teslim_tarihi', 
-        'urun_ailesi', 
-        'urun_grubu', 
-        'urun_alt_grubu', 
-        'uretim_sablonu'
     ];
 
     // Bu modelle ilgili dönüştürülecek tarih alanları

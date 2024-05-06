@@ -12,7 +12,7 @@ class FormDetay extends Model
         'proje_ekle_id',
         'sistem_adi',
         'en',
-        'acilim',
+        'acilim',   
         'on_yukseklik',
         'arka_yukseklik',
         'motor_tipi',

@@ -14,7 +14,7 @@
           <img src="https://i.imgur.com/4TSHF9j.png" style="width: 50px; height: auto; max-width: 100%;" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -25,7 +25,7 @@
           <a href="#" class="nav-link active">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
-              İmalat
+              Haberleşme Modülü
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -33,7 +33,7 @@
             <li class="nav-item">
               <a href="{{ route('proje_ekle') }}" class="nav-link active">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Yeni Proje Girişi</p>
+                <p>Sipariş Oluştur</p>
               </a>
             </li>
             <li class="nav-item">

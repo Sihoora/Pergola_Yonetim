@@ -104,10 +104,11 @@
 <!-- overlayScrollbars -->
 <script src="{{ asset('admin') }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('admin') }}/dist/js/adminlte.js"></script>
+<script src="{{ asset('admin') }} "></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('admin') }}/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('admin') }}/dist/js/demo.js"></script>
+@yield('js')
 </body>
 </html>

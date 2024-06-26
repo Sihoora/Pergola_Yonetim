@@ -31,13 +31,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('proje_ekle') }}" class="nav-link active">
+              <a href="{{ route('proje_ekle') }}" class="nav-link ">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Sipariş Oluştur</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="./index2.html" class="nav-link">
+              <a href="{{route('proje-liste')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>İmalat Projeleri</p>
               </a>

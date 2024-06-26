@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('proje_adi');
             $table->string('musteri');
             $table->date('teslim_tarihi');
-            $table->string('urun_ailesi')->nullable();
-            $table->string('urun_grubu')->nullable();
-            $table->string('urun_alt_grubu')->nullable();
-            $table->string('uretim_sablonu')->nullable();
             $table->timestamps(); // created_at ve updated_at sütunları otomatik olarak eklenir.
         });
     }

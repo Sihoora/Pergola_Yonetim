@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Exception\Handler;
 
 class FileController extends Controller
 {
@@ -54,6 +55,32 @@ class FileController extends Controller
       
       return redirect()->back()->with('success', 'Dosya başarıyla silindi.');
   }
+
+
+  public function showFileSize($fileName)
+{
+    $filePath = storage_path('app/uploads/' . $fileName);
+
+    try {
+        if (!file_exists($filePath)) {
+            throw new Exception("Dosya mevcut değil.");
+        }
+
+        if (!is_readable($filePath)) {
+            throw new Exception("Dosya okunabilir değil.");
+        }
+
+        $fileSize = filesize($filePath);
+        if ($fileSize === false) {
+            throw new Exception("Dosya boyutu alınamıyor.");
+        }
+
+        return response()->json(['size' => $fileSize]);
+
+    } catch (Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
 
 
         

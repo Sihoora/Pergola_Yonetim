@@ -182,7 +182,7 @@
     $(document).ready(function() {
         $("#file-upload").fileinput({
             theme: 'fa',
-            allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg'],
+            allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'dvg'],
             maxFileSize: 2048,
             showUpload: false,
             showRemove: false,
@@ -221,6 +221,39 @@
             },
         });
     });
+
+    $(document).ready(function() {
+        $('#urunTable').DataTable();
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var urunId = urlParams.get('urun_id');
+
+        if (urunId) {
+            $.ajax({
+                url: '/dashboard/urun-duzenle/' + urunId,
+                method: 'GET',
+                success: function(data) {
+                    $('select[name="urun_name"]').val(data.urun_name).change();
+                    loadDynamicInputs(data.urun_name, data);
+                }
+            });
+        }
+
+        $('select[name="urun_name"]').on('change', function() {
+            var selectedValue = $(this).val();
+            loadDynamicInputs(selectedValue);
+        });
+    });
+
+    function loadDynamicInputs(selectedValue, data = null) {
+        var dynamicInputs = document.getElementById("dynamicInputs");
+        dynamicInputs.innerHTML = "";
+
+        if (selectedValue) {
+            getDynamicInputs(selectedValue, data);
+        }
+    }
+
 
     function submitUrunForm() {
         const urunForm = document.getElementById('Urun');

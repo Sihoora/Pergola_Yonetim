@@ -33,7 +33,7 @@ class ProductController extends Controller
         $urun->led_model = $validatedData['led_model'];
         $urun->save();
 
-        return redirect()->route('proje-liste')->with('urun_id', $urun->id);        
+        return redirect()->route('proje-liste')->with('urun_id', $urun->id)->with('success', 'Ürün başarıyla eklendi.');        
 
     }
 
@@ -47,7 +47,7 @@ class ProductController extends Controller
     public function editUrun($id)
     {
         $urun = Urun::findOrFail($id);
-        return response()->json($urun);
+        return response()->json($urun)->with('success', 'Ürün başarıyla güncellendi.');
     }
 
     public function updateUrun(Request $request, $id)

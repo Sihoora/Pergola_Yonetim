@@ -82,6 +82,8 @@
 
 @section('js')
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
     $(document).ready(function() {
         $('#projectTable').DataTable();
@@ -104,6 +106,7 @@
                             urun.kumas_profil_ral,
                             urun.led_model,
                             '<a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '">Edit</a>'
+                                
                         ]).draw(false);
                     });
 
@@ -127,5 +130,29 @@
             }
         });
     }
+
+
+    $(document).ready(function() {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata',
+                text: '{{ session('error') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+    });
+    
 </script>
 @endsection

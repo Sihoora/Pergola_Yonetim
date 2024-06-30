@@ -1,6 +1,29 @@
+
+$(document).ready(function() {
+  $("#file-input").fileinput({
+      theme: 'fa',
+      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      overwriteInitial: false,
+      maxFileSize: 2000,
+      maxFilesNum: 10,
+      slugCallback: function (filename) {
+          return filename.replace('(', '_').replace(']', '_');
+      }
+  });
+
+  // View mode handling
+  if ($('form').hasClass('view-mode')) {
+      $('input, select, textarea').attr('disabled', 'disabled');
+  }
+}); 
+
+
 function getDynamicInputs(selectedValue, data = null) {
   var dynamicInputs = document.getElementById("dynamicInputs");
   dynamicInputs.innerHTML = "";
+
+
+
 
     if (selectedValue === "Pergola Avantgarde") {
       dynamicInputs.innerHTML = `

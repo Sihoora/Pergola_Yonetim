@@ -178,12 +178,14 @@
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/js/fileinput.min.js"></script>
 <script src="{{ asset('admin') }}/dist/js/proje_ekle_js/input_fields.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
     $(document).ready(function() {
         $("#file-upload").fileinput({
             theme: 'fa',
             allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'dvg'],
-            maxFileSize: 2048,
+            maxFileSize: 8192,
             showUpload: false,
             showRemove: false,
             dropZoneEnabled: false,
@@ -222,6 +224,7 @@
         });
     });
 
+    
     $(document).ready(function() {
         $('#urunTable').DataTable();
 
@@ -268,6 +271,30 @@
             urunForm.submit();
         }
     }
+
+    $(document).ready(function() {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata',
+                text: '{{ session('error') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+    });
+
+
 
 </script>
 @endsection

@@ -63,12 +63,19 @@ use App\Http\Controllers\FileController;
     Route::put('/urun-duzenle/{id}', [ProductController::class, 'updateUrun'])->name('urun.update');
 
 
- // routes/web.php
+    // Dosya yükleme işlemi
+    Route::post('/file-upload', [FileController::class, 'upload'])->name('file.upload');
+    
+    // Dosya listeleme sayfası
+    Route::get('/proje/{id}/files', [FileController::class, 'getFiles'])->name('proje.files');
 
- Route::post('/file-upload', [FileController::class, 'upload'])->name('file.upload');
- Route::get('/proje/{id}/files', [FileController::class, 'getFiles'])->name('proje.files');
- Route::get('/file-download/{id}', [FileController::class, 'download'])->name('file.download');
- Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
+    // Dosya indirme işlemi
+    Route::get('/file-download/{id}', [FileController::class, 'download'])->name('file.download');
+
+    // Dosya silme işlemi
+    Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
+
+
  
 
 

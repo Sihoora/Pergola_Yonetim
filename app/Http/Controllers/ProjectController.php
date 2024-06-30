@@ -12,7 +12,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projeler = Project::all();
-        return view("admin.include.proje_liste",compact("projeler"));
+        return view("admin.include.proje_liste", compact("projeler"));
     }
 
     public function create()
@@ -22,7 +22,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'proje_kodu' => 'required|string|max:255',
             'proje_adi' => 'required|string|max:255',
@@ -31,18 +30,18 @@ class ProjectController extends Controller
         ]);
 
         $proje = new Project();
-        $proje->proje_kodu = $validatedData['$proje_kodu'];
-        $proje->proje_adi = $validatedData['$proje_adi'];
-        $proje->musteri = $validatedData['$musteri'];
-        $proje->teslim_tarihi = $validatedData['$teslim_tarihi'];
+        $proje->proje_kodu = $validatedData['proje_kodu'];
+        $proje->proje_adi = $validatedData['proje_adi'];
+        $proje->musteri = $validatedData['musteri'];
+        $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
         $proje->save();
 
-        return redirect()->route('proje_ekle')->with('proje_id', $proje->id);
+        return redirect()->route('proje-liste')->with('success', 'Proje başarıyla eklendi.');
     }
 
     public function edit($id)
     {
-        $proje = Project::with('files')->find($id);
+        $proje = Project::find($id);
         if (!$proje) {
             return redirect()->route('dashboard')->with('error', 'Proje bulunamadı.');
         }
@@ -58,15 +57,11 @@ class ProjectController extends Controller
         $proje->teslim_tarihi = $request->teslim_tarihi;
         $proje->save();
 
-        dd($proje);
-
-        return redirect()->route('proje-liste');
+        return redirect()->route('proje-liste')->with('success', 'Proje başarıyla güncellendi.');
     }
-
-
-    
+}
 //------------------------------------------------------------
 
-}
+
 
 

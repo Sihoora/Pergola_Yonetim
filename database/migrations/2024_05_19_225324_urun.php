@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('kumas_cinsi');
             $table->string('kumas_profil_ral');
             $table->string('led_model');
+            $table->string('motor_model');
+            $table->string('kumanda');
+            $table->string('flans');
+            $table->string('arka_celik');
             $table->timestamps();
 
         });

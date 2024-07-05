@@ -19,6 +19,10 @@ class Urun extends Model
         'kumas_cinsi',
         'kumas_profil_ral',
         'led_model',
+        'motor_model',
+        'kumanda',
+        'flans',
+        'arka_celik'
     ];
 
     public function project()

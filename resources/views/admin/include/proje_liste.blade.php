@@ -65,6 +65,10 @@
                                     <th>Kumaş Cinsi</th>
                                     <th>Kumaş Profil RAL</th>
                                     <th>LED Model</th>
+                                    <th>Motor Model</th>
+                                    <th>Kumanda</th>
+                                    <th>Flans</th>
+                                    <th>Arka Çelik</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -88,7 +92,7 @@
     $(document).ready(function() {
         $('#projectTable').DataTable();
 
-        $('.getUrunler').on('click', function() {
+        $(document).on('click', '.getUrunler', function() {
             var projeId = $(this).data('id');
 
             $.ajax({
@@ -105,34 +109,59 @@
                             urun.kumas_cinsi,
                             urun.kumas_profil_ral,
                             urun.led_model,
+                            urun.motor_model,
+                            urun.kumanda,
+                            urun.flans,
+                            urun.arka_celik,
                             '<a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '">Edit</a>'
-                                
                         ]).draw(false);
                     });
-
-                    $('.editProduct').on('click', function() {
-                        var urunId = $(this).data('id');
-                        editProduct(urunId);
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Ürünleri getirirken bir hata oluştu. Lütfen tekrar deneyin.',
+                        timer: 3000,
+                        showConfirmButton: false
                     });
                 }
             });
         });
-    });
 
-    function editProduct(urunId) {
-        $.ajax({
-            url: '/dashboard/urun-duzenle/' + urunId,
-            method: 'GET',
-            success: function(data) {
-                var url = "{{ route('proje.edit', ':id') }}";
-                url = url.replace(':id', data.proje_id);
-                window.location.href = url + '?urun_id=' + urunId;
-            }
+        $(document).on('click', '.editProduct', function() {
+            var urunId = $(this).data('id');
+
+            $.ajax({
+                url: '/dashboard/urun-duzenle/' + urunId,
+                method: 'GET',
+                success: function(data) {
+                    if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: data.error,
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        var url = "{{ route('proje.edit', ':id') }}";
+                        url = url.replace(':id', data.proje_id);
+                        window.location.href = url + '?urun_id=' + urunId;
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            });
         });
-    }
 
-
-    $(document).ready(function() {
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
@@ -153,6 +182,5 @@
             });
         @endif
     });
-    
 </script>
 @endsection

@@ -3,6 +3,34 @@
 @section('css')
 <!-- Include CSS for file input -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/css/fileinput.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[list] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-control::placeholder {
+            color: #6c757d;
+        }
+    </style>
+
 @endsection
 
 @section('master')
@@ -292,6 +320,18 @@
                 showConfirmButton: false
             });
         @endif
+    });
+
+        // Datalist seçeneklerini dinamik olarak güncellemek için bir örnek
+        document.addEventListener('DOMContentLoaded', function() {
+        var options = ["Düz Krem", "Düz Beyaz", "Düz Gri"];
+        var dataList = document.getElementById('kumasCinsiOptions');
+        
+        options.forEach(function(option) {
+            var opt = document.createElement('option');
+            opt.value = option;
+            dataList.appendChild(opt);
+        });
     });
 
 

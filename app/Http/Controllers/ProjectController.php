@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Urun;
+use App\HTTP\Controllers\ProductController;
 
 class ProjectController extends Controller
 {
@@ -36,7 +37,7 @@ class ProjectController extends Controller
         $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
         $proje->save();
 
-        return redirect()->route('proje-liste')->with('success', 'Proje başarıyla eklendi.');
+        return redirect()->route('proje.edit')->with('success', 'Proje başarıyla eklendi.');
     }
 
     public function edit($id)

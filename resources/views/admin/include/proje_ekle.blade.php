@@ -145,7 +145,7 @@
                                             <div id="dynamicInputs"></div>
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <button type="submit" class="btn btn-success">Ürünü Kaydet</button>
+                                                    <button type="submit" class="btn btn-success" onclick="submitUrunForm()">Ürünü Kaydet</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -254,51 +254,57 @@
 
     
     $(document).ready(function() {
-        $('#urunTable').DataTable();
+    var urlParams = new URLSearchParams(window.location.search);
+    var urunId = urlParams.get('urun_id');
 
-        var urlParams = new URLSearchParams(window.location.search);
-        var urunId = urlParams.get('urun_id');
-
-        if (urunId) {
-            $.ajax({
-                url: '/dashboard/urun-duzenle/' + urunId,
-                method: 'GET',
-                success: function(data) {
-                    $('select[name="urun_name"]').val(data.urun_name).change();
-                    loadDynamicInputs(data.urun_name, data);
-                }
-            });
-        }
-
-        $('select[name="urun_name"]').on('change', function() {
-            var selectedValue = $(this).val();
-            loadDynamicInputs(selectedValue);
+    if (urunId) {
+        $.ajax({
+            url: '/dashboard/urun-duzenle/' + urunId,
+            method: 'GET',
+            success: function(data) {
+                $('select[name="urun_name"]').val(data.urun_name).change();
+                loadDynamicInputs(data.urun_name, data);
+                $('#urun_id').val(data.id);  // Ürün ID'sini formda gizli inputa set et
+            }
         });
+    }
+
+    $('select[name="urun_name"]').on('change', function() {
+        var selectedValue = $(this).val();
+        loadDynamicInputs(selectedValue);
     });
+});
 
-    function loadDynamicInputs(selectedValue, data = null) {
-        var dynamicInputs = document.getElementById("dynamicInputs");
-        dynamicInputs.innerHTML = "";
+function loadDynamicInputs(selectedValue, data = null) {
+    var dynamicInputs = document.getElementById("dynamicInputs");
+    dynamicInputs.innerHTML = "";
 
-        if (selectedValue) {
-            getDynamicInputs(selectedValue, data);
-        }
+    if (selectedValue) {
+        getDynamicInputs(selectedValue, data);
+    }
+}
+
+
+function submitUrunForm() {
+    const urunForm = document.getElementById('Urun');
+    const urunId = document.getElementById('urun_id').value;
+
+    if (urunId) {
+        urunForm.action = `{{ url('urun-duzenle') }}/${urunId}`;
+        urunForm.method = 'POST';
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'PUT';
+        urunForm.appendChild(methodInput);
+    } else {
+        urunForm.action = `{{ route('urun.store') }}`;
+        urunForm.method = 'POST';
     }
 
+    urunForm.submit();
+}
 
-    function submitUrunForm() {
-        const urunForm = document.getElementById('Urun');
-        const urunId = document.getElementById('urun_id').value;
-        if (urunId) {
-            urunForm.action = `{{ url('urun-duzenle') }}/${urunId}`;
-            urunForm.method = 'POST';
-            urunForm.submit();
-        } else {
-            urunForm.action = `{{ route('urun.store') }}`;
-            urunForm.method = 'POST';
-            urunForm.submit();
-        }
-    }
 
     $(document).ready(function() {
         @if(session('success'))

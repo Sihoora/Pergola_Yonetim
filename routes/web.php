@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\DashboardController;   
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuNavigate;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FileController;
@@ -18,29 +18,28 @@ use App\Http\Controllers\FileController;
 |
 */
 
-    // Anasayfa ve Giriş Yap/Kayıt Ol sayfaları için
-    Route::get('/', function () {
-        return view('welcome');
-    })->middleware('guest'); // Sadece misafirler erişebilir.
+// Anasayfa ve Giriş Yap/Kayıt Ol sayfaları için
+Route::get('/', function () {
+    return view('welcome');
+})->middleware('guest'); // Sadece misafirler erişebilir.
 
-    // Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
-    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+// Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Dashboard sayfası    
     Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 
-     // Proje ekleme sayfası
-     Route::get('/dashboard/proje_ekle',[MenuNavigate::class,"index"])->name('proje_ekle');
+    // Proje ekleme sayfası
+    Route::get('/dashboard/proje_ekle', [MenuNavigate::class, "index"])->name('proje_ekle');
 
-     // Proje kaydetme işlemi
-     Route::post('/proje-ekle', [ProjectController::class, 'store'])->name('proje.store');
+    // Proje kaydetme işlemi
+    Route::post('/proje-ekle', [ProjectController::class, 'store'])->name('proje.store');
 
-
-     // Proje listeleme sayfası
-     Route::get('/dashboard/proje-liste',[ProjectController::class,"index"])->name('proje-liste');
+    // Proje listeleme sayfası
+    Route::get('/dashboard/proje-liste', [ProjectController::class, "index"])->name('proje-liste');
 
     // Proje düzenleme sayfası
-    Route::get('/dashboard/proje-duzenle/{id}',[ProjectController::class,"edit"])->name('proje.edit');
+    Route::get('/dashboard/proje-duzenle/{id}', [ProjectController::class, "edit"])->name('proje.edit');
 
     // Proje güncelleme işlemi
     Route::put('/proje-duzenle/{id}', [ProjectController::class, 'update'])->name('proje.update');
@@ -48,8 +47,6 @@ use App\Http\Controllers\FileController;
     // Proje silme işlemi
     Route::delete('/proje-sil/{id}', [ProjectController::class, 'destroy'])->name('proje.delete');
 
-
-    
     // Ürün ekleme sayfası
     Route::post('/urun/store', [ProductController::class, 'storeUrun'])->name('urun.store');
 
@@ -57,11 +54,10 @@ use App\Http\Controllers\FileController;
     Route::get('/proje/{id}/urunler', [ProductController::class, 'getUrunler'])->name('proje.urunler');
 
     // Ürün düzenleme sayfası
-    Route::get('/dashboard/urun-duzenle/{id}',[ProductController::class, 'editUrun'])->name('urun.edit');
+    Route::get('/dashboard/urun-duzenle/{id}', [ProductController::class, 'editUrun'])->name('urun.edit');
 
     // Ürün güncelleme işlemi
     Route::put('/urun-duzenle/{id}', [ProductController::class, 'updateUrun'])->name('urun.update');
-
 
     // Dosya yükleme işlemi
     Route::post('/file-upload', [FileController::class, 'upload'])->name('file.upload');
@@ -74,14 +70,4 @@ use App\Http\Controllers\FileController;
 
     // Dosya silme işlemi
     Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
-
-
- 
-
-
-    
-
-
-    
 });
-

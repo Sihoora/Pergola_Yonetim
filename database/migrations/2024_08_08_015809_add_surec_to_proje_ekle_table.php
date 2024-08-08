@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('proje_ekle', function (Blueprint $table) {
-            $table->id();
-            $table->integer('proje_kodu');
-            $table->string('proje_adi');
-            $table->string('musteri');
-            $table->date('teslim_tarihi');
-            $table->timestamps(); // created_at ve updated_at sütunları otomatik olarak eklenir.
+        Schema::table('proje_ekle', function (Blueprint $table) {
+            $table->string('surec')->default('Yeni Proje');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proje_ekle');
+        Schema::table('proje_ekle', function (Blueprint $table) {
+            //
+        });
     }
 };

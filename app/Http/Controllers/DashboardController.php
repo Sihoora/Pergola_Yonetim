@@ -12,4 +12,9 @@ class DashboardController extends Controller
     {
         return view('admin.include.home');
     }
+
+   public function index()
+    {
+        return view('admin.include.proje_ekle');
+    }
 }

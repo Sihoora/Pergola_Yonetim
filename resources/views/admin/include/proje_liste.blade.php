@@ -2,6 +2,27 @@
 
 @section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<style>
+    .bg-gray {
+        background-color: #d3d3d3;
+    }
+    .bg-green {
+        background-color: #28a745;
+    }
+    .bg-yellow {
+        background-color: #ffc107;
+    }
+    .bg-red {
+        background-color: #dc3545;
+    }
+    .text-white {
+        color: #ffffff !important;
+    }
+    .text-dark {
+        color: #000000 !important;
+    }
+    </style>
+    
 @endsection
 
 @section('master')
@@ -21,6 +42,7 @@
                                     <th>Proje Adı</th>
                                     <th>Müşteri</th>
                                     <th>Teslim Tarihi</th>
+                                    <th>Durum</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -31,6 +53,32 @@
                                         <td>{{ $proje->proje_adi }}</td>
                                         <td>{{ $proje->musteri }}</td>
                                         <td>{{ $proje->teslim_tarihi }}</td>
+                                        <td>
+                                            @php
+                                                $class = '';
+                                                $text = '';
+    
+                                                switch ($proje->durum) {
+                                                    case 'ÜRETİMİ DEVAM EDEN PROJELER':
+                                                        $class = 'bg-gray';
+                                                        $text = 'text-white';
+                                                        break;
+                                                    case 'SEVK İÇİN HAZIR PROJELER':
+                                                        $class = 'bg-green';
+                                                        $text = 'text-white';
+                                                        break;
+                                                    case 'SEVK EDİLMİŞ PROJELER':
+                                                        $class = 'bg-yellow';
+                                                        $text = 'text-dark';
+                                                        break;
+                                                    case 'BEKLETİLEN PROJELER':
+                                                        $class = 'bg-red';
+                                                        $text = 'text-white';
+                                                        break;
+                                                }
+                                            @endphp
+                                            <span class="badge {{ $class }} {{ $text }}">{{ $proje->durum }}</span>
+                                        </td>
                                         <td>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

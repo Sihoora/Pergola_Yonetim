@@ -24,6 +24,7 @@ class Project extends Model
         'proje_adi', 
         'musteri', 
         'teslim_tarihi', 
+        'durum',
     ];
 
     // Bu modelle ilgili dönüştürülecek tarih alanları

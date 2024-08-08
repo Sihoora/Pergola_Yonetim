@@ -6,30 +6,40 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 20px;
+        .taskbar {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+            margin: 0;
         }
-        .form-group {
-            margin-bottom: 15px;
+        .taskbar li {
+            flex: 1;
+            position: relative;
+            padding: 10px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-right: 1px solid #ccc;
         }
-        label {
+        .taskbar li:last-child {
+            border-right: none;
+        }
+        .taskbar li.active {
+            background-color: #28a745;
+            color: white;
+        }
+        .taskbar li span {
+            display: block;
+            font-size: 20px;
             font-weight: bold;
         }
-        input[type="text"],
-        input[list] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            box-sizing: border-box;
+        .taskbar li p {
+            margin: 0;
         }
-        .form-control::placeholder {
-            color: #6c757d;
-        }
-    </style>
+        </style>
+        
 
 @endsection
 
@@ -38,6 +48,32 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+                          <!-- Süreç Task Bar -->
+                          @if(isset($proje))
+                          <div class="row mb-3">
+                              <div class="col-12">
+                                  <ul class="taskbar">
+                                      @php
+                                          $sira = [
+                                              'Yeni Proje',
+                                              'Proje Onaylandı',
+                                              'Üretime Gönderildi',
+                                              'Sevk İçin Hazır'
+                                          ];
+                                      @endphp
+                                      @foreach($sira as $index => $step)
+                                          <li class="{{ $proje->surec == $step ? 'active' : '' }}">
+                                              <span>{{ $index + 1 }}</span>
+                                              <p>{{ $step }}</p>
+                                          </li>
+                                      @endforeach
+                                  </ul>
+                              </div>
+                          </div>
+                          @endif
+
+
+
             <div class="col-md-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
@@ -54,8 +90,10 @@
                                 <div class="card card-primary">
                                     <div class="card-header"></div>
                                     <div class="card-body">
-                                        <form role="form" id="projeForm" action="{{ isset($proje) ? route('proje.update', $proje->id) : route('proje.store') }}" method="post">
-                                            @csrf
+
+               
+
+                                        <form role="form" id="projeForm" action="{{ isset($proje) ? route('proje.update', $proje->id) : route('proje.store') }}" method="post">                                            @csrf
                                             @if(isset($proje))
                                                 @method('PUT')
                                             @endif
@@ -90,6 +128,23 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                               
+                                            @if(isset($proje))
+                                        
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>Proje Durumu Tanımlama</label>
+                                                    <select name="durum" class="form-control">
+                                                        <option value="ÜRETİMİ DEVAM EDEN PROJELER" {{ isset($proje) && $proje->durum == 'ÜRETİMİ DEVAM EDEN PROJELER' ? 'selected' : '' }}>ÜRETİMİ DEVAM EDEN PROJELER</option>
+                                                        <option value="SEVK İÇİN HAZIR PROJELER" {{ isset($proje) && $proje->durum == 'SEVK İÇİN HAZIR PROJELER' ? 'selected' : '' }}>SEVK İÇİN HAZIR PROJELER</option>
+                                                        <option value="SEVK EDİLMİŞ PROJELER" {{ isset($proje) && $proje->durum == 'SEVK EDİLMİŞ PROJELER' ? 'selected' : '' }}>SEVK EDİLMİŞ PROJELER</option>
+                                                        <option value="BEKLETİLEN PROJELER" {{ isset($proje) && $proje->durum == 'BEKLETİLEN PROJELER' ? 'selected' : '' }}>BEKLETİLEN PROJELER</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            @endif
+
+
                                         </form>
                                     </div>
                                 </div>
@@ -102,6 +157,9 @@
                                 <button type="button" class="btn btn-primary mr-2" onclick="addProductInput()">
                                     <i class="fa fa-plus"></i> Ürün Ekle
                                 </button>
+                                @if(isset($proje))
+                                <a href="{{ route('proje.ilerletSurec', $proje->id) }}" class="btn btn-success">Sonraki Aşama</a>
+                                @endif
                             </div>
                         </div>
 
@@ -152,6 +210,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <!-- File upload form -->
                             <div class="col-md-4">
@@ -326,8 +386,10 @@ function submitUrunForm() {
                 showConfirmButton: false
             });
         @endif
-    });
+    }); 
 
+
+    
         // Datalist seçeneklerini dinamik olarak güncellemek için bir örnek
         document.addEventListener('DOMContentLoaded', function() {
         var options = ["Düz Krem", "Düz Beyaz", "Düz Gri"];
@@ -339,6 +401,8 @@ function submitUrunForm() {
             dataList.appendChild(opt);
         });
     });
+
+
 
 
 

@@ -30,7 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 
     // Proje ekleme sayfası
-    Route::get('/dashboard/proje_ekle', [MenuNavigate::class, "index"])->name('proje_ekle');
+    Route::get('/dashboard/proje_ekle', [DashboardController::class, "index"])->name('proje_ekle');
 
     // Proje kaydetme işlemi
     Route::post('/proje-ekle', [ProjectController::class, 'store'])->name('proje.store');
@@ -70,4 +70,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Dosya silme işlemi
     Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
+
+    Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
+
+
+
+
 });

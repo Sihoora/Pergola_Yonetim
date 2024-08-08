@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Urun;
+use App\Models\File;
 use App\HTTP\Controllers\ProductController;
+use App\HTTP\Controllers\FileController;
 
 class ProjectController extends Controller
 {
@@ -21,6 +23,9 @@ class ProjectController extends Controller
         return view('proje_ekle');
     }
 
+
+    
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -28,16 +33,18 @@ class ProjectController extends Controller
             'proje_adi' => 'required|string|max:255',
             'musteri' => 'required|string|max:255',
             'teslim_tarihi' => 'required|date',
+            'durum' => 'nullable|string',
         ]);
 
-        $proje = new Project();
+        $proje = Project::create($request->all());
         $proje->proje_kodu = $validatedData['proje_kodu'];
         $proje->proje_adi = $validatedData['proje_adi'];
         $proje->musteri = $validatedData['musteri'];
         $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
+        $proje->durum = $validatedData['durum'];
         $proje->save();
 
-        return redirect()->route('proje.edit')->with('success', 'Proje başarıyla eklendi.');
+        return redirect()->route('proje-liste')->with('success', 'Proje başarıyla eklendi.');
     }
 
     public function edit($id)
@@ -56,10 +63,35 @@ class ProjectController extends Controller
         $proje->proje_adi = $request->proje_adi;
         $proje->musteri = $request->musteri;
         $proje->teslim_tarihi = $request->teslim_tarihi;
+        $proje->durum = $request->durum;
         $proje->save();
 
         return redirect()->route('proje-liste')->with('success', 'Proje başarıyla güncellendi.');
     }
+
+    public function ilerletSurec($id)
+{
+    $proje = Project::find($id);
+    $sira = [
+        'Yeni Proje',
+        'Proje Onaylandı',
+        'Üretime Gönderildi',
+        'Sevk İçin Hazır'
+    ];
+
+    $currentIndex = array_search($proje->surec, $sira);
+    if (($currentIndex !== false && $currentIndex < count($sira) - 1)) {
+        $proje->surec = $sira[$currentIndex + 1];
+        $proje->save();
+    }
+
+    return redirect()->route('proje.edit', $proje->id)->with('success', 'Proje süreci başarıyla ilerletildi!');
+}
+
+    
+
+
+
 }
 //------------------------------------------------------------
 

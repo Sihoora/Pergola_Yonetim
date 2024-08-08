@@ -2,43 +2,79 @@
 
 @section('css')
 <!-- Include CSS for file input -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/css/fileinput.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<
     
     <style>
+        .taskbar-container {
+            margin-bottom: 20px;
+        }
+    
         .taskbar {
-            list-style: none;
             display: flex;
             justify-content: space-between;
+            list-style: none;
             padding: 0;
             margin: 0;
+            overflow: hidden;
+            background-color: #e9ecef;
+            border-radius: 5px;
         }
+    
         .taskbar li {
-            flex: 1;
             position: relative;
-            padding: 10px;
+            flex: 1;
             text-align: center;
-            background-color: #f0f0f0;
-            border-right: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin-right: 5px;
+            border-right: 1px solid #dee2e6;
+            transition: background-color 0.3s ease;
         }
-        .taskbar li:last-child {
-            border-right: none;
-        }
+    
         .taskbar li.active {
             background-color: #28a745;
             color: white;
         }
+    
+        .taskbar li:after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 15px solid #f8f9fa;
+            z-index: 1;
+        }
+    
+        .taskbar li.active:after {
+            border-left-color: #28a745;
+        }
+    
+        .taskbar li:last-child {
+            margin-right: 0;
+            border-right: none;
+        }
+    
+        .taskbar li:last-child:after {
+            display: none;
+        }
+    
         .taskbar li span {
-            display: block;
-            font-size: 20px;
-            font-weight: bold;
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
-        .taskbar li p {
-            margin: 0;
+    
+        .taskbar li.active span {
+            background-color: #155724;
         }
-        </style>
+    </style>
         
 
 @endsection
@@ -47,33 +83,33 @@
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
+
+                                  <!-- Süreç Task Bar -->
+                                  @if(isset($proje))
+                                  <div class="row mb-3">
+                                      <div class="col-12">
+                                          <ul class="taskbar">
+                                              @php
+                                                  $sira = [
+                                                      'Yeni Proje',
+                                                      'Proje Onaylandı',
+                                                      'Üretime Gönderildi',
+                                                      'Sevk İçin Hazır'
+                                                  ];
+                                              @endphp
+                                              @foreach($sira as $index => $step)
+                                                  <li class="{{ $proje->surec == $step ? 'active' : '' }}">
+                                                      <span>{{ $index + 1 }}</span>
+                                                      <p>{{ $step }}</p>
+                                                  </li>
+                                              @endforeach
+                                          </ul>
+                                      </div>
+                                  </div>
+                                  @endif
+        
+
         <div class="row">
-                          <!-- Süreç Task Bar -->
-                          @if(isset($proje))
-                          <div class="row mb-3">
-                              <div class="col-12">
-                                  <ul class="taskbar">
-                                      @php
-                                          $sira = [
-                                              'Yeni Proje',
-                                              'Proje Onaylandı',
-                                              'Üretime Gönderildi',
-                                              'Sevk İçin Hazır'
-                                          ];
-                                      @endphp
-                                      @foreach($sira as $index => $step)
-                                          <li class="{{ $proje->surec == $step ? 'active' : '' }}">
-                                              <span>{{ $index + 1 }}</span>
-                                              <p>{{ $step }}</p>
-                                          </li>
-                                      @endforeach
-                                  </ul>
-                              </div>
-                          </div>
-                          @endif
-
-
-
             <div class="col-md-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
@@ -132,7 +168,7 @@
                                             @if(isset($proje))
                                         
                                             <div class="col-sm-3">
-                                                <div class="form-group">
+                                                <div class="form-group" style="margin-left: -15px;">
                                                     <label>Proje Durumu Tanımlama</label>
                                                     <select name="durum" class="form-control">
                                                         <option value="ÜRETİMİ DEVAM EDEN PROJELER" {{ isset($proje) && $proje->durum == 'ÜRETİMİ DEVAM EDEN PROJELER' ? 'selected' : '' }}>ÜRETİMİ DEVAM EDEN PROJELER</option>
@@ -243,6 +279,7 @@
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-sm btn-danger">Sil</button>
                                                             </form>
+                                                            <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
                                                         </div>
                                                     </li>
                                                 @endforeach
@@ -250,6 +287,7 @@
                                                 <li class="list-group-item">Yüklenen dosya yok.</li>
                                             @endif
                                         </ul>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -257,6 +295,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filePreviewModalLabel">Dosya Önizleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="filePreviewIframe" style="width: 100%; height: 1000px;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>
@@ -403,6 +461,10 @@ function submitUrunForm() {
     });
 
 
+    function showFilePreview(url) {
+    $('#filePreviewIframe').attr('src', url);
+    $('#filePreviewModal').modal('show');
+}
 
 
 

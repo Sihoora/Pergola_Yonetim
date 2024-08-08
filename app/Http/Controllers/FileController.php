@@ -83,5 +83,18 @@ class FileController extends Controller
 }
 
 
+public function preview($id)
+{
+    $file = File::findOrFail($id);
+    $path = storage_path('app/' . $file->file_path);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+}
+
+
         
 }

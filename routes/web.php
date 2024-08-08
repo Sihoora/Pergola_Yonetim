@@ -73,6 +73,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
 
+    Route::get('/file/preview/{id}', [FileController::class, 'preview'])->name('file.preview');
+
 
 
 

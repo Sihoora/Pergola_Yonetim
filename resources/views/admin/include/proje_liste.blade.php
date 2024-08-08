@@ -2,7 +2,24 @@
 
 @section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap5.css">
+
 <style>
+    .dataTables_wrapper .dataTables_processing .text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+.btn.btn-warning.btn-sm {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+
     .bg-gray {
         background-color: #d3d3d3;
     }
@@ -21,6 +38,11 @@
     .text-dark {
         color: #000000 !important;
     }
+
+    .btn-primary {
+        background-color: #195697;
+        border-color: #007bff;
+    }
     </style>
     
 @endsection
@@ -38,18 +60,18 @@
                         <table id="projectTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Proje Kodu</th>
+                                    <th class="text-left">Proje Kodu</th>
                                     <th>Proje Adı</th>
                                     <th>Müşteri</th>
                                     <th>Teslim Tarihi</th>
                                     <th>Durum</th>
-                                    <th>Action</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($projeler as $proje)
                                     <tr>
-                                        <td>{{ $proje->proje_kodu }}</td>
+                                        <td class="text-left">{{ $proje->proje_kodu }}</td>
                                         <td>{{ $proje->proje_adi }}</td>
                                         <td>{{ $proje->musteri }}</td>
                                         <td>{{ $proje->teslim_tarihi }}</td>
@@ -79,15 +101,15 @@
                                             @endphp
                                             <span class="badge {{ $class }} {{ $text }}">{{ $proje->durum }}</span>
                                         </td>
-                                        <td>
+                                        <td class="text-center align-middle">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions
+                                                    Seçiniz...
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('proje.edit', $proje->id) }}">Edit</a>
-                                                    <a class="dropdown-item" href="{{ route('proje.delete', $proje->id) }}">Delete</a>
-                                                    <a class="dropdown-item getUrunler" data-id="{{ $proje->id }}" href="#">Ürün Getir</a>
+                                                    <a class="dropdown-item" href="{{ route('proje.edit', $proje->id) }}">Düzenle ve Görüntüle</a>
+                                                    <a class="dropdown-item" href="{{ route('proje.delete', $proje->id) }}">Sil</a>
+                                                    <a class="dropdown-item getUrunler" data-id="{{ $proje->id }}" href="#">Ürünleri Listele</a>
                                                 </div> 
                                             </div>
                                         </td>
@@ -117,7 +139,7 @@
                                     <th>Kumanda</th>
                                     <th>Flans</th>
                                     <th>Arka Çelik</th>
-                                    <th>Actions</th>
+                                    <th>İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,11 +156,15 @@
 
 @section('js')
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
     $(document).ready(function() {
         $('#projectTable').DataTable();
+
 
         $(document).on('click', '.getUrunler', function() {
             var projeId = $(this).data('id');
@@ -161,7 +187,7 @@
                             urun.kumanda,
                             urun.flans,
                             urun.arka_celik,
-                            '<a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '">Edit</a>'
+                              '<div class="text-center"><a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '">Düzenle</a></div>'
                         ]).draw(false);
                     });
                 },

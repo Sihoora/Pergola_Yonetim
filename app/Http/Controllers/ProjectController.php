@@ -71,6 +71,7 @@ class ProjectController extends Controller
 
     public function ilerletSurec($id)
 {
+    
     $proje = Project::find($id);
     $sira = [
         'Yeni Proje',
@@ -78,23 +79,24 @@ class ProjectController extends Controller
         'Üretime Gönderildi',
         'Sevk İçin Hazır'
     ];
-
+    
     $currentIndex = array_search($proje->surec, $sira);
-    if (($currentIndex !== false && $currentIndex < count($sira) - 1)) {
+    
+    // Eğer mevcut süreç dizide bulunuyorsa ve son aşama değilse
+    if ($currentIndex !== false && $currentIndex < count($sira) - 1) {
         $proje->surec = $sira[$currentIndex + 1];
         $proje->save();
+    } else {
+        return redirect()->route('proje.edit', $proje->id)->with('error', 'Proje süreci zaten son aşamada, daha ileriye gidemez!');
     }
-
     return redirect()->route('proje.edit', $proje->id)->with('success', 'Proje süreci başarıyla ilerletildi!');
-}
-
-    
-
 
 
 }
-//------------------------------------------------------------
 
+
+
+}
 
 
 

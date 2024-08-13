@@ -216,8 +216,8 @@
                                             @csrf
                                             <input type="hidden" id="urun_id" name="urun_id" value="">
                                             <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
-                                            <div class="row">
-                                                <div class="col-sm-3">
+                                            <div class="row justify-content-center mx-auto text-center">
+                                                <div class="col-sm-9">
                                                     <div class="form-group">
                                                         <label>Ürün Grubu</label>
                                                         <select class="form-control" name="urun_name" onchange="getDynamicInputs(this.value)">
@@ -234,10 +234,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="dynamicInputs"></div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <button type="submit" class="btn btn-success" onclick="submitUrunForm()">Ürünü Kaydet</button>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-9">
+                                                    <div id="dynamicInputs" style="padding: 5px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-end">
+                                                <div>
+                                                    <button type="submit" class="btn btn-success" style="margin-right: 20px;" onclick="submitUrunForm()">Ürünü Kaydet</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -255,22 +259,24 @@
                                         <form id="formDetay2" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
-                                            <div class="form-group">
+                                            <div class="form-group" style="text-align: center;">
                                                 <label>Dosya Yükle</label>
                                                 <div class="file-loading">
                                                     <input id="file-upload" type="file" name="file" class="file" data-show-preview="false">
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                            <div class="row justify-content-center">
+                                                <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                            </div>                                                
                                         </form>
 
-                                        <h5 class="mt-4">Yüklenen Dosyalar</h5>
-                                        <ul class="list-group">
+                                        <div style="text-align: center;"><h5 class="mt-4">Yüklenen Dosyalar</h5></div>
+                                        <ul class="list-group" style="gap: 8px;">
                                             @if(isset($proje) && $proje->files->count() > 0)
                                                 @foreach($proje->files as $file)
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <li class="list-group-item" style="text-align: center; border-radius: 10px;">
                                                         {{ $file->file_name }}
-                                                        <div>
+                                                        <div class="row justify-content-center" style="gap: 2px;">
                                                             <a href="{{ route('file.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
                                                             <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
                                                                 @csrf

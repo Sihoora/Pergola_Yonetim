@@ -2,8 +2,6 @@
 
 @section('css')
 <!-- Include CSS for file input -->
-<
-    
     <style>
         .taskbar-container {
             margin-bottom: 20px;

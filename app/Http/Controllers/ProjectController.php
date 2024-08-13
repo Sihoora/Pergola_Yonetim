@@ -23,9 +23,6 @@ class ProjectController extends Controller
         return view('proje_ekle');
     }
 
-
-    
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -41,7 +38,9 @@ class ProjectController extends Controller
         $proje->proje_adi = $validatedData['proje_adi'];
         $proje->musteri = $validatedData['musteri'];
         $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
-        $proje->durum = $validatedData['durum'];
+        if($proje->durum == null){
+            $proje->durum = 'Yeni Proje';
+        }
         $proje->save();
 
         return redirect()->route('proje-liste')->with('success', 'Proje başarıyla eklendi.');

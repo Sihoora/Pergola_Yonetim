@@ -14,19 +14,22 @@
             padding: 0;
             margin: 0;
             overflow: hidden;
-            background-color: #e9ecef;
-            border-radius: 5px;
+            border-radius: 12px;
         }
     
         .taskbar li {
             position: relative;
             flex: 1;
+            display: flex;
             text-align: center;
+            align-items: center;
+            justify-content: center;
             padding: 10px;
-            background-color: #f8f9fa;
-            margin-right: 5px;
+            background-color: #ededed;
+            margin-right: 0.8px;
             border-right: 1px solid #dee2e6;
             transition: background-color 0.3s ease;
+            border-radius: 12px;
         }
     
         .taskbar li.active {
@@ -37,11 +40,11 @@
         .taskbar li:after {
             content: '';
             position: absolute;
-            right: -15px;
-            top: 0;
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
-            border-left: 15px solid #f8f9fa;
+            right: -12px;
+            top: %50;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 15px solid transparent;
             z-index: 1;
         }
     
@@ -67,6 +70,12 @@
             line-height: 30px;
             border-radius: 50%;
             margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        .taskbar li p {
+            margin: 0;
+            line-height: 1;
         }
     
         .taskbar li.active span {
@@ -288,7 +297,7 @@
                                                     </li>
                                                 @endforeach
                                             @else
-                                                <li class="list-group-item">Yüklenen dosya yok.</li>
+                                                <li class="list-group-item" style="text-align: center;">Yüklenen dosya yok.</li>
                                             @endif
                                         </ul>
                                         

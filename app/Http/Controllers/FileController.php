@@ -18,14 +18,17 @@ class FileController extends Controller
       $request->validate([
           'file' => 'required|file|mimes:png,jpg,jpeg,doc,docx,xlsx,txt|max:2048',
           'proje_id' => 'required|exists:proje_ekle,id',
+          'file_type' => 'required|string|max:255',
       ]);
 
       $file = $request->file('file');
       $path = $file->store('files');
+      $fileType = $request->file_type;
 
       $fileModel = new File();
       $fileModel->proje_id = $request->proje_id;
       $fileModel->file_path = $path;
+      $fileModel->file_type = $fileType;
       $fileModel->file_name = $file->getClientOriginalName();
       $fileModel->save();
 

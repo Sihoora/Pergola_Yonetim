@@ -86,6 +86,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
 
+<<<<<<< Updated upstream
+=======
+    Route::get('/proje/{id}/pdf-olustur', [ProjectController::class, 'generatePDF'])->name('proje.pdf');
+>>>>>>> Stashed changes
 
 
 

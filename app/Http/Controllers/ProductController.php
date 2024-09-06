@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Urun;
 use App\Models\Project;
+use App\Models\ProjectNote;
+
 
 class ProductController extends Controller
 {
@@ -80,5 +82,10 @@ class ProductController extends Controller
         $urun->save();
 
         return redirect()->route('proje.edit', $urun->proje_id)->with('success', 'Ürün başarıyla güncellendi.');
+
     }
+
+
+    
+
 }

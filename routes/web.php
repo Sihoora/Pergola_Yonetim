@@ -71,9 +71,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Dosya silme işlemi
     Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
 
-    Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
-
     Route::get('/file/preview/{id}', [FileController::class, 'preview'])->name('file.preview');
+
+    Route::get('/dashboard/proje-detay/{id}', [ProjectController::class, 'show'])->name('proje.detay');
+
+    
+    Route::post('/proje-not-ekle', [ProjectController::class, 'storeNote'])->name('note.store');
+
+    //updateNoteStatus
+    Route::post('/proje-not-durum-guncelle', [ProjectController::class, 'updateNoteStatus'])->name('note.update');
+
+
+    Route::post('/proje/{noteId}/toggle-checkbox', [ProjectController::class, 'toggleCheckbox']);
+    
+    Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
 
 
 

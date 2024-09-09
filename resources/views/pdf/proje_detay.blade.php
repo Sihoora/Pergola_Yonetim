@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,64 +13,75 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px; /* Header altındaki boşluk azaltıldı */
         }
 
         .header img {
-            max-height: 100px; /* Logoyu biraz küçülterek alan açıyoruz */
-            margin-bottom: 10px;
+            max-height: 80px; /* Logoyu küçülterek alan açıyoruz */
+            margin-bottom: 5px;
         }
 
         h1, h2, h3, h4 {
             color: #555;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Başlıkların altındaki boşluklar azaltıldı */
         }
 
         .content {
-            padding: 0 20px; /* İçeriğe biraz daha boşluk bırakarak sayfa genişliğini artırıyoruz */
+            padding: 10px 20px; /* İçeriğe biraz daha boşluk bırakarak sayfa genişliğini artırıyoruz */
         }
 
         .section-title {
-            font-size: 20px; /* Başlık fontunu küçülterek alan kazanıyoruz */
+            font-size: 18px; /* Başlık fontu küçültüldü */
             color: #0066cc;
             border-bottom: 2px solid #0066cc;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 5px;
+            margin-bottom: 15px; /* Başlık altındaki boşluk azaltıldı */
             text-transform: uppercase;
         }
 
-        .info-table, .product-table {
+        .info-table, .product-table, .notes-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Tabloların altındaki boşluk azaltıldı */
         }
 
-        .info-table th, .product-table th {
+        .info-table th, .product-table th, .notes-table th {
             background-color: #f2f2f2;
-            padding: 10px;
+            padding: 8px; /* Hücre içi boşluklar azaltıldı */
             text-align: left;
-            font-size: 14px; /* Font boyutunu küçülterek alan kazanıyoruz */
+            font-size: 12px; /* Font boyutları küçültüldü */
             border-bottom: 1px solid #ddd;
         }
 
-        .info-table td, .product-table td {
-            padding: 10px;
-            font-size: 12px; /* Font boyutunu küçülterek içerik sığdırıyoruz */
+        .info-table td, .product-table td, .notes-table td {
+            padding: 8px; /* Hücre içi boşluklar azaltıldı */
+            font-size: 12px; /* Font boyutları küçültüldü */
             border-bottom: 1px solid #ddd;
         }
 
-        .product-table th, .product-table td {
+        .product-table th, .product-table td, .notes-table th, .notes-table td {
             text-align: center;
         }
 
         .footer {
             text-align: center;
-            font-size: 10px; /* Altbilgi fontunu küçültüyoruz */
+            font-size: 10px; /* Altbilgi fontu küçültüldü */
             color: #999;
-            margin-top: 50px;
+            margin-top: 40px; /* Altbilgi üstündeki boşluk azaltıldı */
             position: fixed;
             bottom: 0px;
             width: 100%;
+        }
+
+        .notes-table ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .notes-table li {
+            font-size: 12px; /* Sipariş notları font boyutu */
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -91,11 +101,15 @@
             <h2 class="section-title">Proje Bilgileri</h2>
             <table class="info-table">
                 <tr>
+                    <th>Proje Kodu:</th>
+                    <td>{{ $proje->proje_kodu }}</td>
+                </tr>
+                <tr>
                     <th>Proje Adı:</th>
                     <td>{{ $proje->proje_adi }}</td>
                 </tr>
                 <tr>
-                    <th>Müşteri:</th>
+                    <th>Müşteri:</th>   
                     <td>{{ $proje->musteri }}</td>
                 </tr>
                 <tr>
@@ -136,6 +150,20 @@
                         <td>{{ $urun->arka_celik }}</td>
                     </tr>
                     @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sipariş Notları -->
+        <div class="section">
+            <h2 class="section-title">Sipariş Notları</h2>
+            <table class="notes-table">
+                <ul>
+                    @foreach ($siparisNotlari as $note)
+                        <li>{{ $note->not }}</li>
+                    @endforeach
+                </ul>
+                <tbody>
                 </tbody>
             </table>
         </div>

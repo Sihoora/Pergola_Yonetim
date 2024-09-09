@@ -109,7 +109,6 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="{{ route('proje.detay', $proje->id) }}">Proje Detay</a>
                                                     <a class="dropdown-item" href="{{ route('proje.edit', $proje->id) }}">Düzenle</a>
-                                                    <a class="dropdown-item" href="{{ route('proje.delete', $proje->id) }}">Sil</a>
                                                     <a class="dropdown-item getUrunler" onclick="asagiKaydir()" data-id="{{ $proje->id }}" href="#">Ürünleri Listele</a>
                                                 </div> 
                                             </div>

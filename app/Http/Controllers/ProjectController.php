@@ -178,6 +178,7 @@ public function storeNote(Request $request)
     $note = new ProjectNote();
     $note->proje_id = $request->input('proje_id');
     $note->surec = $request->input('surec');
+    $note->is_order_note = $request->input('is_order_note') ? true : false;
     $note->not = $request->input('not');
     $note->save();
     
@@ -221,9 +222,16 @@ public function generatePDF($id)
     // İlgili projeyi ve ürün bilgilerini veritabanından çekiyoruz
     $proje = Project::with('urunler')->findOrFail($id);
 
+    // Proje notlarını çekiyoruz
+    $siparisNotlari = ProjectNote::where('proje_id', $id)
+    ->where('is_order_note', 1)
+    ->get();
+
+
     // PDF görünümü için gerekli verileri ayarlıyoruz
     $data = [
         'proje' => $proje,
+        'siparisNotlari' => $siparisNotlari, // Sipariş notlarını PDF'de kullanmak için ekledik
         'logo' => public_path('https://i.imgur.com/pK5pgii.png') // Logonun bulunduğu yolu buraya ekleyin
     ];
 

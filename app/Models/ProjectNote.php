@@ -11,7 +11,7 @@ class ProjectNote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['proje_id', 'surec', 'not', 'checked'];
+    protected $fillable = ['proje_id', 'surec', 'not', 'checked', 'is_order_note'];
 
 
     public function proje()

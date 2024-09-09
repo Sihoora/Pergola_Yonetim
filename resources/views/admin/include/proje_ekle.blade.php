@@ -2,89 +2,6 @@
 
 @section('css')
 <!-- Include CSS for file input -->
-<<<<<<< Updated upstream
-    <style>
-        .taskbar-container {
-            margin-bottom: 20px;
-        }
-    
-        .taskbar {
-            display: flex;
-            justify-content: space-between;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-    
-        .taskbar li {
-            position: relative;
-            flex: 1;
-            display: flex;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            background-color: #ededed;
-            margin-right: 0.8px;
-            border-right: 1px solid #dee2e6;
-            transition: background-color 0.3s ease;
-            border-radius: 12px;
-        }
-    
-        .taskbar li.active {
-            background-color: #28a745;
-            color: white;
-        }
-    
-        .taskbar li:after {
-            content: '';
-            position: absolute;
-            right: -12px;
-            top: %50;
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
-            border-left: 15px solid transparent;
-            z-index: 1;
-        }
-    
-        .taskbar li.active:after {
-            border-left-color: #28a745;
-        }
-    
-        .taskbar li:last-child {
-            margin-right: 0;
-            border-right: none;
-        }
-    
-        .taskbar li:last-child:after {
-            display: none;
-        }
-    
-        .taskbar li span {
-            display: inline-block;
-            background-color: #6c757d;
-            color: white;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-            margin-bottom: 5px;
-        }
-
-        .taskbar li p {
-            margin: 0;
-            line-height: 1;
-        }
-    
-        .taskbar li.active span {
-            background-color: #155724;
-        }
-    </style>
-        
-=======
 <style>
     .taskbar-container {
         margin-bottom: 20px;
@@ -157,7 +74,6 @@
     }
 </style>
 
->>>>>>> Stashed changes
 
 @endsection
 
@@ -386,11 +302,7 @@
                                             </li>
                                             @endforeach
                                             @else
-<<<<<<< Updated upstream
                                                 <li class="list-group-item" style="text-align: center;">Yüklenen dosya yok.</li>
-=======
-                                            <li class="list-group-item">Yüklenen dosya yok.</li>
->>>>>>> Stashed changes
                                             @endif
                                         </ul>
 

@@ -208,6 +208,64 @@
             </div>
         </div>
 
+        <!-- Sipariş Notu Oluştur Modal -->
+<div class="modal fade" id="modal-order-note" tabindex="-1" role="dialog" aria-labelledby="modalOrderNoteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOrderNoteLabel">Sipariş Notu Oluştur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('note.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="proje_id" value="{{ $proje->id }}">
+                    <input type="hidden" name="surec" value="Üretime Gönderildi">
+                    <input type="hidden" name="is_order_note" value="1"> <!-- Sipariş notu olduğunu belirten alan -->
+                    
+                    <div class="form-group">
+                        <label for="note">Not</label>
+                        <textarea name="not" id="not" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <!-- Eklemek istediğiniz diğer alanlar varsa buraya ekleyebilirsiniz -->
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Dosya Önizleme Modal -->
+<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filePreviewModalLabel">Dosya Önizleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="filePreviewIframe" style="width: 100%; height: 1000px;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
+<!-- Proje Detayları -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary card-outline">
@@ -281,6 +339,7 @@
                                     <div class="row mb-3">
                                         <div class="col-12" style="margin-bottom: 15px;">
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">Üretim Emri Oluştur</button>
+                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">Sipariş Notu Oluştur</button>
                                             <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('proje.pdf', $proje->id) }}'">PDF Oluştur</button>
                                             <button type="button" class="btn btn-info" onclick="window.print();">Yazdır</button>
                                         </div>
@@ -443,25 +502,8 @@
     <p>Üretim emri bulunmamaktadır.</p>
 @endif
 
-<!-- Dosya Modal -->
-<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="filePreviewModalLabel">Dosya Önizleme</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <iframe id="filePreviewIframe" style="width: 100%; height: 1000px;" frameborder="0"></iframe>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-            </div>
-        </div>
-    </div>
-</div> 
+
+
 @endsection
 
 

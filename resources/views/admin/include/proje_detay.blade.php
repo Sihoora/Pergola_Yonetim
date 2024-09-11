@@ -2,6 +2,7 @@
 
 @section('css')
 <style>
+   
     .taskbar-container {
         margin-bottom: 20px;
     }
@@ -13,19 +14,22 @@
         padding: 0;
         margin: 0;
         overflow: hidden;
-        background-color: #e9ecef;
-        border-radius: 5px;
+        border-radius: 12px;
     }
 
     .taskbar li {
         position: relative;
         flex: 1;
+        display: flex;
         text-align: center;
+        align-items: center;
+        justify-content: center;
         padding: 10px;
-        background-color: #f8f9fa;
-        margin-right: 5px;
+        background-color: #ededed;
+        margin-right: 0.8px;
         border-right: 1px solid #dee2e6;
         transition: background-color 0.3s ease;
+        border-radius: 12px;
     }
 
     .taskbar li.active {
@@ -36,11 +40,11 @@
     .taskbar li:after {
         content: '';
         position: absolute;
-        right: -15px;
-        top: 0;
-        border-top: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        border-left: 15px solid #f8f9fa;
+        right: -12px;
+        top: %50;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-left: 15px solid transparent;
         z-index: 1;
     }
 
@@ -66,17 +70,25 @@
         line-height: 30px;
         border-radius: 50%;
         margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    .taskbar li p {
+        margin: 0;
+        line-height: 1;
     }
 
     .taskbar li.active span {
         background-color: #155724;
     }
 
+
     .product-card {
+        width: 200px; /* Kartın genişliğini ayarlayın */
         border: 1px solid #ddd;
         border-radius: 10px;
         padding: 15px;
-        margin-bottom: 20px;
+        margin: 5px;
         background-color: #f9f9f9;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease;
@@ -88,23 +100,26 @@
 
     .product-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
+        flex-grow: 1;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 2px solid #eee;
+        margin-bottom: 5px;
     }
 
     .product-title {
-        font-size: 1.25rem;
+        display: flex;
+        font-size: 1rem;
         font-weight: bold;
         color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .product-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
+        display: flex;
+        gap: 3px;
     }
 
     .product-info-item {
@@ -407,14 +422,14 @@
             @if(isset($proje) && $proje->files->count() > 0)
             <div class="row">
                 @foreach($proje->files->where('file_type', 'general') as $file)
-                <div class="col-md-4">
+                <div>
                     <div class="product-card">
                         <div class="product-header">
                             <h5 class="product-title">{{ $file->file_name }}</h5>
                         </div>
                         <div class="product-info d-flex justify-content-around align-items-center">
-                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary btn-block">İndir</a>
-                            <button type="button" class="btn btn-info btn-block" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
                         </div>
                     </div>
                 </div>
@@ -438,14 +453,14 @@
             @if(isset($proje) && $proje->files->count() > 0)
             <div class="row">
                 @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
-                <div class="col-md-4">
+                <div>
                     <div class="product-card">
                         <div class="product-header">
                             <h5 class="product-title">{{ $file->file_name }}</h5>
                         </div>
                         <div class="product-info d-flex justify-content-around align-items-center">
-                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary btn-block">İndir</a>
-                            <button type="button" class="btn btn-info btn-block" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
                         </div>
                     </div>
                 </div>
@@ -476,9 +491,8 @@
                 @foreach($proje->notlar as $note)
                     @if($note->surec == $proje->surec) 
                         <li class="@if($note->checked) done @endif">
-                            <span class="handle">
-                                <i class="fas fa-ellipsis-v"></i>
-                                <i class="fas fa-ellipsis-v"></i>
+                            <span>
+                                <i class="fa fa-sticky-note"></i>
                             </span>
                             <div class="icheck-primary d-inline ml-2">
                                 <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
@@ -486,8 +500,6 @@
                             </div>
                             <span class="text">{{ $note->not }}</span>
                             <div class="tools">
-                                <i class="fas fa-edit"></i>
-                                <i class="fas fa-trash-o"></i>
                             </div>
                         </li>
                     @endif

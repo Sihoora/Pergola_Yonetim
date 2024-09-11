@@ -32,7 +32,6 @@ class ProjectController extends Controller
             'proje_adi' => 'required|string|max:255',
             'musteri' => 'required|string|max:255',
             'teslim_tarihi' => 'required|date',
-            'durum' => 'nullable|string',
         ]);
 
         $proje = Project::create($request->all());
@@ -40,9 +39,6 @@ class ProjectController extends Controller
         $proje->proje_adi = $validatedData['proje_adi'];
         $proje->musteri = $validatedData['musteri'];
         $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
-        if($proje->durum == null){
-            $proje->durum = 'ÜRETİMİ DEVAM EDEN PROJELER';
-        }
 
         $proje->save();
 
@@ -100,7 +96,6 @@ class ProjectController extends Controller
         $proje->proje_adi = $request->proje_adi;
         $proje->musteri = $request->musteri;
         $proje->teslim_tarihi = $request->teslim_tarihi;
-        $proje->durum = $request->durum;
         $proje->save();
 
         return redirect()->route('proje-liste')->with('success', 'Proje başarıyla güncellendi.');

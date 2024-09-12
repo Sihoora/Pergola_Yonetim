@@ -13,7 +13,7 @@
         <div class="image">
           <img src="https://i.imgur.com/4TSHF9j.png" style="width: 50px; height: auto; max-width: 100%;" alt="User Image">
         </div>
-        <div class="info">
+        <div class="info d-flex align-items-center">
           <a class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
@@ -23,52 +23,59 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item has-treeview menu-open">
           <a href="#" class="nav-link active">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fa fa-compass"></i>
             <p>
-              İmalat
+              İmalat Menüsü
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ route('proje_ekle') }}" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-pencil-square-o nav-icon"></i>
                 <p>Yeni Sipariş Oluştur</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{route('proje-liste')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-list-ul nav-icon"></i>
                 <p>İmalat Projeleri</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>İstasyonlar</p>
-              </a>
             </li>
           </ul>
         </li>
 
         <div class="user-menu mt-auto">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('profile.show') }}" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profilim</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <a href="{{ route('logout') }}" class="nav-link logout" onclick="event.preventDefault(); this.closest('form').submit();">
-                  <i class="nav-icon fas fa-sign-out-alt"></i>
-                  <p>Çıkış Yap</p>
-                </a>
-              </form>
-            </li>
-          </ul>
+        <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fa fa-cogs"></i>
+              <p>
+                 Profil Ayarları
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-item">
+                    <a href="{{ route('profile.show') }}" class="nav-link">
+                      <i class="nav-icon fas fa-user"></i>
+                      <p>Profilim</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}">
+                      @csrf
+                      <a href="{{ route('logout') }}" class="nav-link logout" onclick="event.preventDefault(); this.closest('form').submit();">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Çıkış Yap</p>
+                      </a>
+                    </form>
+                  </li>
+                </ul>
+            </ul>
+          </li>
         </div>
 
       </ul>

@@ -84,6 +84,16 @@
 
 
     .product-card {
+        width: %100; /* Kartın genişliğini ayarlayın */
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        transition: transform 0.2s ease;
+    }
+
+
+    .file-card {
         width: 200px; /* Kartın genişliğini ayarlayın */
         border: 1px solid #ddd;
         border-radius: 10px;
@@ -94,7 +104,7 @@
         transition: transform 0.2s ease;
     }
 
-    .product-card:hover {
+    .file-card:hover {
         transform: scale(1.02);
     }
 
@@ -120,6 +130,9 @@
     .product-info {
         display: flex;
         gap: 3px;
+        justify-content: center;
+        align-items: center;
+        
     }
 
     .product-info-item {
@@ -364,7 +377,7 @@
                                 <div class="row">
                                     @foreach($proje->urunler as $urun)
                                     <div class="col-md-12">
-                                        <div class="product-card border-dark mb-3">
+                                        <div class="product-card border-dark mb-1">
                                             <div class="product-header">
                                                 <h5 class="product-title">{{ $urun->urun_name }}</h5>
                                             </div>
@@ -423,7 +436,7 @@
             <div class="row">
                 @foreach($proje->files->where('file_type', 'general') as $file)
                 <div>
-                    <div class="product-card">
+                    <div class="file-card">
                         <div class="product-header">
                             <h5 class="product-title">{{ $file->file_name }}</h5>
                         </div>
@@ -454,11 +467,11 @@
             <div class="row">
                 @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
                 <div>
-                    <div class="product-card">
+                    <div class="file-card">
                         <div class="product-header">
                             <h5 class="product-title">{{ $file->file_name }}</h5>
                         </div>
-                        <div class="product-info d-flex justify-content-around align-items-center">
+                        <div class="product-info">
                             <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
                             <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
                         </div>

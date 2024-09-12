@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Proje Detayları</title>
+    <title>{{ $proje->proje_adi }}</title>
     <style>
         body {
             font-family: 'DejaVu Sans', sans-serif; /* Türkçe karakter desteği için uygun yazı tipi */
@@ -51,6 +51,12 @@
             text-align: left;
             font-size: 12px; /* Font boyutları küçültüldü */
             border-bottom: 1px solid #ddd;
+            width: %25;
+        }
+
+        .info-table th {
+            flex: row;
+            width: 150px;
         }
 
         .info-table td, .product-table td, .notes-table td {
@@ -61,7 +67,9 @@
 
         .product-table th, .product-table td, .notes-table th, .notes-table td {
             text-align: center;
+            font-size: 8px;
         }
+
 
         .footer {
             text-align: center;
@@ -89,8 +97,7 @@
 
     <!-- Header (Logo) -->
     <div class="header">
-        <img src="https://i.imgur.com/pK5pgii.png" alt="Logo">
-        <h1>Proje Detayları</h1>
+        <img src="https://i.imgur.com/I8T5XVt.png" alt="Logo">
     </div>
 
     <!-- Content -->
@@ -167,13 +174,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
-
-    <!-- Footer (Sayfa numarası) -->
-    <div class="footer">
-        <p>Sayfa {PAGE_NUM}</p>
-    </div>
-
 </body>
 </html>

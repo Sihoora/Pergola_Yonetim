@@ -87,7 +87,7 @@
                         <!-- Product addition form -->
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-left">
-                                <button type="button" class="btn btn-primary mr-2" onclick="addProductInput()">
+                                <button type="button" class="btn btn-primary mr-2">
                                     <i class="fa fa-plus"></i> Ürün Ekle
                                 </button>
                             </div>
@@ -213,14 +213,14 @@
                                                 <div class="row justify-content-center" style="gap: 2px;">
                                                     <a href="{{ route('file.download', $file->id) }}"
                                                         class="btn btn-sm btn-primary">İndir</a>
-                                                    <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                        style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">Sil</button>
-                                                    </form>
                                                     <button type="button" class="btn btn-sm btn-info"
                                                         onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                                        </form>
                                                 </div>
                                             </li>
                                             @endforeach
@@ -262,6 +262,7 @@
     </div>
 </div>
 @endsection
+
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/js/fileinput.min.js"></script>

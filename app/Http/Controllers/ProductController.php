@@ -38,7 +38,7 @@ class ProductController extends Controller
         $urun->arka_celik = $validatedData['arka_celik'];
         $urun->save();
 
-        return redirect()->route('proje-liste')->with('urun_id', $urun->id)->with('success', 'Ürün başarıyla eklendi.');
+        return redirect()->route('proje.edit', $urun->proje_id)->with('success', 'Ürün başarıyla eklendi. Şimdi dosya ekleyebilirsiniz.');
     }
 
     public function getUrunler($projeId)

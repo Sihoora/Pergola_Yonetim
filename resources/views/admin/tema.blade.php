@@ -33,7 +33,6 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  
   <style>
     body {
-        font-family: Arial, sans-serif;
         background-color: #f8f9fa;
         padding: 20px;
     }
@@ -86,7 +85,6 @@
 
 
   @yield('master')
-
 
 
 

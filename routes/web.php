@@ -71,21 +71,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Dosya silme işlemi
     Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
 
+    // Dosya önizleme işlemi
     Route::get('/file/preview/{id}', [FileController::class, 'preview'])->name('file.preview');
 
+    // Proje detay sayfası
     Route::get('/dashboard/proje-detay/{id}', [ProjectController::class, 'show'])->name('proje.detay');
-
     
+    // Proje not ekleme işlemi
     Route::post('/proje-not-ekle', [ProjectController::class, 'storeNote'])->name('note.store');
 
-    //updateNoteStatus
+    // Proje not durum güncelleme işlemi
     Route::post('/proje-not-durum-guncelle', [ProjectController::class, 'updateNoteStatus'])->name('note.update');
 
-
+    // Proje not checkbox durum güncelleme işlemi
     Route::post('/proje/{noteId}/toggle-checkbox', [ProjectController::class, 'toggleCheckbox']);
     
+    // Proje ilerletme işlemi
     Route::get('proje/ilerlet-surec/{id}', [ProjectController::class, 'ilerletSurec'])->name('proje.ilerletSurec');
 
+    // Proje PDF oluşturma işlemi
     Route::get('/proje/{id}/pdf-olustur', [ProjectController::class, 'generatePDF'])->name('proje.pdf');
 
 

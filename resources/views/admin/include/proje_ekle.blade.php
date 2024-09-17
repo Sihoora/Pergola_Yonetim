@@ -107,7 +107,7 @@
                                             </ul>
                                         </div>
                                         @endif
-
+                                       
                                         <form id="Urun" method="POST" action="{{ route('urun.store') }}">
                                             @csrf
                                             <input type="hidden" id="urun_id" name="urun_id" value="">

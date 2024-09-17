@@ -84,7 +84,8 @@
 
 
     .product-card {
-        width: %100; /* Kartın genişliğini ayarlayın */
+        width: 80%; /* Kartın genişliğini ayarlayın */
+        margin-top: 10px; 
         border: 1px solid #ddd;
         border-radius: 10px;
         padding: 15px;
@@ -363,17 +364,25 @@
                                         </div>
                                     </div>
 
+
                                     <!-- Üretim Emri Oluştur -->
                                     <div class="row mb-3">
                                         <div class="col-12" style="margin-bottom: 15px;">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">Üretim Emri Oluştur</button>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">Sipariş Notu Oluştur</button>
-                                            <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('proje.pdf', $proje->id) }}'">PDF Oluştur</button>
-                                            <button type="button" class="btn btn-info" onclick="window.print();">Yazdır</button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                                                <i class="fa fa-cog" style="margin-right: 5px;"></i> Üretim Emri Oluştur
+                                            </button>
+                                
+                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
+                                                <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
+                                            </button>
+                                    
+                                            <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('proje.pdf', $proje->id) }}'">
+                                                <i class="fa fa-file-pdf-o" style="margin-right: 5px;"></i> PDF Oluştur
+                                            </button>
                                         </div>
-
                                     </div>
 
+                                    <!-- Ürün Bilgileri -->
                                 <div class="row">
                                     @foreach($proje->urunler as $urun)
                                     <div class="col-md-12">

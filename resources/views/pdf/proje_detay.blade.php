@@ -97,7 +97,7 @@
 
     <!-- Header (Logo) -->
     <div class="header">
-        <img src="https://i.imgur.com/I8T5XVt.png" alt="Logo">
+        <img src="{{ public_path('admin/dist/img/PDF_LOGO.png   ') }}" alt="Logo">
     </div>
 
     <!-- Content -->

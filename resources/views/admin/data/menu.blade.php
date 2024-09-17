@@ -33,7 +33,7 @@
             <li class="nav-item">
               <a href="{{ route('proje_ekle') }}" class="nav-link ">
                 <i class="fa fa-pencil-square-o nav-icon"></i>
-                <p>Yeni Sipariş Oluştur</p>
+                <p>Yeni Proje/Sipariş Oluştur</p>
               </a>
             </li>
             <li class="nav-item">

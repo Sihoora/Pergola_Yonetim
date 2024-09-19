@@ -1,9 +1,109 @@
 @extends('admin.tema')
 
+@section('css')
+<style>
+
+.product-card {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.product-header {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.product-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.product-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Kartların daha küçük ekranlarda düzgün yerleşmesini sağlar */
+    gap: 8px; /* Kartlar arasındaki boşlukları azaltıyoruz */
+}
+
+.product-info-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.product-info-item:hover {
+    background-color: #f0f0f0;
+}
+
+.product-info-item strong {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.product-info-item p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+</style>
+
+@endsection
 @section('master')
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
+
+        <!-- Sipariş Notu Oluştur Modal -->
+        <div class="modal fade" id="modal-order-note" tabindex="-1" role="dialog" aria-labelledby="modalOrderNoteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalOrderNoteLabel">Sipariş Notu Oluştur</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('note.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" name="proje_id" value="{{ $proje->id }}">
+                            <input type="hidden" name="surec" value="Üretime Gönderildi">
+                            <input type="hidden" name="is_order_note" value="1"> <!-- Sipariş notu olduğunu belirten alan -->
+                            
+                            <div class="form-group">
+                                <label for="note">Not</label>
+                                <textarea name="not" id="not" class="form-control" rows="5" required></textarea>
+                            </div>
+                            
+                            <!-- Eklemek istediğiniz diğer alanlar varsa buraya ekleyebilirsiniz -->
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
         <div class="row">
@@ -84,162 +184,211 @@
                             </div>
                         </div>
 
-                        <!-- Product addition form -->
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-left">
-                                <button type="button" class="btn btn-primary mr-2">
-                                    <i class="fa fa-plus"></i> Ürün Ekle
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
+                                    <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
                                 </button>
                             </div>
                         </div>
 
+
+                        @if(isset($proje))
                         <div class="row">
+                            <!-- Sol tarafta ürün ekleme ve eklenen ürünler tabı -->
                             <div class="col-md-8">
                                 <div class="card card-primary card-outline">
                                     <div class="card-header"></div>
                                     <div class="card-body">
-                                        @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                        @endif
-                                       
-                                        <form id="Urun" method="POST" action="{{ route('urun.store') }}">
-                                            @csrf
-                                            <input type="hidden" id="urun_id" name="urun_id" value="">
-                                            <input type="hidden" name="proje_id"
-                                                value="{{ isset($proje) ? $proje->id : '' }}">
-                                            <div class="row justify-content-center mx-auto text-center">
-                                                <div class="col-sm-9">
-                                                    <div class="form-group">
-                                                        <label>Ürün Grubu</label>
-                                                        <select class="form-control" name="urun_name"
-                                                            onchange="getDynamicInputs(this.value)">
-                                                            <option value="0">Ürün Grubu Seçiniz</option>
-                                                            <option>Pergola Avantgarde</option>
-                                                            <option>Pergola Elegant</option>
-                                                            <option>Pergola Classic</option>
-                                                            <option>Pergola SkyLounge</option>
-                                                            <option>Pergola SkyMax</option>
-                                                            <option>Pergola SkyPro</option>
-                                                            <option>Toscana</option>
-                                                            <option>iZipscreen</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-9">
-                                                    <div id="dynamicInputs"
-                                                        style="padding: 5px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-end">
-                                                <div>
-                                                    <button type="submit" class="btn btn-success"
-                                                        style="margin-right: 20px;" onclick="submitUrunForm()">Ürünü
-                                                        Kaydet</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Ürün Ekleme Alanı</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Eklenen Ürünler</a>
+                                            </li>
+                                        </ul>
+                    
+                                        <!-- Tab content -->
+                                        <div class="tab-content">
+                                            <!-- Ürün Ekleme Alanı Tabı -->
+                                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                                <!-- Ürün ekleme formu burada olacak -->
+
+                           <!-- Hatalar alanı -->
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                       
+                        <!-- Ürün Ekleme Formu -->
+                        <form id="Urun" method="POST" action="{{ route('urun.store') }}">
+                            @csrf
+                            <input type="hidden" id="urun_id" name="urun_id" value="">
+                            <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+
+                            <div class="row justify-content-center mx-auto text-center">
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label>Ürün Grubu</label>
+                                        <select class="form-control" name="urun_name" onchange="getDynamicInputs(this.value)">
+                                            <option value="0">Ürün Grubu Seçiniz</option>
+                                            <option>Pergola Avantgarde</option>
+                                            <option>Pergola Elegant</option>
+                                            <option>Pergola Classic</option>
+                                            <option>Pergola SkyLounge</option>
+                                            <option>Pergola SkyMax</option>
+                                            <option>Pergola SkyPro</option>
+                                            <option>Toscana</option>
+                                            <option>iZipscreen</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="row justify-content-center">
+                                <div class="col-md-9">
+                                    <div id="dynamicInputs" style="padding: 5px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">
+                                        <!-- Dinamik form alanları burada oluşacak -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <div>
+                                    <button type="submit" class="btn btn-success" style="margin-right: 20px;" onclick="submitUrunForm()">Ürünü Kaydet</button>
+                                </div>
+                            </div>
+                        </form>
 
 
-                            <!-- File upload form -->
-                            <div class="col-md-4">
-                                <div class="card card-primary card-outline">
-                                    <div class="card-header"></div>
-                                    <div class="card-body">
-                                        <form id="formGeneral" method="POST" action="{{ route('file.upload') }}"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="proje_id"
-                                                value="{{ isset($proje) ? $proje->id : '' }}">
-                                                <input type="hidden" name="file_type" value="general"> <!-- Genel dosya tipi belirtiyoruz -->
-                                            <div class="form-group" style="text-align: center;">
-                                                <label>Dosya Yükle</label>
-                                                <div class="file-loading">
-                                                    <input id="file-upload-general" type="file" name="file" class="file"
-                                                        data-show-preview="false">
-                                                </div>
+
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
-                                            </div>
-                                        </form>
-
-                                        <hr>
-
-                                        
-                                           
-                                                <div class="card-body">
-                                                    <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
-                                                        <input type="hidden" name="file_type" value="technical_drawing"> <!-- Teknik çizim dosya tipi belirtiyoruz -->
-                                                        <div class="form-group" style="text-align: center;">
-                                                            <label>Teknik Çizim Dosyası Yükle</label>
-                                                            <div class="file-loading">
-                                                                <input id="file-upload-technical" type="file" name="file" class="file" data-show-preview="false">
+                    
+                                            <!-- Eklenen Ürünler Tabı -->
+                                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                                <!-- Ürün Bilgileri -->
+                                                <div class="row">
+                                                    @foreach($proje->urunler as $urun)
+                                                        <div class="col-lg-12 mb-2">
+                                                            <div class="product-card">
+                                                                <div class="product-header">
+                                                                    <h5 class="product-title">{{ $urun->urun_name }}</h5>
+                                                                </div>
+                                                                <div class="product-info d-flex flex-wrap">
+                                                                    <div class="product-info-item">
+                                                                        <strong>Ral Kodu</strong>
+                                                                        <p>{{ $urun->ral_kodu }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Kumaş Cinsi</strong>
+                                                                        <p>{{ $urun->kumas_cinsi }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Kumaş Profil Ral</strong>
+                                                                        <p>{{ $urun->kumas_profil_ral }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Led Model</strong>
+                                                                        <p>{{ $urun->led_model }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Motor Model</strong>
+                                                                        <p>{{ $urun->motor_model }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Kumanda</strong>
+                                                                        <p>{{ $urun->kumanda }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Flanş</strong>
+                                                                        <p>{{ $urun->flans }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Arka Çelik</strong>
+                                                                        <p>{{ $urun->arka_celik }}</p>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row justify-content-center">
-                                                            <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
-                                                        </div>
-                                                    </form>
+                                                    @endforeach
                                                 </div>
-                                           
+                                            </div>
                                         </div>
-                                        
-                                        
-                                       
-                                        <div style="text-align: center;">
-                                            <h5 class="mt-4">Yüklenen Dosyalar</h5>
-                                        </div>
-                                        <ul class="list-group" style="gap: 8px;">
-                                            @if(isset($proje) && $proje->files->count() > 0)
-                                            @foreach($proje->files as $file)
-                                            <li class="list-group-item"
-                                                style="text-align: center; border-radius: 10px;">
-                                                {{ $file->file_name }}
-                                                <div class="row justify-content-center" style="gap: 2px;">
-                                                    <a href="{{ route('file.download', $file->id) }}"
-                                                        class="btn btn-sm btn-primary">İndir</a>
-                                                    <button type="button" class="btn btn-sm btn-info"
-                                                        onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                            style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
-                                                        </form>
-                                                </div>
-                                            </li>
-                                            @endforeach
-                                            @else
-                                                <li class="list-group-item" style="text-align: center;">Yüklenen dosya yok.</li>
-                                            @endif
-                                        </ul>
-
                                     </div>
                                 </div>
                             </div>
-                            <!-- End of File upload form -->
+
+        <!-- Dosya yükleme formu -->
+        <div class="col-md-4">
+            <div class="card card-primary card-outline">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <!-- Dosya Yükleme Formu -->
+                    <form id="formGeneral" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                        <input type="hidden" name="file_type" value="general">
+                        <div class="form-group text-center">
+                            <label>Dosya Yükle</label>
+                            <div class="file-loading">
+                                <input id="file-upload-general" type="file" name="file" class="file" data-show-preview="false">
+                            </div>
                         </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                        <input type="hidden" name="file_type" value="technical_drawing">
+                        <div class="form-group text-center">
+                            <label>Teknik Çizim Dosyası Yükle</label>
+                            <div class="file-loading">
+                                <input id="file-upload-technical" type="file" name="file" class="file" data-show-preview="false">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <h5 class="mt-4">Yüklenen Dosyalar</h5>
                     </div>
+                    <ul class="list-group" style="gap: 8px;">
+                        @if(isset($proje) && $proje->files->count() > 0)
+                            @foreach($proje->files as $file)
+                                <li class="list-group-item text-center" style="border-radius: 10px;">
+                                    {{ $file->file_name }}
+                                    <div class="row justify-content-center" style="gap: 2px;">
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
+                                        <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @else
+                            <li class="list-group-item text-center">Yüklenen dosya yok.</li>
+                        @endif
+                    </ul>
                 </div>
             </div>
         </div>
+        <!-- End of File upload form -->
     </div>
-</div>
+@endif
 
 <!-- Modal -->
 <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewModalLabel"
@@ -262,6 +411,7 @@
     </div>
 </div>
 @endsection
+
 
 
 @section('js')

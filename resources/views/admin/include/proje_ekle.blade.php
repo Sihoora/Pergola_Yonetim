@@ -71,6 +71,7 @@
 <div class="content">
     <div class="container-fluid">
 
+        @if(isset($proje))
         <!-- Sipariş Notu Oluştur Modal -->
         <div class="modal fade" id="modal-order-note" tabindex="-1" role="dialog" aria-labelledby="modalOrderNoteLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -104,7 +105,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
 
         <div class="row">
             <div class="col-md-12">
@@ -184,6 +185,7 @@
                             </div>
                         </div>
 
+                        @if(isset($proje))
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-left">
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
@@ -191,6 +193,7 @@
                                 </button>
                             </div>
                         </div>
+                        @endif
 
 
                         @if(isset($proje))

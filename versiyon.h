@@ -15,3 +15,15 @@
     * 
  */
 
+
+
+/* 
+    * v0.0.2
+    * Emirhan Gedik
+    * 19-09-2024
+    * 
+    * Versiyon Aciklamasi:
+    * - proje ekle sayfasında kullanıcı deneyimini artırmak için bazı düzenlemeler yapıldı.
+    * - proje ekle sayfasına sipariş notu ekleme özelliği getirildi.
+    * - proje detay sayfasında bazı iyileştirmeler yapıldı.
+ */

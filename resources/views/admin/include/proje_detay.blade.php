@@ -300,70 +300,54 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header"></div>
                     <div class="card-body">
-                        <!-- Nav Tabs -->
-                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Proje Detayı</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
-                            </li>
-                        </ul>
-                        <!-- Tab Content -->
-                        <div class="tab-content" id="custom-tabs-one-tabContent">
-                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                <!-- Proje Detayı -->
-                                <div class="card-body pad table-responsive">
-                                    <div class="row" style="margin-top:20px;">
-                                        <div class="col-md-12">
-                                            <div class="card card-primary">
-                                                <div class="card-header"></div>
-                                                <div class="card-body">
-                                                    <form role="form" action="#" method="post">
-                                                        @csrf
-                                                        @if(isset($proje))
-                                                        @method('PUT')
-                                                        @endif
-                                                        <div class="row">
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Proje Kodu</label>
-                                                                    <input type="number" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Proje Adı</label>
-                                                                    <input type="text" name="proje_adi" class="form-control" value="{{ isset($proje) ? $proje->proje_adi : '' }}" placeholder="Enter ..." disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Müşteri</label>
-                                                                    <input type="text" name="musteri" class="form-control" value="{{ isset($proje) ? $proje->musteri : '' }}" placeholder="Enter ..." disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Teslim Tarihi:</label>
-                                                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                        <input type="text" name="teslim_tarihi" class="form-control datetimepicker-input" value="{{ isset($proje) ? $proje->teslim_tarihi : '' }}" data-target="#reservationdate" disabled />
-                                                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+
+
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-md-12">
+                                <div class="card card-primary">
+                                    <div class="card-header"></div>
+                                    <div class="card-body">
+                                        <form role="form" action="#" method="post">
+                                            @csrf
+                                            @if(isset($proje))
+                                            @method('PUT')
+                                            @endif
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>Proje Kodu</label>
+                                                        <input type="number" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>Proje Adı</label>
+                                                        <input type="text" name="proje_adi" class="form-control" value="{{ isset($proje) ? $proje->proje_adi : '' }}" placeholder="Enter ..." disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>Müşteri</label>
+                                                        <input type="text" name="musteri" class="form-control" value="{{ isset($proje) ? $proje->musteri : '' }}" placeholder="Enter ..." disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>Teslim Tarihi:</label>
+                                                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                            <input type="text" name="teslim_tarihi" class="form-control datetimepicker-input" value="{{ isset($proje) ? $proje->teslim_tarihi : '' }}" data-target="#reservationdate" disabled />
+                                                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                             </div>
                                                         </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
-
+                                </div>
+                            </div>
+                        </div>
 
                                     <!-- Üretim Emri Oluştur -->
                                     <div class="row mb-3">
@@ -381,6 +365,30 @@
                                             </button>
                                         </div>
                                     </div>
+
+
+
+                        <!-- Nav Tabs -->
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Proje Detayı</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
+                            </li>
+                        </ul>
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                <!-- Proje Detayı -->
+                                <div class="card-body pad table-responsive">
+                                 
+
+
+
 
                                     <!-- Ürün Bilgileri -->
                                 <div class="row">

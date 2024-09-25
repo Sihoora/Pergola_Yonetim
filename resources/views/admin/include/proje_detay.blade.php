@@ -83,17 +83,7 @@
     }
 
 
-    .product-card {
-        width: 80%; /* Kartın genişliğini ayarlayın */
-        margin-top: 10px; 
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 15px;
-        background-color: #f9f9f9;
-        transition: transform 0.2s ease;
-    }
-
-
+    
     .file-card {
         width: 200px; /* Kartın genişliğini ayarlayın */
         border: 1px solid #ddd;
@@ -107,6 +97,17 @@
 
     .file-card:hover {
         transform: scale(1.02);
+    }
+
+
+    .product-card {
+        height: auto;
+        margin-top: 10px; 
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        transition: transform 0.2s ease;
     }
 
     .product-header {
@@ -129,31 +130,42 @@
     }
 
     .product-info {
-        display: flex;
-        gap: 3px;
-        justify-content: center;
-        align-items: center;
-        
+        display: grid; /* Öğeleri grid layout'a yerleştir */
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Sütunları otomatik ayarlayarak genişlik kazandır */
+        justify-content: center; /* Merkeze hizala */
+        align-items: stretch; /* Yükseklikleri eşit yap */
+        gap: 5px;
     }
 
     .product-info-item {
         background-color: #fff;
-        padding: 10px;
+        padding: 3px;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         text-align: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* İçerikleri dikey olarak ortalar */
+        align-items: center; /* İçerikleri yatay olarak ortalar */
+        height: auto;
     }
 
     .product-info-item strong {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         font-weight: 600;
+        font-size: 0.8rem;
         color: #555;
+        margin-top: 3px;
     }
 
     .product-info-item p {
-        margin: 0;
         color: #777;
+        font-weight: 500;
+        font-size: 0.7rem; /* Yazı boyutunu ayarlar */
+        text-align: center; /* Yazıyı ortalar */
+        word-wrap: break-word; /* Yazı taşarsa kırılmasını sağlar */
     }
 
     .product-info-item p span {
@@ -163,6 +175,17 @@
     .product-info-item p i {
         color: #28a745;
     }
+
+    .details-header-text {
+        font-size: 1rem; 
+        font-weight: bold; 
+        color: #333; 
+        text-align: start; 
+        border-bottom:2px solid #dee2e6;
+        margin-bottom: 8px;
+        padding-bottom: 2px;
+    }
+
 </style>
 @endsection
 
@@ -386,68 +409,84 @@
                         <div class="tab-content" id="custom-tabs-one-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                                 <!-- Proje Detayı -->
-                                <div class="card-body pad table-responsive">
-                                 
-
-
-
-
-                                    <!-- Ürün Bilgileri -->
-                                <div class="row">
-                                    @foreach($proje->urunler as $urun)
-                                    <div class="col-md-12">
-                                        <div class="product-card border-dark mb-1">
-                                            <div class="product-header">
-                                                <h5 class="product-title">{{ $urun->urun_name }}</h5>
+                                <div class="card-body pad table-responsive"  style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                        
+                                        <!-- Ürün Bilgileri -->
+                                        <div class="col-md-8" style="border-right:2px solid #dee2e6">
+                                            <h5 class="details-header-text">ÜRÜNLER</h5>
+                                            @foreach($proje->urunler as $urun)
+                                            <div class="col-md-12">
+                                                <div class="product-card border-dark mb-1">
+                                                    <div class="product-header">
+                                                        <h5 class="product-title">{{ $urun->urun_name }}</h5>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <div class="product-info-item">
+                                                            <strong>Ral Kodu</strong>
+                                                            <p>{{ $urun->ral_kodu }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>En</strong>
+                                                            <p>{{ $urun->en }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Boy</strong>
+                                                            <p>{{ $urun->boy }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Kumaş Cinsi</strong>
+                                                            <p>{{ $urun->kumas_cinsi }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Kumaş Profil Ral</strong>
+                                                            <p>{{ $urun->kumas_profil_ral }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Led Model</strong>
+                                                            <p>{{ $urun->led_model }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Motor Model</strong>
+                                                            <p>{{ $urun->motor_model }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Kumanda</strong>
+                                                            <p>{{ $urun->kumanda }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Flanş</strong>
+                                                            <p>{{ $urun->flans }}</p>
+                                                        </div>
+                                                        <div class="product-info-item">
+                                                            <strong>Arka Çelik</strong>
+                                                            <p>{{ $urun->arka_celik }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="product-info">
-                                                <div class="product-info-item">
-                                                    <strong>Ral Kodu</strong>
-                                                    <p>{{ $urun->ral_kodu }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Kumaş Cinsi</strong>
-                                                    <p>{{ $urun->kumas_cinsi }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Kumaş Profil Ral</strong>
-                                                    <p>{{ $urun->kumas_profil_ral }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Led Model</strong>
-                                                    <p>{{ $urun->led_model }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Motor Model</strong>
-                                                    <p>{{ $urun->motor_model }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Kumanda</strong>
-                                                    <p>{{ $urun->kumanda }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Flanş</strong>
-                                                    <p>{{ $urun->flans }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Arka Çelik</strong>
-                                                    <p>{{ $urun->arka_celik }}</p>
-                                                </div>
-                                               
-                                                <div class="product-info-item">
-                                                    <strong>En</strong>
-                                                    <p>{{ $urun->en }}</p>
-                                                </div>
-                                                <div class="product-info-item">
-                                                    <strong>Boy</strong>
-                                                    <p>{{ $urun->boy }}</p>
-                                                </div>
-                                             
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    </div>
-                                    @endforeach
-                                </div>
+
+                                        <!-- Notlar -->
+                                        <div class="col-md-4">
+                                            <h5 class="details-header-text">NOTLAR</h5>
+                                            <ul class="todo-list" data-widget="todo-list" >
+                                                <!-- Dinamik Notlar -->
+                                                @foreach($proje->notlar as $note)
+                                                    @if($note->surec == $proje->surec) 
+                                                        <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
+                                                            <span>
+                                                                <i class="fa fa-sticky-note"></i>
+                                                            </span>
+                                                            <div class="icheck-primary d-inline"></div>
+                                                            <span class="text">{{ $note->not }}</span>
+                                                            <div class="tools">
+                                                            </div>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div> 
                             </div>
                         </div>
 

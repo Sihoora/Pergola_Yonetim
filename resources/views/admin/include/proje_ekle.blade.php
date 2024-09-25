@@ -297,6 +297,14 @@
                                                                         <p>{{ $urun->ral_kodu }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
+                                                                        <strong>En</strong>
+                                                                        <p>{{ $urun->en }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Boy</strong>
+                                                                        <p>{{ $urun->boy }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
                                                                         <strong>Kumaş Cinsi</strong>
                                                                         <p>{{ $urun->kumas_cinsi }}</p>
                                                                     </div>
@@ -323,14 +331,6 @@
                                                                     <div class="product-info-item">
                                                                         <strong>Arka Çelik</strong>
                                                                         <p>{{ $urun->arka_celik }}</p>
-                                                                    </div>
-                                                                    <div class="product-info-item">
-                                                                        <strong>En</strong>
-                                                                        <p>{{ $urun->en }}</p>
-                                                                    </div>
-                                                                    <div class="product-info-item">
-                                                                        <strong>Boy</strong>
-                                                                        <p>{{ $urun->boy }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -28,25 +28,21 @@ function getDynamicInputs(selectedValue, data = null) {
 
           <div class="form-group">
         <label for="RalKodu">En</label>
-        <input list="RalKoduOptions" id="en" name="en" value="${data ? data.en : ''}" class="form-control" placeholder="Enter En">
+        <input list="RalKoduOptions" id="en" name="en" value="${data ? data.en : ''}" class="form-control" placeholder=" En...">
         <datalist id="RalKoduOptions">
-
         </datalist>
-      </div>
+        </div>
 
-         <div class="form-group" style="margin-bottom: 25px;">
+         <div class="form-group" style="">
         <label for="RalKodu">Boy</label>
-        <input list="RalKoduOptions" id="boy" name="boy" value="${data ? data.boy : ''}" class="form-control" placeholder="Enter Boy">
+        <input list="RalKoduOptions" id="boy" name="boy" value="${data ? data.boy : ''}" class="form-control" placeholder=" Boy...">
         <datalist id="RalKoduOptions">
-
         </datalist>
-      </div>
-      <div class="form-group">
-      </div>
+        </div>
 
       <div class="form-group">
         <label for="RalKodu">Ral Kodu</label>
-        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder="Enter Ral Kodu">
+        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder=" Ral Kodu...">
         <datalist id="RalKoduOptions">
           <option value="09418 07016">
           <option value="09418 05005">
@@ -59,7 +55,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="KumasCinsi">Kumaş Cinsi</label>
-        <input list="KumasCinsiOptions" id="KumasCinsi" name="kumas_cinsi" value="${data ? data.kumas_cinsi : ''}" class="form-control" placeholder="Enter Kumaş Cinsi">
+        <input list="KumasCinsiOptions" id="KumasCinsi" name="kumas_cinsi" value="${data ? data.kumas_cinsi : ''}" class="form-control" placeholder=" Kumaş Cinsi...">
         <datalist id="KumasCinsiOptions">
           <option value="Düz Beyaz">
           <option value="Düz Krem">
@@ -72,7 +68,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="KumasProfilRal">Kumaş Profil Ral</label>
-        <input list="KumasProfilRalOptions" id="KumasProfilRal" name="kumas_profil_ral" value="${data ? data.kumas_profil_ral : ''}" class="form-control" placeholder="Enter Kumaş Profil Ral">
+        <input list="KumasProfilRalOptions" id="KumasProfilRal" name="kumas_profil_ral" value="${data ? data.kumas_profil_ral : ''}" class="form-control" placeholder=" Kumaş Profil Ral...">
         <datalist id="KumasProfilRalOptions">
           <option value="Krem">
           <option value="Gri">
@@ -82,7 +78,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="LedModel">Led Model</label>
-        <input list="LedModelOptions" id="LedModel" name="led_model" value="${data ? data.led_model : ''}" class="form-control" placeholder="Enter Led Model">
+        <input list="LedModelOptions" id="LedModel" name="led_model" value="${data ? data.led_model : ''}" class="form-control" placeholder=" Led Model...">
         <datalist id="LedModelOptions">
           <option value="Gizli Led 2700K">
           <option value="Profil Üstü Led 2700K">
@@ -91,7 +87,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="MotorModel">Motor Model</label>
-        <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder="Enter Motor Model">
+        <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder=" Motor Model...">
         <datalist id="MotorModelOptions">
           <option value="Somfy 85 / 17 RTS">
           <option value="Somfy 85 / 17 10">
@@ -100,7 +96,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="Kumanda">Kumanda</label>
-        <input list="KumandaOptions" id="Kumanda" name="kumanda" value="${data ? data.kumanda : ''}" class="form-control" placeholder="Enter Kumanda">
+        <input list="KumandaOptions" id="Kumanda" name="kumanda" value="${data ? data.kumanda : ''}" class="form-control" placeholder=" Kumanda...">
         <datalist id="KumandaOptions">
           <option value="Telis 4 RTS">
           <option value="Telis 16 RTS">
@@ -111,7 +107,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="Flans">Flanş</label>
-        <input list="FlansOptions" id="Flans" name="flans" value="${data ? data.flans : ''}" class="form-control" placeholder="Enter Flanş">
+        <input list="FlansOptions" id="Flans" name="flans" value="${data ? data.flans : ''}" class="form-control" placeholder=" Flanş...">
         <datalist id="FlansOptions">
           <option value="Boru Giderli Flanş">
           <option value="Kare Giderli Flanş">
@@ -121,7 +117,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="ArkaÇelik">Arka Çelik</label>
-        <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder="Enter Arka Çelik">
+        <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder=" Arka Çelik...">
         <datalist id="ArkaÇelikOptions">
           <option value="50 x 150 Demir">
           <option value="100 x 100 Demir">
@@ -136,17 +132,17 @@ function getDynamicInputs(selectedValue, data = null) {
      <div class="form-row">
         <div class="form-group col-md-6">
           <label for="en">En</label>
-          <input type="text" class="form-control" id="en" name="en" value="${data ? data.en : ''}" placeholder="Enter En">
+          <input type="text" class="form-control" id="en" name="en" value="${data ? data.en : ''}" placeholder=" En...">
         </div>
         <div class="form-group col-md-6">
           <label for="boy">Boy</label>
-          <input type="text" class="form-control" id="boy" name="boy" value="${data ? data.boy : ''}" placeholder="Enter Boy">
+          <input type="text" class="form-control" id="boy" name="boy" value="${data ? data.boy : ''}" placeholder=" Boy...">
         </div>
       </div>
 
       <div class="form-group">
         <label for="RalKodu">Ral Kodu</label>
-        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder="Enter Ral Kodu">
+        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder=" Ral Kodu...">
         <datalist id="RalKoduOptions">
           <option value="09418 07016">
           <option value="09418 05005">
@@ -159,7 +155,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="KumasCinsi">Kumaş Cinsi</label>
-        <input list="KumasCinsiOptions" id="KumasCinsi" name="kumas_cinsi" value="${data ? data.kumas_cinsi : ''}" class="form-control" placeholder="Enter Kumaş Cinsi">
+        <input list="KumasCinsiOptions" id="KumasCinsi" name="kumas_cinsi" value="${data ? data.kumas_cinsi : ''}" class="form-control" placeholder=" Kumaş Cinsi...">
         <datalist id="KumasCinsiOptions">
           <option value="Düz Beyaz">
           <option value="Düz Krem">
@@ -172,7 +168,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="KumasProfilRal">Kumaş Profil Ral</label>
-        <input list="KumasProfilRalOptions" id="KumasProfilRal" name="kumas_profil_ral" value="${data ? data.kumas_profil_ral : ''}" class="form-control" placeholder="Enter Kumaş Profil Ral">
+        <input list="KumasProfilRalOptions" id="KumasProfilRal" name="kumas_profil_ral" value="${data ? data.kumas_profil_ral : ''}" class="form-control" placeholder=" Kumaş Profil Ral...">
         <datalist id="KumasProfilRalOptions">
           <option value="Krem">
           <option value="Gri">
@@ -182,7 +178,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="LedModel">Led Model</label>
-        <input list="LedModelOptions" id="LedModel" name="led_model" value="${data ? data.led_model : ''}" class="form-control" placeholder="Enter Led Model">
+        <input list="LedModelOptions" id="LedModel" name="led_model" value="${data ? data.led_model : ''}" class="form-control" placeholder=" Led Model...">
         <datalist id="LedModelOptions">
           <option value="Gizli Led 2700K">
           <option value="Profil Üstü Led 2700K">
@@ -191,7 +187,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="MotorModel">Motor Model</label>
-        <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder="Enter Motor Model">
+        <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder=" Motor Model...">
         <datalist id="MotorModelOptions">
           <option value="Somfy 85 / 17 RTS">
           <option value="Somfy 85 / 17 10">
@@ -200,7 +196,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="Kumanda">Kumanda</label>
-        <input list="KumandaOptions" id="Kumanda" name="kumanda" value="${data ? data.kumanda : ''}" class="form-control" placeholder="Enter Kumanda">
+        <input list="KumandaOptions" id="Kumanda" name="kumanda" value="${data ? data.kumanda : ''}" class="form-control" placeholder=" Kumanda...">
         <datalist id="KumandaOptions">
           <option value="Telis 4 RTS">
           <option value="Telis 16 RTS">
@@ -211,7 +207,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="Flans">Flanş</label>
-        <input list="FlansOptions" id="Flans" name="flans" value="${data ? data.flans : ''}" class="form-control" placeholder="Enter Flanş">
+        <input list="FlansOptions" id="Flans" name="flans" value="${data ? data.flans : ''}" class="form-control" placeholder=" Flanş...">
         <datalist id="FlansOptions">
           <option value="Boru Giderli Flanş">
           <option value="Kare Giderli Flanş">
@@ -221,7 +217,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="ArkaÇelik">Arka Çelik</label>
-        <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder="Enter Arka Çelik">
+        <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder=" Arka Çelik...">
         <datalist id="ArkaÇelikOptions">
           <option value="50 x 150 Demir">
           <option value="100 x 100 Demir">

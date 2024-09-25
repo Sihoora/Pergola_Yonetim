@@ -324,6 +324,14 @@
                                                                         <strong>Arka Çelik</strong>
                                                                         <p>{{ $urun->arka_celik }}</p>
                                                                     </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>En</strong>
+                                                                        <p>{{ $urun->en }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Boy</strong>
+                                                                        <p>{{ $urun->boy }}</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -436,7 +444,7 @@
     $(document).ready(function () {
         $("#file-upload").fileinput({
             theme: 'fa',
-            allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'dvg'],
+            allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'dwg', 'pdf', 'zip'],
             maxFileSize: 8192,
             showUpload: false,
             showRemove: false,

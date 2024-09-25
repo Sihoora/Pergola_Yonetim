@@ -15,6 +15,8 @@ class Urun extends Model
     protected $fillable = [
         'proje_id',
         'urun_name',
+        'en',
+        'boy',
         'ral_kodu',
         'kumas_cinsi',
         'kumas_profil_ral',

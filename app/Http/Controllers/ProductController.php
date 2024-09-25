@@ -15,6 +15,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
             'urun_name' => 'required|string|max:255',
+            'en' => 'required|string|max:255',
+            'boy' => 'required|string|max:255',
             'ral_kodu' => 'required|string|max:255',
             'kumas_cinsi' => 'required|string|max:255',
             'kumas_profil_ral' => 'required|string|max:255',
@@ -28,6 +30,8 @@ class ProductController extends Controller
         $urun = new Urun();
         $urun->proje_id = $validatedData['proje_id'];
         $urun->urun_name = $validatedData['urun_name'];
+        $urun->en = $validatedData['en'];
+        $urun->boy = $validatedData['boy'];     
         $urun->ral_kodu = $validatedData['ral_kodu'];
         $urun->kumas_cinsi = $validatedData['kumas_cinsi'];
         $urun->kumas_profil_ral = $validatedData['kumas_profil_ral'];
@@ -58,6 +62,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
             'urun_name' => 'required|string|max:255',
+            'en' => 'required|string|max:255', 
+            'boy' => 'required|string|max:255', 
             'ral_kodu' => 'required|string|max:255',
             'kumas_cinsi' => 'required|string|max:255',
             'kumas_profil_ral' => 'required|string|max:255',
@@ -71,6 +77,8 @@ class ProductController extends Controller
         $urun = Urun::findOrFail($id);
         $urun->proje_id = $validatedData['proje_id'];
         $urun->urun_name = $validatedData['urun_name'];
+        $urun->en = $validatedData['en'];
+        $urun->boy = $validatedData['boy'];
         $urun->ral_kodu = $validatedData['ral_kodu'];
         $urun->kumas_cinsi = $validatedData['kumas_cinsi'];
         $urun->kumas_profil_ral = $validatedData['kumas_profil_ral'];

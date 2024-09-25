@@ -16,7 +16,7 @@ class FileController extends Controller
   public function upload(Request $request)
   {
       $request->validate([
-          'file' => 'required|file|mimes:png,jpg,jpeg,doc,docx,xlsx,txt|max:2048',
+          'file' => 'required|file|mimes:dwg,pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
           'proje_id' => 'required|exists:proje_ekle,id',
           'file_type' => 'required|string|max:255',
       ]);

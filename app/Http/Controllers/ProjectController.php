@@ -165,7 +165,7 @@ public function show($id)
 public function storeNote(Request $request)
 {
     $request->validate([
-        'proje_id' => 'required|exists:proje_ekle,id',
+        'proje_id' => 'required|strings|exists:proje_ekle,id',
         'surec' => 'required|string',
         'not' => 'required|string',
     ]);

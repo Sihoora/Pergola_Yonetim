@@ -3,6 +3,7 @@
 @section('css')
 <style>
 
+
 .product-card {
         width: 100%; /* Kartın genişliğini ayarlayın */
         margin-top: 10px; 
@@ -146,7 +147,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label>Proje Kodu</label>
-                                                        <input type="number" name="proje_kodu" class="form-control"
+                                                        <input type="text" name="proje_kodu" class="form-control"
                                                             value="{{ isset($proje) ? $proje->proje_kodu : '' }}"
                                                             placeholder="Enter ...">
                                                     </div>
@@ -170,15 +171,15 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label>Teslim Tarihi:</label>
-                                                        <div class="input-group date" id="reservationdate"
+                                                        <div class="input-group date"
                                                             data-target-input="nearest">
                                                             <input type="text" name="teslim_tarihi"
-                                                                class="form-control datetimepicker-input"
+                                                                class="form-control"
                                                                 value="{{ isset($proje) ? $proje->teslim_tarihi : '' }}"
-                                                                data-target="#reservationdate" />
-                                                            <div class="input-group-append"
-                                                                data-target="#reservationdate"
-                                                                data-toggle="datetimepicker">
+                                                                placeholder="Enter ..."
+                                                                />
+                                                            <div class="input-group-append"                                                            
+                                                               >
                                                                 <div class="input-group-text"><i
                                                                         class="fa fa-calendar"></i></div>
                                                             </div>
@@ -192,15 +193,19 @@
                             </div>
                         </div>
 
+
+
                         @if(isset($proje))
+
                         <div class="row mb-3">
                             <div class="col-md-12 d-flex justify-content-left">
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
                                     <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
                                 </button>
                             </div>
-                        </div>
-                        @endif
+                        </div>         
+
+                    @endif
 
 
                         @if(isset($proje))
@@ -210,6 +215,7 @@
                                 <div class="card card-primary card-outline">
                                     <div class="card-header"></div>
                                     <div class="card-body">
+                                        
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li class="nav-item">
@@ -292,6 +298,14 @@
                                                                     <h5 class="product-title">{{ $urun->urun_name }}</h5>
                                                                 </div>
                                                                 <div class="product-info d-flex flex-wrap">
+                                                                    <div class="product-info-item">
+                                                                        <strong>En</strong>
+                                                                        <p>{{ $urun->en }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Boy</strong>
+                                                                        <p>{{ $urun->boy }}</p>
+                                                                    </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Ral Kodu</strong>
                                                                         <p>{{ $urun->ral_kodu }}</p>
@@ -579,6 +593,7 @@
         $('#filePreviewIframe').attr('src', url);
         $('#filePreviewModal').modal('show');
     }
+
 
 
 

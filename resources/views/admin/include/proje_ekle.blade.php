@@ -294,8 +294,9 @@
                                                     @foreach($proje->urunler as $urun)
                                                         <div class="col-lg-12 mb-2" style="height: %20;">
                                                             <div class="product-card">
-                                                                <div class="product-header">
+                                                                <div class="product-header" style="justify-content: space-between;">
                                                                     <h5 class="product-title">{{ $urun->urun_name }}</h5>
+                                                                    <div class="text-center"><a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '" style="margin-bottom: 3px; margin-right: 3px;">Düzenle</a></div>
                                                                 </div>
                                                                 <div class="product-info d-flex flex-wrap">
                                                                     <div class="product-info-item">

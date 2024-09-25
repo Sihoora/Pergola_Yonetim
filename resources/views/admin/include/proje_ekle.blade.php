@@ -4,64 +4,71 @@
 <style>
 
 .product-card {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s ease;
-}
+        width: 100%; /* Kartın genişliğini ayarlayın */
+        margin-top: 10px; 
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        transition: transform 0.2s ease;
+    }
 
-.product-card:hover {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
+    .product-header {
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        text-align: center;
+        border-bottom: 2px solid #eee;
+        margin-bottom: 5px;
+    }
 
-.product-header {
-    text-align: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 8px;
-}
+    .product-title {
+        display: flex;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-.product-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #333;
-}
+    .product-info {
+        display: flex;
+        justify-content: space-between;
+        gap: 3px;
+        flex-wrap: nowrap;
+    }
 
-.product-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Kartların daha küçük ekranlarda düzgün yerleşmesini sağlar */
-    gap: 8px; /* Kartlar arasındaki boşlukları azaltıyoruz */
-}
+    .product-info-item {
+        flex-grow: 1; /* Öğelerin genişlemesini sağlar */
+        flex-shrink: 0; /* Öğelerin küçülmesini engeller */
+        flex-basis: calc(33.333% - 10px); /* Üç sütun olacak şekilde genişlik ayarlanır */
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
 
-.product-info-item {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 6px;
-    text-align: center;
-    border: 1px solid #ddd;
-    font-size: 0.9rem;
-}
+    .product-info-item strong {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #555;
+    }
 
-.product-info-item:hover {
-    background-color: #f0f0f0;
-}
+    .product-info-item p {
+        margin: 0;
+        color: #777;
+    }
 
-.product-info-item strong {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #555;
-}
+    .product-info-item p span {
+        color: #333;
+    }
 
-.product-info-item p {
-    font-size: 0.85rem;
-    color: #666;
-    margin: 0;
-}
+    .product-info-item p i {
+        color: #28a745;
+    }
 
 </style>
 
@@ -279,7 +286,7 @@
                                                 <!-- Ürün Bilgileri -->
                                                 <div class="row">
                                                     @foreach($proje->urunler as $urun)
-                                                        <div class="col-lg-12 mb-2">
+                                                        <div class="col-lg-12 mb-2" style="height: %20;">
                                                             <div class="product-card">
                                                                 <div class="product-header">
                                                                     <h5 class="product-title">{{ $urun->urun_name }}</h5>

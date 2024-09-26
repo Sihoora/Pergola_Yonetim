@@ -339,7 +339,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label>Proje Kodu</label>
-                                                        <input type="number" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
+                                                        <input type="text" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">

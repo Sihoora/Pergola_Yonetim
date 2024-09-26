@@ -296,17 +296,10 @@
                                                             <div class="product-card">
                                                                 <div class="product-header" style="justify-content: space-between;">
                                                                     <h5 class="product-title">{{ $urun->urun_name }}</h5>
-                                                                    <div class="text-center"><a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '" style="margin-bottom: 3px; margin-right: 3px;">Düzenle</a></div>
-                                                                </div>
+                                                                    <button type="button" class="btn btn-warning btn-sm editProduct" data-id="{{ $urun->id }}">Düzenle</button>
+                                                                    </div>
                                                                 <div class="product-info d-flex flex-wrap">
-                                                                    <div class="product-info-item">
-                                                                        <strong>En</strong>
-                                                                        <p>{{ $urun->en }}</p>
-                                                                    </div>
-                                                                    <div class="product-info-item">
-                                                                        <strong>Boy</strong>
-                                                                        <p>{{ $urun->boy }}</p>
-                                                                    </div>
+                                                                    
                                                                     <div class="product-info-item">
                                                                         <strong>Ral Kodu</strong>
                                                                         <p>{{ $urun->ral_kodu }}</p>
@@ -595,6 +588,40 @@
         $('#filePreviewModal').modal('show');
     }
 
+
+
+    $(document).on('click', '.editProduct', function() {
+            var urunId = $(this).data('id');
+
+            $.ajax({
+                url: '/dashboard/urun-duzenle/' + urunId,
+                method: 'GET',
+                success: function(data) {
+                    if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: data.error,
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        var url = "{{ route('proje.edit', ':id') }}";
+                        url = url.replace(':id', data.proje_id);
+                        window.location.href = url + '?urun_id=' + urunId;
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
 
 
 

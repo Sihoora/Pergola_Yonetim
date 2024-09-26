@@ -30,8 +30,8 @@ class ProjectController extends Controller
         $validatedData = $request->validate([
             'proje_kodu' => 'required|string|max:255|unique:proje_ekle,proje_kodu',
             'proje_adi' => 'required|string|max:255',
-            'musteri' => 'required|string|max:255',
-            'teslim_tarihi' => 'required|date',
+            'musteri' => 'required|string|max:255', 
+            'teslim_tarihi' => 'required|string|max:255',
         ]);
 
         $proje = Project::create($request->all());
@@ -40,6 +40,7 @@ class ProjectController extends Controller
         $proje->musteri = $validatedData['musteri'];
         $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
 
+   
         $proje->save();
 
         $this->ekleSabitNotlar($proje->id);
@@ -165,7 +166,7 @@ public function show($id)
 public function storeNote(Request $request)
 {
     $request->validate([
-        'proje_id' => 'required|strings|exists:proje_ekle,id',
+        'proje_id' => 'required|string|exists:proje_ekle,id',
         'surec' => 'required|string',
         'not' => 'required|string',
     ]);

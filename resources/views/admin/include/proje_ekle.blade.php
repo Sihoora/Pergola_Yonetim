@@ -193,8 +193,7 @@
                             </div>
                         </div>
 
-
-
+                        
                         @if(isset($proje))
 
                         <div class="row mb-3">
@@ -205,10 +204,7 @@
                             </div>
                         </div>         
 
-                    @endif
 
-
-                        @if(isset($proje))
                         <div class="row">
                             <!-- Sol tarafta ürün ekleme ve eklenen ürünler tabı -->
                             <div class="col-md-8">
@@ -417,7 +413,22 @@
 
 
 
-@endif
+@else   
+              
+
+<!-- // HATA MESAJI GÖZÜKMÜYOR.
+    // PROJE KODU VE TESLİM TARİHİ FORMAT YAPILANDIRMASI YAPILMALI.
+    // YİELD İNCLUDE İLE PROJE EKLEME FORMU OLUŞTURULMALI.
+
+
+
+-->
+
+
+
+@endif  
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewModalLabel"

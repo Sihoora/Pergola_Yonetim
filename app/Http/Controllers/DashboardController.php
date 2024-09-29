@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Controllers\ProjectController;
+
 
 class DashboardController extends Controller
 {
     
     public function home()
     {
+        $projeler = Project::all();
         $devamEdenProjeSayisi = Project::where('durum', 'ÜRETİMİ DEVAM EDEN PROJELER')->count();
         $bekletilenProjeSayisi = Project::where('durum', 'BEKLETİLEN PROJELER')->count();
         $sevkeHazirProjeSayisi = Project::where('durum', 'SEVK İÇİN HAZIR PROJELER')->count();
@@ -17,7 +20,7 @@ class DashboardController extends Controller
         
         $toplamProjeSayisi = Project::count(); // Toplam proje sayısı
     
-        return view('admin.include.home', compact('devamEdenProjeSayisi', 'bekletilenProjeSayisi', 'sevkeHazirProjeSayisi', 'sevkEdilmisProjeSayisi', 'toplamProjeSayisi'));
+        return view('admin.include.home', compact('devamEdenProjeSayisi', 'bekletilenProjeSayisi', 'sevkeHazirProjeSayisi', 'sevkEdilmisProjeSayisi', 'toplamProjeSayisi','projeler'));
     }
 
    public function index()

@@ -36,12 +36,14 @@
                 <p>Yeni Proje/Sipariş Oluştur</p>
               </a>
             </li>
+            @can('view projects') 
             <li class="nav-item">
               <a href="{{route('proje-liste')}}" class="nav-link">
                 <i class="fa fa-list-ul nav-icon"></i>
                 <p>İmalat Projeleri</p>
               </a>
             </li>
+            @endcan
             <li class="nav-item">
             </li>
           </ul>
@@ -64,6 +66,14 @@
                       <p>Profilim</p>
                     </a>
                   </li>
+                  @can('access admin area')
+                  <li class="nav-item">
+                    <a href="{{route('users.index')}}" class="nav-link">
+                      <i class="fa fa-list-ul nav-icon"></i>
+                      <p>Yönetim Paneli</p>
+                    </a>
+                  </li>
+                  @endcan
                   <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}">
                       @csrf

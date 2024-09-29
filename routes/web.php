@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuNavigate;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Proje ekleme sayfası
     Route::get('/dashboard/proje_ekle', [DashboardController::class, "index"])->name('proje_ekle');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    Route::post('/users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
 
     // Proje kaydetme işlemi
     Route::post('/proje-ekle', [ProjectController::class, 'store'])->name('proje.store');

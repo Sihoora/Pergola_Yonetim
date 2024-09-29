@@ -374,11 +374,13 @@
 
                                     <!-- Üretim Emri Oluştur -->
                                     <div class="row">
+                                       
                                         <div class="col-12" style="align-items: right; text-align: right;">
+                                            @can('view projects')
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
                                                 <i class="fa fa-cog" style="margin-right: 5px;"></i> Üretim Emri Oluştur
                                             </button>
-                                
+                                        @endcan
                                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
                                                 <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
                                             </button>
@@ -556,6 +558,7 @@
 </div>
 </div>
 
+
 <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
 @if(isset($proje->notlar) && $proje->notlar->count() > 0)
     <!-- SÜREÇ NOTLARI -->
@@ -588,7 +591,9 @@
             </ul>
         </div>
         <div class="card-footer clearfix">
+            @can('view projects')
             <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
+            @endcan
         </div>
     </div>
 @else

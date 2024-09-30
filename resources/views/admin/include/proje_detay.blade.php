@@ -200,16 +200,16 @@
                     @php
                     $sira = [
                         'Yeni Proje',
-                        'Proje Onaylandı',
                         'Teknik Çizimler Yapıldı',
+                        'Proje Onaylandı',
                         'Üretime Gönderildi',
                         'Sevk İçin Hazır',
                         'Sevk Edildi'
                     ];
                     $sabit_notlar = [
                         'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
-                        'Proje Onaylandı' => ['Proje onayı alındı.', 'Deneme Sabit Not'],
                         'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
+                        'Proje Onaylandı' => ['Proje onayı alındı.', 'Deneme Sabit Not'],
                         'Üretime Gönderildi' => ['Üretim süreci başlatıldı.'],
                         'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
                         'Sevk Edildi' => ['Ürünler sevk edildi.', 'Proje tamamlandı.']
@@ -493,71 +493,92 @@
                         </div>
 
                         <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                           
-                <!-- Dosya Listesi -->
-<div class="row" style="margin-top: 30px;">
-<div class="col-md-12">
-    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
-        <div class="card-header">
-            <span class="h5 m-0">Genel Dosyalar</span>
-        </div>  
-        <div class="card-body">
-            @if(isset($proje) && $proje->files->count() > 0)
-            <div class="row">
-                @foreach($proje->files->where('file_type', 'general') as $file)
-                <div>
-                    <div class="file-card">
-                        <div class="product-header">
-                            <h5 class="product-title">{{ $file->file_name }}</h5>
-                        </div>
-                        <div class="product-info d-flex justify-content-around align-items-center">
-                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @else
-            <p>Yüklenen dosya yok.</p>
-            @endif
-        </div>
-    </div>
-</div>
-</div>
 
-<div class="row" style="margin-top: 30px;">
-<div class="col-md-12">
-    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
-        <div class="card-header">
-            <span class="h5 m-0">Yüklenen Teknik Çizim Dosyaları</span>
-        </div>
-        <div class="card-body">
-            @if(isset($proje) && $proje->files->count() > 0)
-            <div class="row">
-                @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
-                <div>
-                    <div class="file-card">
-                        <div class="product-header">
-                            <h5 class="product-title">{{ $file->file_name }}</h5>
+                            <!-- Dosya Listesi -->
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-md-12">
+                                    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                                        <div class="card-header">
+                                            <span class="h5 m-0">Genel Dosyalar</span>
+                                        </div>  
+                                        <div class="card-body">
+                                            @if(isset($proje) && $proje->files->count() > 0)
+                                            <div class="row">
+                                                @foreach($proje->files->where('file_type', 'general') as $file)
+                                                <div>
+                                                    <div class="file-card">
+                                                        <div class="product-header">
+                                                            <h5 class="product-title">{{ $file->file_name }}</h5>
+                                                        </div>
+                                                        <div class="product-info d-flex justify-content-around align-items-center">
+                                                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                            @else
+                                            <p>Yüklenen dosya yok.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-md-12">
+                                    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                                        <div class="card-header">
+                                            <span class="h5 m-0">Yüklenen Teknik Çizim Dosyaları</span>
+                                            <!-- Teknik Çizim Dosyası Yükleme Butonu -->
+                                            <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadTechnicalDrawingForm">
+                                                Teknik Çizim Dosyası Yükle
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Teknik Çizim Dosyası Yükleme Formu -->
+                                            <div id="uploadTechnicalDrawingForm" class="collapse">
+                                                <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                                                    <input type="hidden" name="file_type" value="technical_drawing">
+                                                    <div class="form-group">
+                                                        <label>Teknik Çizim Dosyası Yükle</label>
+                                                        <input id="file-upload-technical" type="file" name="file" class="form-control-file">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                        
+                                            <!-- Yüklenen Teknik Çizim Dosyaları Listesi -->
+                                            @if(isset($proje) && $proje->files->count() > 0)
+                                            <div class="row">
+                                                @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
+                                                <div>
+                                                    <div class="file-card">
+                                                        <div class="product-header">
+                                                            <h5 class="product-title">{{ $file->file_name }}</h5>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                            @else
+                                            <p>Yüklenen dosya yok.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="product-info">
-                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @else
-            <p>Yüklenen dosya yok.</p>
-            @endif
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
+ 
 
 <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
 @if(isset($proje->notlar) && $proje->notlar->count() > 0)
@@ -611,6 +632,55 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+
+$(document).ready(function () {
+        $("#file-upload").fileinput({
+            theme: 'fa',
+            allowedFileExtensions: ['xlsx', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'dwg', 'pdf', 'zip'],
+            maxFileSize: 8192,
+            showUpload: false,
+            showRemove: false,
+            dropZoneEnabled: false,
+            fileActionSettings: {
+                showZoom: false,
+                showRemove: false,
+            },
+            layoutTemplates: {
+                main1: '{preview}\n' +
+                    '<div class="input-group {class}">\n' +
+                    '   <div class="input-group-prepend">\n' +
+                    '       <span class="input-group-text"><i class="fa fa-upload"></i></span>\n' +
+                    '   </div>\n' +
+                    '   <div class="form-control file-caption {class}">\n' +
+                    '       <span class="file-caption-icon"></span>\n' +
+                    '       <input class="file-caption-name" placeholder="{caption}" readonly>\n' +
+                    '   </div>\n' +
+                    '   <div class="input-group-append">\n' +
+                    '       <button type="button" tabindex="500" title="{removeTitle}" class="btn btn-default fileinput-remove fileinput-remove-button"><i class="fa fa-trash"></i></button>\n' +
+                    '   </div>\n' +
+                    '</div>',
+                main2: '{preview}\n' +
+                    '<div class="input-group {class}">\n' +
+                    '   <div class="input-group-prepend">\n' +
+                    '       <span class="input-group-text"><i class="fa fa-upload"></i></span>\n' +
+                    '   </div>\n' +
+                    '   <div class="form-control file-caption {class}">\n' +
+                    '       <span class="file-caption-icon"></span>\n' +
+                    '       <input class="file-caption-name" placeholder="{caption}" readonly>\n' +
+                    '   </div>\n' +
+                    '   <div class="input-group-append">\n' +
+                    '       <button type="button" tabindex="500" title="{removeTitle}" class="btn btn-default fileinput-remove fileinput-remove-button"><i class="fa fa-trash"></i></button>\n' +
+                    '   </div>\n' +
+                    '</div>',
+            },
+        });
+    });     
+
+
+
+
+
+
     // Dosya önizleme modalı açma fonksiyonu
     function showFilePreview(url) {
         $('#filePreviewIframe').attr('src', url);
@@ -717,6 +787,7 @@
                 icon: 'success'
             });
          @endif  
+
 
         </script>   
 @endsection

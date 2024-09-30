@@ -111,8 +111,8 @@ class ProjectController extends Controller
     // Süreç sırası dizisi
     $sira = [
         'Yeni Proje',
-        'Proje Onaylandı',
         'Teknik Çizimler Yapıldı',
+        'Proje Onaylandı',
         'Üretime Gönderildi',
         'Sevk İçin Hazır',
         'Sevk Edildi'

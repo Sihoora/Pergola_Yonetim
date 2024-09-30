@@ -146,7 +146,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="RalKodu">Ral Kodu</label>
-        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder=" Ral Kodu...">
+        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}"  class="form-control" placeholder=" Ral Kodu...">
         <datalist id="RalKoduOptions">
           <option value="09418 07016">
           <option value="09418 05005">

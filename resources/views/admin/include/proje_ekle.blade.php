@@ -138,56 +138,64 @@
 
 
                                         <form role="form" id="projeForm"
-                                            action="{{ isset($proje) ? route('proje.update', $proje->id) : route('proje.store') }}"
-                                            method="post"> @csrf
-                                            @if(isset($proje))
-                                            @method('PUT')
-                                            @endif
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Proje Kodu</label>
-                                                        <input type="text" name="proje_kodu" class="form-control"
-                                                            value="{{ isset($proje) ? $proje->proje_kodu : '' }}"
-                                                            placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Proje Adı</label>
-                                                        <input type="text" name="proje_adi" class="form-control"
-                                                            value="{{ isset($proje) ? $proje->proje_adi : '' }}"
-                                                            placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Müşteri</label>
-                                                        <input type="text" name="musteri" class="form-control"
-                                                            value="{{ isset($proje) ? $proje->musteri : '' }}"
-                                                            placeholder="Enter ...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Teslim Tarihi:</label>
-                                                        <div class="input-group date"
-                                                            data-target-input="nearest">
-                                                            <input type="text" name="teslim_tarihi"
-                                                                class="form-control"
-                                                                value="{{ isset($proje) ? $proje->teslim_tarihi : '' }}"
-                                                                placeholder="Enter ..."
-                                                                />
-                                                            <div class="input-group-append"                                                            
-                                                               >
-                                                                <div class="input-group-text"><i
-                                                                        class="fa fa-calendar"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        action="{{ isset($proje) ? route('proje.update', $proje->id) : route('proje.store') }}"
+                                        method="post"> 
+                                      @csrf
+                                      @if(isset($proje))
+                                          @method('PUT')
+                                      @endif
+                                      <div class="row">
+                                          <div class="col-sm-3">
+                                              <div class="form-group">
+                                                  <label>Proje Kodu</label>
+                                                  <input type="text" name="proje_kodu" class="form-control @error('proje_kodu') is-invalid @enderror"
+                                                         value="{{ old('proje_kodu', isset($proje) ? $proje->proje_kodu : '') }}"
+                                                         placeholder="Proje Kodu Giriniz">
+                                                  @error('proje_kodu')
+                                                  <div class="invalid-feedback">{{ $message }}</div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                              <div class="form-group">
+                                                  <label>Proje Adı</label>
+                                                  <input type="text" name="proje_adi" class="form-control @error('proje_adi') is-invalid @enderror"
+                                                         value="{{ old('proje_adi', isset($proje) ? $proje->proje_adi : '') }}"
+                                                         placeholder="Proje Adı Giriniz">
+                                                  @error('proje_adi')
+                                                  <div class="invalid-feedback">{{ $message }}</div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                              <div class="form-group">
+                                                  <label>Müşteri</label>
+                                                  <input type="text" name="musteri" class="form-control @error('musteri') is-invalid @enderror"
+                                                         value="{{ old('musteri', isset($proje) ? $proje->musteri : '') }}"
+                                                         placeholder="Müşteri Giriniz">
+                                                  @error('musteri')
+                                                  <div class="invalid-feedback">{{ $message }}</div>
+                                                  @enderror
+                                              </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                              <div class="form-group">
+                                                  <label>Teslim Tarihi:</label>
+                                                  <div class="input-group date" data-target-input="nearest">
+                                                      <input type="text" name="teslim_tarihi" class="form-control @error('teslim_tarihi') is-invalid @enderror"
+                                                             value="{{ old('teslim_tarihi', isset($proje) ? $proje->teslim_tarihi : '') }}"
+                                                             placeholder="Tarih Giriniz">
+                                                      <div class="input-group-append">
+                                                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                      </div>
+                                                      @error('teslim_tarihi')
+                                                      <div class="invalid-feedback">{{ $message }}</div>
+                                                      @enderror
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
                                     </div>
                                 </div>
                             </div>

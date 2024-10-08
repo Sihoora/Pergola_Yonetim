@@ -1,9 +1,9 @@
 @extends('admin.tema')
 
 @section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
 <style>
-
-
 .product-card {
         width: 100%; /* Kartın genişliğini ayarlayın */
         margin-top: 10px; 
@@ -135,8 +135,6 @@
                                     <div class="card-header"></div>
                                     <div class="card-body">
 
-
-
                                         <form role="form" id="projeForm"
                                         action="{{ isset($proje) ? route('proje.update', $proje->id) : route('proje.store') }}"
                                         method="post"> 
@@ -148,12 +146,10 @@
                                           <div class="col-sm-3">
                                               <div class="form-group">
                                                   <label>Proje Kodu</label>
-                                                  <input type="text" name="proje_kodu" class="form-control @error('proje_kodu') is-invalid @enderror"
-                                                         value="{{ old('proje_kodu', isset($proje) ? $proje->proje_kodu : '') }}"
-                                                         placeholder="Proje Kodu Giriniz">
-                                                  @error('proje_kodu')
-                                                  <div class="invalid-feedback">{{ $message }}</div>
-                                                  @enderror
+                                                  <input type="text" name="proje-kodu" class="form-control"
+                                                         value="{{ isset($proje) ? $proje->proje_kodu : $newProjectCode }}"
+                                                         placeholder="Proje Kodu Giriniz" disabled>
+                                                         <input type="hidden" name="proje_kodu" value="{{ isset($proje) ? $proje->proje_kodu : $newProjectCode }}">
                                               </div>
                                           </div>
                                           <div class="col-sm-3">
@@ -179,21 +175,21 @@
                                               </div>
                                           </div>
                                           <div class="col-sm-3">
-                                              <div class="form-group">
-                                                  <label>Teslim Tarihi:</label>
-                                                  <div class="input-group date" data-target-input="nearest">
-                                                      <input type="text" name="teslim_tarihi" class="form-control @error('teslim_tarihi') is-invalid @enderror"
-                                                             value="{{ old('teslim_tarihi', isset($proje) ? $proje->teslim_tarihi : '') }}"
-                                                             placeholder="Tarih Giriniz">
-                                                      <div class="input-group-append">
-                                                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                      </div>
-                                                      @error('teslim_tarihi')
-                                                      <div class="invalid-feedback">{{ $message }}</div>
-                                                      @enderror
-                                                  </div>
-                                              </div>
-                                          </div>
+                                            <div class="form-group">
+                                                <label>Teslim Tarihi:</label>
+                                                <div class="input-group date" id="datepicker" data-target-input="nearest">
+                                                    <input type="text" name="teslim_tarihi" class="form-control @error('teslim_tarihi') is-invalid @enderror"
+                                                           value="{{ old('teslim_tarihi', isset($proje) ? \Carbon\Carbon::parse($proje->teslim_tarihi)->format('d/m/Y') : '') }}"
+                                                           placeholder="Gün/Ay/Yıl Formatında Tarih Giriniz">
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                    @error('teslim_tarihi')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
                                       </div>
                                   </form>
                                     </div>
@@ -286,10 +282,7 @@
                                 </div>
                             </div>
                         </form>
-
-
-
-                                            </div>
+                    </div>
                     
                                             <!-- Eklenen Ürünler Tabı -->
                                             <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
@@ -304,10 +297,7 @@
                                                                     </div>
                                                                 <div class="product-info d-flex flex-wrap">
                                                                     
-                                                                    <div class="product-info-item">
-                                                                        <strong>Ral Kodu</strong>
-                                                                        <p>{{ $urun->ral_kodu }}</p>
-                                                                    </div>
+
                                                                     <div class="product-info-item">
                                                                         <strong>En</strong>
                                                                         <p>{{ $urun->en }}</p>
@@ -315,6 +305,10 @@
                                                                     <div class="product-info-item">
                                                                         <strong>Boy</strong>
                                                                         <p>{{ $urun->boy }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Ral Kodu</strong>
+                                                                        <p>{{ $urun->ral_kodu }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Kumaş Cinsi</strong>
@@ -329,6 +323,22 @@
                                                                         <p>{{ $urun->led_model }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
+                                                                        <strong>Led Dizilim</strong>
+                                                                        <p>{{ $urun->led_dizilim }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Led Adet</strong>
+                                                                        <p>{{ $urun->led_adet }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Led Model</strong>
+                                                                        <p>{{ $urun->led_alıcı}}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Motor Model</strong>
+                                                                        <p>{{ $urun->motor_model }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
                                                                         <strong>Motor Model</strong>
                                                                         <p>{{ $urun->motor_model }}</p>
                                                                     </div>
@@ -341,8 +351,28 @@
                                                                         <p>{{ $urun->flans }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
+                                                                        <strong>Kompozit Ral</strong>
+                                                                        <p>{{ $urun->kompozit_ral }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
                                                                         <strong>Arka Çelik</strong>
                                                                         <p>{{ $urun->arka_celik }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Arka Çelik İçin Not</strong>
+                                                                        <p>{{ $urun->arka_celik_not }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Taşıyıcı Çelik Ayak</strong>
+                                                                        <p>{{ $urun->taşıyıcı_çelik_ayak }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Çelik Ayak Model</strong>
+                                                                        <p>{{ $urun->çelik_ayak_model }}</p>
+                                                                    </div>
+                                                                    <div class="product-info-item">
+                                                                        <strong>Taşıyıcı Çelik Not</strong>
+                                                                        <p>{{ $urun->taşıyıcı_çelik_not }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -416,21 +446,51 @@
                 </div>
             </div>
         </div>
-        <!-- End of File upload form -->
+
+
+<!-- Notlar Kartı -->
+<div class="col-md-8 "> <!-- Notlar Kartını ekliyoruz -->
+    <div class="card card-primary card-outline" style="margin-top:-20px">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Sipariş Notları</h5>
+        </div>
+        <div class="card-body">
+            <ul class="todo-list" data-widget="todo-list">
+                <!-- Dinamik Notlar -->
+                @if($proje->notlar->count() == 0)
+                    <li class="done" style="border: 0.1rem solid;">
+                        <span>
+                            <i class="fa fa-sticky-note"></i>
+                        </span>
+                        <div class="icheck-primary d-inline"></div>
+                        <span class="text">Sipariş notu bulunmamaktadır.</span>
+                        <div class="tools">
+                        </div>
+                    </li>
+                @endif  
+                @foreach($proje->notlar as $note)
+                    @if($note->is_order_note == 1) 
+                        <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
+                            <span>
+                                <i class="fa fa-sticky-note"></i>
+                            </span>
+                            <div class="icheck-primary d-inline"></div>
+                            <span class="text">{{ $note->not }}</span>
+                            <div class="tools">
+                            </div>
+                        </li>
+                    @endif
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>
+
     </div>
 
 
 
-@else   
-              
 
-<!-- // HATA MESAJI GÖZÜKMÜYOR.
-    // PROJE KODU VE TESLİM TARİHİ FORMAT YAPILANDIRMASI YAPILMALI.
-    // YİELD İNCLUDE İLE PROJE EKLEME FORMU OLUŞTURULMALI.
-
-
-
--->
 
 
 
@@ -641,8 +701,23 @@
                 }
             });
         });
-
-
-
 </script>
+
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<!-- Bootstrap Datepicker Türkçe Dil Ayarı -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#datepicker').datepicker({
+            format: 'dd/mm/yyyy', // Gün/Ay/Yıl formatı
+            language: 'tr', // Türkçe dil desteği
+            autoclose: true, // Tarih seçildiğinde otomatik kapanması
+            todayHighlight: true // Bugün tarihini vurgulama
+        });
+    });
+</script>
+
+
 @endsection

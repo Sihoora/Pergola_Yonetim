@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 
     // Proje ekleme sayfası
-    Route::get('/dashboard/proje_ekle', [DashboardController::class, "index"])->name('proje_ekle');
+    Route::get('/dashboard/proje_ekle', [ProjectController::class, "create"])->name('proje_ekle');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 

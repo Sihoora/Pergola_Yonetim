@@ -40,7 +40,7 @@
             <li class="nav-item">
               <a href="{{route('proje-liste')}}" class="nav-link">
                 <i class="fa fa-list-ul nav-icon"></i>
-                <p>İmalat Projeleri</p>
+                <p>Proje Yönetim</p>
               </a>
             </li>
             @endcan

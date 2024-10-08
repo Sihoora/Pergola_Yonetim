@@ -47,5 +47,11 @@ class Project extends Model
     {   
         return $this->hasMany(ProjectNote::class, 'proje_id');
     }
+
+    // UretimMalzeme modeli ile ilişki
+    public function uretimMalzemeleri()
+    {
+        return $this->hasMany(UretimMalzeme::class, 'proje_id');
+    }
     
 }

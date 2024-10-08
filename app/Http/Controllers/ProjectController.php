@@ -10,6 +10,7 @@ use App\Models\ProjectNote;
 use App\HTTP\Controllers\ProductController;
 use App\HTTP\Controllers\FileController;
 use PDF;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -22,42 +23,89 @@ class ProjectController extends Controller
 
     public function create()
     {
-        return view('proje_ekle');
+        // Son projeyi al ve proje kodunu oluştur
+        $lastProject = Project::orderBy('id', 'desc')->first();
+    
+        // Eğer veritabanında bir proje varsa, proje kodunun sırasını bul ve artır
+        if ($lastProject) {
+            // Proje kodunu parçala (Proje sırası - Yıl - 00)
+            $lastProjectCode = $lastProject->proje_kodu;
+            $lastProjectNumber = intval(substr($lastProjectCode, 0, strpos($lastProjectCode, '-'))); // Sıra numarasını çek
+            $newProjectNumber = $lastProjectNumber + 1; // 1 arttır
+        } else {
+            // Eğer hiç proje yoksa ilk proje kodunu 1 yap
+            $newProjectNumber = 1;
+        }
+    
+        // Yıl bilgisini al
+        $currentYear = date('Y');
+    
+        // Yeni proje kodunu formatta oluştur (Proje sırası - Yıl - 00)
+        $newProjectCode = $newProjectNumber . '-' . $currentYear . '-00';
+    
+        // Proje oluşturma sayfasına yeni proje kodunu gönder
+        return view('admin.include.proje_ekle', compact('newProjectCode'));
     }
+
 
     public function store(Request $request)
     {
-        
+        // Validasyon işlemi
         $validatedData = $request->validate([
-            'proje_kodu' => 'required|string|max:255|unique:proje_ekle,proje_kodu',
             'proje_adi' => 'required|string|max:255',
-            'musteri' => 'required|string|max:255', 
-            'teslim_tarihi' => 'required|string|max:255',
+            'musteri' => 'required|string|max:255',
+            'teslim_tarihi' => 'required|date_format:d/m/Y', // Gün/Ay/Yıl formatını zorunlu kıl
+
         ]);
+    
+        $teslim_tarihi = Carbon::createFromFormat('d/m/Y', $request->teslim_tarihi)->format('Y-m-d');
 
-        $proje = Project::create($request->all());
-        $proje->proje_kodu = $validatedData['proje_kodu'];
-        $proje->proje_adi = $validatedData['proje_adi'];
-        $proje->musteri = $validatedData['musteri'];
-        $proje->teslim_tarihi = $validatedData['teslim_tarihi'];
-
-   
-        $proje->save();
-
+        // Son projeyi al ve proje sırasını arttır
+        $lastProject = Project::orderBy('id', 'desc')->first();
+    
+        // Eğer veritabanında bir proje varsa, proje kodunun sırasını bul ve artır
+        if ($lastProject) {
+            // Proje kodunu parçala (Proje sırası - Yıl - 00)
+            $lastProjectCode = $lastProject->proje_kodu;
+            $lastProjectNumber = intval(substr($lastProjectCode, 0, strpos($lastProjectCode, '-'))); // Sıra numarasını çek
+            $newProjectNumber = $lastProjectNumber + 1; // 1 arttır
+        } else {
+            // Eğer hiç proje yoksa ilk proje kodunu 1 yap
+            $newProjectNumber = 1;
+        }
+    
+        // Yıl bilgisini al
+        $currentYear = date('Y');
+    
+        // Yeni proje kodunu formatta oluştur (Proje sırası - Yıl - 00)
+        $newProjectCode = $newProjectNumber . '-' . $currentYear . '-00';
+    
+        // Yeni projeyi oluştur ve veritabanına kaydet
+        try {
+            $proje = Project::create([
+                'proje_kodu' => $newProjectCode, // Oluşturulan proje kodunu kullan
+                'proje_adi' => $validatedData['proje_adi'],
+                'musteri' => $validatedData['musteri'],
+                'teslim_tarihi' => $validatedData['teslim_tarihi'],
+            ]);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Proje oluşturulurken bir hata oluştu: ' . $e->getMessage());
+        }
+    
+        // Sabit notları ekle
         $this->ekleSabitNotlar($proje->id);
-
+    
+        // Başarılı mesajı ile yönlendirme
         return redirect()->route('proje.edit', $proje->id)->with('success', 'Proje başarıyla eklendi. Şimdi ürün ekleyebilirsiniz.');
-
-        
     }
-
     
     public function ekleSabitNotlar($project_id)
 {
     $sabit_notlar = [
       'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
-                        'Proje Onaylandı' => ['Proje onayı alındı.','Deneme Sabit Not' ],
                         'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
+                        'Proje Onaylandı' => ['Proje onayı alındı.','Deneme Sabit Not' ],
+                        'Proje Ön Hazırlık' => ['Proje ön hazırlık tamamlandı.'],
                         'Üretime Gönderildi' => ['Üretim süreci başlatıldı.'],
                         'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
                         'Sevk Edildi' => ['Ürünler sevk edildi.', 'Proje tamamlandı.']
@@ -113,6 +161,7 @@ class ProjectController extends Controller
         'Yeni Proje',
         'Teknik Çizimler Yapıldı',
         'Proje Onaylandı',
+        'Proje Ön Hazırlık',
         'Üretime Gönderildi',
         'Sevk İçin Hazır',
         'Sevk Edildi'
@@ -121,8 +170,9 @@ class ProjectController extends Controller
     // Süreç ile Durum eşleşmesi
     $durumEslesmesi = [
         'Yeni Proje' => 'BEKLETİLEN PROJELER',
-        'Proje Onaylandı' => 'BEKLETİLEN PROJELER',
         'Teknik Çizimler Yapıldı' => 'ÜRETİMİ DEVAM EDEN PROJELER',
+        'Proje Onaylandı' => 'BEKLETİLEN PROJELER',
+        'Proje Ön Hazırlık' => 'BEKLETİLEN PROJELER',
         'Üretime Gönderildi' => 'ÜRETİMİ DEVAM EDEN PROJELER',
         'Sevk İçin Hazır' => 'SEVK İÇİN HAZIR PROJELER',
         'Sevk Edildi' => 'SEVK EDİLMİŞ PROJELER',

@@ -27,3 +27,16 @@
     * - proje ekle sayfasına sipariş notu ekleme özelliği getirildi.
     * - proje detay sayfasında bazı iyileştirmeler yapıldı.
  */
+
+
+/* 
+    * v0.0.3
+    * Emirhan Gedik
+    * 08-10-2024
+    * 
+    * Versiyon Aciklamasi:
+    * - proje ekle sayfasında kullanıcı deneyimini artırmak için bazı düzenlemeler yapıldı.
+    * - proje ekle sayfasına Sipariş notu listelemesi eklendi.
+    * - Üretim malzeme listesi, Montaj malzeme listesi, Depo&Sevkiyat, Proje İçin ilave siparişler alanı eklendi.
+    * - Oluşturulma tarihi eklendi.
+ */

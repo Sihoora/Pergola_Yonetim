@@ -202,6 +202,7 @@
                         'Yeni Proje',
                         'Teknik Çizimler Yapıldı',
                         'Proje Onaylandı',
+                        'Proje Ön Hazırlık', 
                         'Üretime Gönderildi',
                         'Sevk İçin Hazır',
                         'Sevk Edildi'
@@ -210,6 +211,7 @@
                         'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
                         'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
                         'Proje Onaylandı' => ['Proje onayı alındı.', 'Deneme Sabit Not'],
+                        'Proje Ön Hazırlık' => ['Proje için ön hazırlıklar yapıldı.'],
                         'Üretime Gönderildi' => ['Üretim süreci başlatıldı.'],
                         'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
                         'Sevk Edildi' => ['Ürünler sevk edildi.', 'Proje tamamlandı.']
@@ -316,311 +318,557 @@
 </div> 
 
 
-
 <!-- Proje Detayları -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-primary card-outline">
-                    <div class="card-header"></div>
-                    <div class="card-body">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header"></div>
+            <div class="card-body">
 
-
-                        <div class="row" style="margin-top:20px;">
-                            <div class="col-md-12">
-                                <div class="card card-primary">
-                                    <div class="card-header"></div>
-                                    <div class="card-body">
-                                        <form role="form" action="#" method="post">
-                                            @csrf
-                                            @if(isset($proje))
-                                            @method('PUT')
-                                            @endif
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Proje Kodu</label>
-                                                        <input type="text" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Proje Adı</label>
-                                                        <input type="text" name="proje_adi" class="form-control" value="{{ isset($proje) ? $proje->proje_adi : '' }}" placeholder="Enter ..." disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Müşteri</label>
-                                                        <input type="text" name="musteri" class="form-control" value="{{ isset($proje) ? $proje->musteri : '' }}" placeholder="Enter ..." disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Teslim Tarihi:</label>
-                                                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                            <input type="text" name="teslim_tarihi" class="form-control datetimepicker-input" value="{{ isset($proje) ? $proje->teslim_tarihi : '' }}" data-target="#reservationdate" disabled />
-                                                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                                    <!-- Üretim Emri Oluştur -->
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header"></div>
+                            <div class="card-body">
+                                <form role="form" action="#" method="post">
+                                    @csrf
+                                    @if(isset($proje))
+                                    @method('PUT')
+                                    @endif
                                     <div class="row">
-                                       
-                                        <div class="col-12" style="align-items: right; text-align: right;">
-                                            @can('view projects')
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                                                <i class="fa fa-cog" style="margin-right: 5px;"></i> Üretim Emri Oluştur
-                                            </button>
-                                        @endcan
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
-                                                <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
-                                            </button>
-                                    
-                                            <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('proje.pdf', $proje->id) }}'">
-                                                <i class="fa fa-file-pdf-o" style="margin-right: 5px;"></i> PDF Oluştur
-                                            </button>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Proje Kodu</label>
+                                                <input type="text" name="proje_kodu" class="form-control" value="{{ isset($proje) ? $proje->proje_kodu : '' }}" placeholder="Enter ..." disabled>
+                                            </div>
                                         </div>
-                                    </div>
-
-
-
-                        <!-- Nav Tabs -->
-                       <div> 
-                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Proje Detayı</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
-                            </li>
-                        </ul>
-                        
-                        <!-- Tab Content -->
-                        <div class="tab-content" id="custom-tabs-one-tabContent">
-                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                <!-- Proje Detayı -->
-                                <div class="card-body pad table-responsive"  style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                                        
-                                        <!-- Ürün Bilgileri -->
-                                        <div class="col-md-8" style="border-right:2px solid #dee2e6">
-                                            <h5 class="details-header-text">ÜRÜNLER</h5>
-                                            @foreach($proje->urunler as $urun)
-                                            <div class="col-md-12">
-                                                <div class="product-card border-dark mb-1">
-                                                    <div class="product-header">
-                                                        <h5 class="product-title">{{ $urun->urun_name }}</h5>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="product-info-item">
-                                                            <strong>Ral Kodu</strong>
-                                                            <p>{{ $urun->ral_kodu }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>En</strong>
-                                                            <p>{{ $urun->en }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Boy</strong>
-                                                            <p>{{ $urun->boy }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Kumaş Cinsi</strong>
-                                                            <p>{{ $urun->kumas_cinsi }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Kumaş Profil Ral</strong>
-                                                            <p>{{ $urun->kumas_profil_ral }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Led Model</strong>
-                                                            <p>{{ $urun->led_model }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Motor Model</strong>
-                                                            <p>{{ $urun->motor_model }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Kumanda</strong>
-                                                            <p>{{ $urun->kumanda }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Flanş</strong>
-                                                            <p>{{ $urun->flans }}</p>
-                                                        </div>
-                                                        <div class="product-info-item">
-                                                            <strong>Arka Çelik</strong>
-                                                            <p>{{ $urun->arka_celik }}</p>
-                                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Proje Adı</label>
+                                                <input type="text" name="proje_adi" class="form-control" value="{{ isset($proje) ? $proje->proje_adi : '' }}" placeholder="Enter ..." disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Müşteri</label>
+                                                <input type="text" name="musteri" class="form-control" value="{{ isset($proje) ? $proje->musteri : '' }}" placeholder="Enter ..." disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Oluşturulma Tarihi:</label>
+                                                <input type="text" name="created_at" class="form-control" value="{{ isset($proje) ? $proje->created_at : '' }}" placeholder="Enter ..." disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Teslim Tarihi:</label>
+                                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                    <input type="text" name="teslim_tarihi" class="form-control datetimepicker-input" value="{{ old('teslim_tarihi', isset($proje) ? \Carbon\Carbon::parse($proje->teslim_tarihi)->format('d/m/Y') : '') }}" data-target="#reservationdate" disabled />
+                                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            @endforeach
                                         </div>
+                                    </div>
+                                </form>
+                            </div> <!-- /.card-body -->
+                        </div> <!-- /.card -->
+                    </div> <!-- /.col-md-12 -->
+                </div> <!-- /.row -->
 
-                                        <!-- Notlar -->
-                                        <div class="col-md-4">
-                                            <h5 class="details-header-text">NOTLAR</h5>
-                                            <ul class="todo-list" data-widget="todo-list" >
-                                                <!-- Dinamik Notlar -->
-                                                @foreach($proje->notlar as $note)
-                                                    @if($note->surec == $proje->surec) 
-                                                        <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
-                                                            <span>
-                                                                <i class="fa fa-sticky-note"></i>
-                                                            </span>
-                                                            <div class="icheck-primary d-inline"></div>
-                                                            <span class="text">{{ $note->not }}</span>
-                                                            <div class="tools">
-                                                            </div>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </div> 
+                <!-- Üretim Emri Oluştur -->
+                <div class="row">
+                    <div class="col-12" style="align-items: right; text-align: right;">
+                        @can('view projects')
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                            <i class="fa fa-cog" style="margin-right: 5px;"></i> Üretim Emri Oluştur
+                        </button>
+                        @endcan
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
+                            <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
+                        </button>
+
+                        <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('proje.pdf', $proje->id) }}'">
+                            <i class="fa fa-file-pdf-o" style="margin-right: 5px;"></i> PDF Oluştur
+                        </button>
+                    </div>
+                </div>
+
+<!-- Nav Tabs -->
+<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist" style="margin-top: 20px;">
+    <li class="nav-item">
+        <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Proje Detayı</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-uretim-malzeme-tab" data-toggle="pill" href="#custom-tabs-one-uretim-malzeme" role="tab" aria-controls="custom-tabs-one-uretim-malzeme" aria-selected="false">Üretim Malzeme Listesi</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-montaj-malzeme-tab" data-toggle="pill" href="#custom-tabs-one-montaj-malzeme" role="tab" aria-controls="custom-tabs-one-montaj-malzeme" aria-selected="false">Montaj Malzeme Listesi</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-depo-sevkiyat-tab" data-toggle="pill" href="#custom-tabs-one-depo-sevkiyat" role="tab" aria-controls="custom-tabs-one-depo-sevkiyat" aria-selected="false">Depo & Sevkiyat</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="custom-tabs-one-ilave-siparisler-tab" data-toggle="pill" href="#custom-tabs-one-ilave-siparisler" role="tab" aria-controls="custom-tabs-one-ilave-siparisler" aria-selected="false">Proje İçin İlave Siparişler</a>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="custom-tabs-one-tabContent">
+    <!-- Proje Detayı Tab İçeriği -->
+    <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+        <!-- Proje Detayı -->
+        <div class="card-body pad table-responsive" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <!-- Ürün Bilgileri -->
+            <div class="col-md-8" style="border-right:2px solid #dee2e6">
+                <h5 class="details-header-text">ÜRÜNLER</h5>
+                @foreach($proje->urunler as $urun)
+                <div class="col-md-12">
+                    <div class="product-card border-dark mb-1">
+                        <div class="product-header">
+                            <h5 class="product-title">{{ $urun->urun_name }}</h5>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-info-item">
+                                <strong>Ral Kodu</strong>
+                                <p>{{ $urun->ral_kodu }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>En</strong>
+                                <p>{{ $urun->en }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Boy</strong>
+                                <p>{{ $urun->boy }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Kumaş Cinsi</strong>
+                                <p>{{ $urun->kumas_cinsi }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Kumaş Profil Ral</strong>
+                                <p>{{ $urun->kumas_profil_ral }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Led Model</strong>
+                                <p>{{ $urun->led_model }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Motor Model</strong>
+                                <p>{{ $urun->motor_model }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Kumanda</strong>
+                                <p>{{ $urun->kumanda }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Flanş</strong>
+                                <p>{{ $urun->flans }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Arka Çelik</strong>
+                                <p>{{ $urun->arka_celik }}</p>
                             </div>
                         </div>
-
-                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-
-                            <!-- Dosya Listesi -->
-                            <div class="row" style="margin-top: 30px;">
-                                <div class="col-md-12">
-                                    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
-                                        <div class="card-header">
-                                            <span class="h5 m-0">Genel Dosyalar</span>
-                                        </div>  
-                                        <div class="card-body">
-                                            @if(isset($proje) && $proje->files->count() > 0)
-                                            <div class="row">
-                                                @foreach($proje->files->where('file_type', 'general') as $file)
-                                                <div>
-                                                    <div class="file-card">
-                                                        <div class="product-header">
-                                                            <h5 class="product-title">{{ $file->file_name }}</h5>
-                                                        </div>
-                                                        <div class="product-info d-flex justify-content-around align-items-center">
-                                                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                                                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                            @else
-                                            <p>Yüklenen dosya yok.</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <div class="row" style="margin-top: 30px;">
-                                <div class="col-md-12">
-                                    <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
-                                        <div class="card-header">
-                                            <span class="h5 m-0">Yüklenen Teknik Çizim Dosyaları</span>
-                                            <!-- Teknik Çizim Dosyası Yükleme Butonu -->
-                                            <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadTechnicalDrawingForm">
-                                                Teknik Çizim Dosyası Yükle
-                                            </button>
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- Teknik Çizim Dosyası Yükleme Formu -->
-                                            <div id="uploadTechnicalDrawingForm" class="collapse">
-                                                <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
-                                                    <input type="hidden" name="file_type" value="technical_drawing">
-                                                    <div class="form-group">
-                                                        <label>Teknik Çizim Dosyası Yükle</label>
-                                                        <input id="file-upload-technical" type="file" name="file" class="form-control-file">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                        
-                                            <!-- Yüklenen Teknik Çizim Dosyaları Listesi -->
-                                            @if(isset($proje) && $proje->files->count() > 0)
-                                            <div class="row">
-                                                @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
-                                                <div>
-                                                    <div class="file-card">
-                                                        <div class="product-header">
-                                                            <h5 class="product-title">{{ $file->file_name }}</h5>
-                                                        </div>
-                                                        <div class="product-info">
-                                                            <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                                                            <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                            @else
-                                            <p>Yüklenen dosya yok.</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
- 
-
-<div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-@if(isset($proje->notlar) && $proje->notlar->count() > 0)
-    <!-- SÜREÇ NOTLARI -->
-    <div class="card" style="margin-top: 15px;">
-        <div class="card-header">
-            <h3 class="card-title">
-                <i class="ion ion-clipboard mr-1"></i>
-                Üretim Emirleri ve Süreç Notları
-            </h3>
-        </div>
-        <div class="card-body">
-            <ul class="todo-list" data-widget="todo-list">
-                <!-- Dinamik Notlar -->
-                @foreach($proje->notlar as $note)
-                    @if($note->surec == $proje->surec) 
-                        <li class="@if($note->checked) done @endif">
-                            <span>
-                                <i class="fa fa-sticky-note"></i>
-                            </span>
-                            <div class="icheck-primary d-inline ml-2">
-                                <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
-                                <label for="todoCheck{{ $note->id }}"></label>
-                            </div>
-                            <span class="text">{{ $note->not }}</span>
-                            <div class="tools">
-                            </div>
-                        </li>
-                    @endif
+                    </div>
+                </div>
                 @endforeach
-            </ul>
-        </div>
-        <div class="card-footer clearfix">
-            @can('view projects')
-            <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
-            @endcan
+            </div>
+
+            <!-- Notlar -->
+            <div class="col-md-4">
+                <h5 class="details-header-text">NOTLAR</h5>
+                <ul class="todo-list" data-widget="todo-list">
+                    <!-- Dinamik Notlar -->
+                    @foreach($proje->notlar as $note)
+                    @if($note->surec == $proje->surec)
+                    <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
+                        <span>
+                            <i class="fa fa-sticky-note"></i>
+                        </span>
+                        <div class="icheck-primary d-inline"></div>
+                        <span class="text">{{ $note->not }}</span>
+                        <div class="tools"></div>
+                    </li>
+                    @endif
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </div>
-@else
-    <p>Üretim emri bulunmamaktadır.</p>
-@endif
 
+    <!-- Dosyalar Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+        
+        <!-- Dosya Listesi -->
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                    <div class="card-header">
+                        <span class="h5 m-0">Sipariş Dosyaları</span>
+                    </div>
+                    <div class="card-body">
+                        @if(isset($proje) && $proje->files->count() > 0)
+                        <div class="row">
+                            @foreach($proje->files->where('file_type', 'general') as $file)
+                            <div class="col-md-4">
+                                <div class="file-card">
+                                    <div class="product-header">
+                                        <h5 class="product-title">{{ $file->file_name }}</h5>
+                                    </div>
+                                    <div class="product-info d-flex justify-content-around align-items-center">
+                                        <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <p>Yüklenen dosya yok.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                    <div class="card-header">
+                        <span class="h5 m-0">İmalat Dosyaları</span>
+                        <!-- Teknik Çizim Dosyası Yükleme Butonu -->
+                        <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadTechnicalDrawingForm">
+                            İmalat Dosyası Yükle
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- Teknik Çizim Dosyası Yükleme Formu -->
+                        <div id="uploadTechnicalDrawingForm" class="collapse">
+                            <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                                <input type="hidden" name="file_type" value="technical_drawing">
+                                <div class="form-group">
+                                    <label>Teknik Çizim Dosyası Yükle</label>
+                                    <input id="file-upload-technical" type="file" name="file" class="form-control-file">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Yüklenen Teknik Çizim Dosyaları Listesi -->
+                        @if(isset($proje) && $proje->files->count() > 0)
+                        <div class="row">
+                            @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
+                            <div class="col-md-4">
+                                <div class="file-card">
+                                    <div class="product-header">
+                                        <h5 class="product-title">{{ $file->file_name }}</h5>
+                                    </div>
+                                    <div class="product-info">
+                                        <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <p>Yüklenen dosya yok.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Üretim Emirleri Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+
+        <!-- Üretim Emirleri İçeriği -->
+        @if(isset($proje->notlar) && $proje->notlar->count() > 0)
+        <!-- SÜREÇ NOTLARI -->
+        <div class="card" style="margin-top: 15px;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="ion ion-clipboard mr-1"></i>
+                    Üretim Emirleri ve Süreç Notları
+                </h3>
+            </div>
+            <div class="card-body">
+                <ul class="todo-list" data-widget="todo-list">
+                    <!-- Dinamik Notlar -->
+                    @foreach($proje->notlar as $note)
+                        @if($note->surec == $proje->surec) 
+                            <li class="@if($note->checked) done @endif">
+                                <span>
+                                    <i class="fa fa-sticky-note"></i>
+                                </span>
+                                <div class="icheck-primary d-inline ml-2">
+                                    <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
+                                    <label for="todoCheck{{ $note->id }}"></label>
+                                </div>
+                                <span class="text">{{ $note->not }}</span>
+                                <div class="tools">
+                                </div>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+            <div class="card-footer clearfix">
+                @can('view projects')
+                <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
+                @endcan
+            </div>
+        </div>
+        @else
+        <p>Üretim emri bulunmamaktadır.</p>
+        @endif
+
+    </div>
+
+    <!-- Üretim Malzeme Listesi Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-uretim-malzeme" role="tabpanel" aria-labelledby="custom-tabs-one-uretim-malzeme-tab">
+           <!-- Üretim Malzeme Listesi Yükleme ve Listeleme -->
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12">
+            <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                <div class="card-header">
+                    <span class="h5 m-0">Üretim Malzeme Listesi</span>
+                    <!-- Malzeme Listesi Dosyası Yükleme Butonu -->
+                    <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadMaterialListForm">
+                        Malzeme Listesi Yükle
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- Malzeme Listesi Dosyası Yükleme Formu -->
+                    <div id="uploadMaterialListForm" class="collapse">
+                        <form id="formMaterialList" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                            <input type="hidden" name="file_type" value="material_list">
+                            <div class="form-group">
+                                <label>Malzeme Listesi Dosyası Yükle</label>
+                                <input id="file-upload-material" type="file" name="file" class="form-control-file">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Yüklenen Malzeme Listesi Dosyaları Listesi -->
+                    @if(isset($proje) && $proje->files->count() > 0)
+                    <div class="row">
+                        @foreach($proje->files->where('file_type', 'material_list') as $file)
+                        <div class="col-md-4">
+                            <div class="file-card">
+                                <div class="product-header">
+                                    <h5 class="product-title">{{ $file->file_name }}</h5>
+                                </div>
+                                <div class="product-info d-flex justify-content-around align-items-center">
+                                    <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                    <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @else
+                    <p>Yüklenen dosya yok.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Montaj Malzeme Listesi Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-montaj-malzeme" role="tabpanel" aria-labelledby="custom-tabs-one-montaj-malzeme-tab">
+        <!-- Montaj Malzeme Listesi İçeriği -->
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                    <div class="card-header">
+                        <span class="h5 m-0">Montaj Malzeme Listesi</span>
+                        <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadMontajListForm">
+                            Montaj Malzeme Yükle
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="uploadMontajListForm" class="collapse">
+                            <form id="formMontajList" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                                <input type="hidden" name="file_type" value="montaj_list">
+                                <div class="form-group">
+                                    <label>Montaj Malzeme Dosyası Yükle</label>
+                                    <input id="file-upload-montaj" type="file" name="file" class="form-control-file">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                </div>
+                            </form>
+                        </div>
+    
+                        <!-- Yüklenen Montaj Malzeme Dosyaları Listesi -->
+                        @if(isset($proje) && $proje->files->count() > 0)
+                        <div class="row">
+                            @foreach($proje->files->where('file_type', 'montaj_list') as $file)
+                            <div class="col-md-4">
+                                <div class="file-card">
+                                    <div class="product-header">
+                                        <h5 class="product-title">{{ $file->file_name }}</h5>
+                                    </div>
+                                    <div class="product-info d-flex justify-content-around align-items-center">
+                                        <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <p>Yüklenen dosya yok.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Depo & Sevkiyat Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-depo-sevkiyat" role="tabpanel" aria-labelledby="custom-tabs-one-depo-sevkiyat-tab">
+        <!-- Depo & Sevkiyat İçeriği -->
+        
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                    <div class="card-header">
+                        <span class="h5 m-0">Depo & Sevkiyat</span>
+                        <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadDepoSevkiyatForm">
+                            Depo/Sevkiyat Dosyası Yükle
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="uploadDepoSevkiyatForm" class="collapse">
+                            <form id="formDepoSevkiyat" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                                <input type="hidden" name="file_type" value="depo_sevkiyat">
+                                <div class="form-group">
+                                    <label>Depo/Sevkiyat Dosyası Yükle</label>
+                                    <input id="file-upload-depo-sevkiyat" type="file" name="file" class="form-control-file">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                </div>
+                            </form>
+                        </div>
+    
+                        <!-- Yüklenen Depo/Sevkiyat Dosyaları Listesi -->
+                        @if(isset($proje) && $proje->files->count() > 0)
+                        <div class="row">
+                            @foreach($proje->files->where('file_type', 'depo_sevkiyat') as $file)
+                            <div class="col-md-4">
+                                <div class="file-card">
+                                    <div class="product-header">
+                                        <h5 class="product-title">{{ $file->file_name }}</h5>
+                                    </div>
+                                    <div class="product-info d-flex justify-content-around align-items-center">
+                                        <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <p>Yüklenen dosya yok.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Proje İçin İlave Siparişler Tab İçeriği -->
+    <div class="tab-pane fade" id="custom-tabs-one-ilave-siparisler" role="tabpanel" aria-labelledby="custom-tabs-one-ilave-siparisler-tab">
+        <!-- İlave Siparişler İçeriği -->
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline" style="border-top: 3px solid orange;">
+                    <div class="card-header">
+                        <span class="h5 m-0">Proje İçin İlave Siparişler</span>
+                        <button class="btn btn-success float-right" data-toggle="collapse" data-target="#uploadIlaveSiparislerForm">
+                            İlave Sipariş Yükle
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="uploadIlaveSiparislerForm" class="collapse">
+                            <form id="formIlaveSiparisler" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
+                                <input type="hidden" name="file_type" value="ilave_siparisler">
+                                <div class="form-group">
+                                    <label>İlave Sipariş Dosyası Yükle</label>
+                                    <input id="file-upload-ilave-siparisler" type="file" name="file" class="form-control-file">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                                </div>
+                            </form>
+                        </div>
+    
+                        <!-- Yüklenen İlave Sipariş Dosyaları Listesi -->
+                        @if(isset($proje) && $proje->files->count() > 0)
+                        <div class="row">
+                            @foreach($proje->files->where('file_type', 'ilave_siparisler') as $file)
+                            <div class="col-md-4">
+                                <div class="file-card">
+                                    <div class="product-header">
+                                        <h5 class="product-title">{{ $file->file_name }}</h5>
+                                    </div>
+                                    <div class="product-info d-flex justify-content-around align-items-center">
+                                        <button type="button" class="btn btn-info flex-grow-1" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-primary flex-grow-1">İndir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <p>Yüklenen dosya yok.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+            </div> <!-- /.card-body -->
+        </div> <!-- /.card -->
+    </div> <!-- /.col-md-12 -->
+</div> <!-- /.row -->
 
 
 @endsection

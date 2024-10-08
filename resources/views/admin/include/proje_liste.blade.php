@@ -74,7 +74,8 @@
                                         <td class="text-left">{{ $proje->proje_kodu }}</td>
                                         <td>{{ $proje->proje_adi }}</td>
                                         <td>{{ $proje->musteri }}</td>
-                                        <td>{{ $proje->teslim_tarihi }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($proje->teslim_tarihi)->format('d/m/Y') }}
+                                        </td>
                                         <td>
                                             @php
                                                 $class = '';

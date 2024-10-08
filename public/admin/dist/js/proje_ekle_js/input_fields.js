@@ -42,7 +42,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
       <div class="form-group">
         <label for="RalKodu">Ral Kodu</label>
-        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}" class="form-control" placeholder=" Ral Kodu...">
+        <input list="RalKoduOptions" id="RalKodu" name="ral_kodu" value="${data ? data.ral_kodu : ''}"  class="form-control" placeholder=" Ral Kodu...">
         <datalist id="RalKoduOptions">
           <option value="09418 07016">
           <option value="09418 05005">
@@ -85,6 +85,33 @@ function getDynamicInputs(selectedValue, data = null) {
         </datalist>
       </div>
 
+            <div class="form-group">
+        <label for="LedModel">Led Dizilim</label>
+        <input list="LedModelOptions" id="LedDizilim" name="led_dizilim" value="${data ? data.led_dizilim : ''}" class="form-control" placeholder=" Led Dizilim...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Led Adet</label>
+        <input list="LedModelOptions" id="Led Adet" name="led_adet" value="${data ? data.led_adet : ''}" class="form-control" placeholder=" Led Adet...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Led Alıcı</label>
+        <input list="LedModelOptions" id="LedAlıcı" name="led_alıcı" value="${data ? data.led_alıcı : ''}" class="form-control" placeholder=" Led Alıcı...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
       <div class="form-group">
         <label for="MotorModel">Motor Model</label>
         <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder=" Motor Model...">
@@ -115,6 +142,15 @@ function getDynamicInputs(selectedValue, data = null) {
         </datalist>
       </div>
 
+            <div class="form-group">
+        <label for="LedModel">Kompozit Ral</label>
+        <input list="LedModelOptions" id="KompozitRal" name="kompozit_ral" value="${data ? data.kompozit_ral : ''}" class="form-control" placeholder=" Kompozit Ral...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
       <div class="form-group">
         <label for="ArkaÇelik">Arka Çelik</label>
         <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder=" Arka Çelik...">
@@ -122,6 +158,42 @@ function getDynamicInputs(selectedValue, data = null) {
           <option value="50 x 150 Demir">
           <option value="100 x 100 Demir">
           <option value="120 x 120 Demir">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Arka Çelik Not</label>
+        <input list="LedModelOptions" id="ArkaÇelikNot" name="arka_celik_not" value="${data ? data.arka_celik_not : ''}" class="form-control" placeholder=" Arka Çelik Not...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Taşıyıcı Çelik Ayak</label>
+        <input list="LedModelOptions" id="TaşıyıcıÇelikAyak" name="tasıyıcı_celik_ayak" value="${data ? data.tasıyıcı_celik_ayak : ''}" class="form-control" placeholder=" Taşıyıcı Çelik Ayak...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Çelik Ayak Model</label>
+        <input list="LedModelOptions" id="ÇelikAyakModel" name="celik_ayak_model" value="${data ? data.celik_ayak_model : ''}" class="form-control" placeholder=" Çelik Ayak Model...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Taşıyıcı Çelik Not</label>
+        <input list="LedModelOptions" id="TaşıyıcıÇelikNot" name="tasıyıcı_celik_not" value="${data ? data.tasıyıcı_celik_not : ''}" class="form-control" placeholder=" Çelik Not...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
         </datalist>
       </div>
     `;
@@ -189,6 +261,33 @@ function getDynamicInputs(selectedValue, data = null) {
         </datalist>
       </div>
 
+            <div class="form-group">
+        <label for="LedModel">Led Dizilim</label>
+        <input list="LedModelOptions" id="LedDizilim" name="led_dizilim" value="${data ? data.led_dizilim : ''}" class="form-control" placeholder=" Led Dizilim...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Led Adet</label>
+        <input list="LedModelOptions" id="Led Adet" name="led_adet" value="${data ? data.led_adet : ''}" class="form-control" placeholder=" Led Adet...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Led Alıcı</label>
+        <input list="LedModelOptions" id="LedAlıcı" name="led_alıcı" value="${data ? data.led_alıcı : ''}" class="form-control" placeholder=" Led Alıcı...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
       <div class="form-group">
         <label for="MotorModel">Motor Model</label>
         <input list="MotorModelOptions" id="MotorModel" name="motor_model" value="${data ? data.motor_model : ''}" class="form-control" placeholder=" Motor Model...">
@@ -219,6 +318,15 @@ function getDynamicInputs(selectedValue, data = null) {
         </datalist>
       </div>
 
+            <div class="form-group">
+        <label for="LedModel">Kompozit Ral</label>
+        <input list="LedModelOptions" id="KompozitRal" name="kompozit_ral" value="${data ? data.kompozit_ral : ''}" class="form-control" placeholder=" Kompozit Ral...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
       <div class="form-group">
         <label for="ArkaÇelik">Arka Çelik</label>
         <input list="ArkaÇelikOptions" id="ArkaÇelik" name="arka_celik" value="${data ? data.arka_celik : ''}" class="form-control" placeholder=" Arka Çelik...">
@@ -226,6 +334,42 @@ function getDynamicInputs(selectedValue, data = null) {
           <option value="50 x 150 Demir">
           <option value="100 x 100 Demir">
           <option value="120 x 120 Demir">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Arka Çelik Not</label>
+        <input list="LedModelOptions" id="ArkaÇelikNot" name="arka_celik_not" value="${data ? data.arka_celik_not : ''}" class="form-control" placeholder=" Arka Çelik Not...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Taşıyıcı Çelik Ayak</label>
+        <input list="LedModelOptions" id="TaşıyıcıÇelikAyak" name="taşıyıcı_çelik_ayak" value="${data ? data.taşıyıcı_çelik_ayak : ''}" class="form-control" placeholder=" Taşıyıcı Çelik Ayak...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Çelik Ayak Model</label>
+        <input list="LedModelOptions" id="ÇelikAyakModel" name="celik_ayak_model" value="${data ? data.celik_ayak_model : ''}" class="form-control" placeholder=" Çelik Ayak Model...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
+        </datalist>
+      </div>
+
+            <div class="form-group">
+        <label for="LedModel">Taşıyıcı Çelik Not</label>
+        <input list="LedModelOptions" id="TaşıyıcıÇelikNot" name="tasıyıcı_celik_not" value="${data ? data.tasıyıcı_celik_not : ''}" class="form-control" placeholder=" Çelik Not...">
+        <datalist id="LedModelOptions">
+          <option value="Gizli Led 2700K">
+          <option value="Profil Üstü Led 2700K">
         </datalist>
       </div>
     `;

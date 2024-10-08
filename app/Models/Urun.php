@@ -21,10 +21,18 @@ class Urun extends Model
         'kumas_cinsi',
         'kumas_profil_ral',
         'led_model',
+        'led_dizilim',
+        'led_adet',
+        'led_alıcı',
         'motor_model',
         'kumanda',
         'flans',
-        'arka_celik'
+        'arka_celik',
+        'kompozit_ral',
+        'arka_celik_not',
+        'taşıyıcı_çelik_ayak',
+        'çelik_ayak_model',
+        'taşıyıcı_çelik_not',
     ];
 
     public function project()

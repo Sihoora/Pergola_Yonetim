@@ -308,7 +308,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="filePreviewIframe" style="width: 100%; height: 1000px;" frameborder="0"></iframe>
+                <iframe id="filePreviewIframe" style="width: 100%; height: 500px;" frameborder="0"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
@@ -519,7 +519,7 @@
                         @if(isset($proje) && $proje->files->count() > 0)
                         <div class="row">
                             @foreach($proje->files->where('file_type', 'general') as $file)
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="file-card">
                                     <div class="product-header">
                                         <h5 class="product-title">{{ $file->file_name }}</h5>
@@ -571,7 +571,7 @@
                         @if(isset($proje) && $proje->files->count() > 0)
                         <div class="row">
                             @foreach($proje->files->where('file_type', 'technical_drawing') as $file)
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="file-card">
                                     <div class="product-header">
                                         <h5 class="product-title">{{ $file->file_name }}</h5>
@@ -673,7 +673,7 @@
                     @if(isset($proje) && $proje->files->count() > 0)
                     <div class="row">
                         @foreach($proje->files->where('file_type', 'material_list') as $file)
-                        <div class="col-md-4">
+                        <div class="">
                             <div class="file-card">
                                 <div class="product-header">
                                     <h5 class="product-title">{{ $file->file_name }}</h5>
@@ -728,7 +728,7 @@
                         @if(isset($proje) && $proje->files->count() > 0)
                         <div class="row">
                             @foreach($proje->files->where('file_type', 'montaj_list') as $file)
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="file-card">
                                     <div class="product-header">
                                         <h5 class="product-title">{{ $file->file_name }}</h5>
@@ -784,7 +784,7 @@
                         @if(isset($proje) && $proje->files->count() > 0)
                         <div class="row">
                             @foreach($proje->files->where('file_type', 'depo_sevkiyat') as $file)
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="file-card">
                                     <div class="product-header">
                                         <h5 class="product-title">{{ $file->file_name }}</h5>
@@ -841,7 +841,7 @@
                         @if(isset($proje) && $proje->files->count() > 0)
                         <div class="row">
                             @foreach($proje->files->where('file_type', 'ilave_siparisler') as $file)
-                            <div class="col-md-4">
+                            <div class="">
                                 <div class="file-card">
                                     <div class="product-header">
                                         <h5 class="product-title">{{ $file->file_name }}</h5>

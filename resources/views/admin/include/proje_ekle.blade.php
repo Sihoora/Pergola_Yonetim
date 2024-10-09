@@ -121,10 +121,11 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="h4 m-0">{{ isset($proje) ? 'Proje Düzenle' : 'Proje Ekle' }}</span>
-                            <div>
-                                <button type="button" class="btn btn-success" style="margin-right: 20px;"
-                                    onclick="document.getElementById('projeForm').submit();">{{ isset($proje) ? 'Projeyi
-                                    Güncelle' : 'Yeni Proje Oluştur' }}</button>
+
+                            <div class="row" style=" justify-content: end;">
+                                            <button type="button" class="btn btn-success" style="margin-right: 20px;"
+                                                onclick="">{{ isset($proje) ? 'Siparişi
+                                                    Güncelle' : 'Yeni Sipariş Oluştur' }}</button>
                             </div>
                         </div>
                     </div>
@@ -191,6 +192,11 @@
                                             </div>
                                         </div>
                                       </div>
+                                        <div class="row" style=" justify-content: end;">
+                                         <button type="button" class="btn btn-success" style="margin-right: 20px;"
+                                            onclick="document.getElementById('projeForm').submit();">{{ isset($proje) ? 'Projeyi
+                                                Güncelle' : 'Yeni Proje Oluştur' }}</button>
+                                        </div>
                                   </form>
                                     </div>
                                 </div>
@@ -284,12 +290,12 @@
                         </form>
                     </div>
                     
-                                            <!-- Eklenen Ürünler Tabı -->
-                                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                                <!-- Ürün Bilgileri -->
-                                                <div class="row">
-                                                    @foreach($proje->urunler as $urun)
-                                                        <div class="col-lg-12 mb-2" style="height: %20;">
+                                        <!-- Eklenen Ürünler Tabı -->
+                                          <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                              <!-- Ürün Bilgileri -->
+                                              <div class="row">
+                                                 @foreach($proje->urunler as $urun)
+                                                     <div class="col-lg-12 mb-2" style="height: %20;">
                                                             <div class="product-card">
                                                                 <div class="product-header" style="justify-content: space-between;">
                                                                     <h5 class="product-title">{{ $urun->urun_name }}</h5>
@@ -445,53 +451,43 @@
                     </ul>
                 </div>
             </div>
-        </div>
 
-
-<!-- Notlar Kartı -->
-<div class="col-md-8 "> <!-- Notlar Kartını ekliyoruz -->
-    <div class="card card-primary card-outline" style="margin-top:-20px">
-        <div class="card-header">
-            <h5 class="card-title mb-0">Sipariş Notları</h5>
-        </div>
-        <div class="card-body">
-            <ul class="todo-list" data-widget="todo-list">
-                <!-- Dinamik Notlar -->
-                @if($proje->notlar->count() == 0)
-                    <li class="done" style="border: 0.1rem solid;">
-                        <span>
-                            <i class="fa fa-sticky-note"></i>
-                        </span>
-                        <div class="icheck-primary d-inline"></div>
-                        <span class="text">Sipariş notu bulunmamaktadır.</span>
-                        <div class="tools">
-                        </div>
-                    </li>
-                @endif  
-                @foreach($proje->notlar as $note)
-                    @if($note->is_order_note == 1) 
-                        <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
+                <div class="card card-primary card-outline" style="margin-top: 5px">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Sipariş Notları</h5>
+            </div>
+            <div class="card-body">
+                <ul class="todo-list" data-widget="todo-list">
+                    <!-- Dinamik Notlar -->
+                    @if($proje->notlar->count() == 0)
+                        <li class="done" style="border: 0.1rem solid;">
                             <span>
                                 <i class="fa fa-sticky-note"></i>
                             </span>
                             <div class="icheck-primary d-inline"></div>
-                            <span class="text">{{ $note->not }}</span>
+                            <span class="text">Sipariş notu bulunmamaktadır.</span>
                             <div class="tools">
                             </div>
                         </li>
-                    @endif
-                @endforeach
-            </ul>
+                    @endif  
+                    @foreach($proje->notlar as $note)
+                        @if($note->is_order_note == 1) 
+                            <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
+                                <span>
+                                    <i class="fa fa-sticky-note"></i>
+                                </span>
+                                <div class="icheck-primary d-inline"></div>
+                                <span class="text">{{ $note->not }}</span>
+                                <div class="tools">
+                                </div>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
         </div>
-    </div>
-</div>
 
-    </div>
-
-
-
-
-
+        </div>
 
 
 @endif  

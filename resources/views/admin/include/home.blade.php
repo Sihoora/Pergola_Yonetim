@@ -152,43 +152,24 @@
       <div class="card-header">
         <h3 class="card-title">
           <i class="fas fa-list"></i>
-          Aktif Projeler
+          İnbox
         </h3>
       </div>
       <div class="card-body">
-        <table id="projectTable" class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>Proje Kodu</th>
-              <th>Proje Adı</th>
-              <th>Müşteri</th>
-              <th>Durum</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($projeler as $proje)
-            @if($proje->durum == 'ÜRETİMİ DEVAM EDEN PROJELER')
-              <tr>
-                <td><a href="{{ route('proje.detay', ['id' => $proje->id]) }}">{{ $proje->proje_kodu }}</a></td>             
-                <td>{{ $proje->proje_adi }}</td>
-                <td>{{ $proje->musteri }}</td>
-                <td>
-                  @php
-                    $badgeClass = match($proje->durum) {
-                      'ÜRETİMİ DEVAM EDEN PROJELER' => 'bg-gray',
-                      'SEVK İÇİN HAZIR PROJELER' => 'bg-green',
-                      'SEVK EDİLMİŞ PROJELER' => 'bg-yellow',
-                      'BEKLETİLEN PROJELER' => 'bg-red',
-                      default => 'bg-secondary',
-                    };
-                  @endphp
-                  <span class="badge {{ $badgeClass }}">{{ $proje->durum }}</span>
-                </td>
-              </tr>
-              @endif
+        @if(auth()->user()->unreadNotifications->count())
+        <ul>
+            @foreach(auth()->user()->unreadNotifications as $notification)
+                <li>
+                    <a href="{{ $notification->data['url'] }}">
+                        {{ $notification->data['message'] }}
+                    </a>
+                </li>
             @endforeach
-          </tbody>
-        </table>
+        </ul>
+    @else
+        <p>Henüz okunmamış bildiriminiz yok.</p>
+    @endif
+    
       </div>
     </div>
   </div>

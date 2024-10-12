@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
+use App\Models\User;
 use App\Models\Urun;
 use App\Models\File;
 use App\Models\ProjectNote;
+use App\Models\ProjeSurecTarihleri;
+use App\Notifications\SurecIlerlemeBildirimi;
 use App\HTTP\Controllers\ProductController;
 use App\HTTP\Controllers\FileController;
 use PDF;
 use Carbon\Carbon;
+
 
 class ProjectController extends Controller
 {
@@ -23,6 +28,9 @@ class ProjectController extends Controller
 
     public function create()
     {
+        
+        $users = User::all();
+
         // Son projeyi al ve proje kodunu oluştur
         $lastProject = Project::orderBy('id', 'desc')->first();
     
@@ -44,14 +52,15 @@ class ProjectController extends Controller
         $newProjectCode = $newProjectNumber . '-' . $currentYear . '-00';
     
         // Proje oluşturma sayfasına yeni proje kodunu gönder
-        return view('admin.include.proje_ekle', compact('newProjectCode'));
+        return view('admin.include.proje_ekle', compact('newProjectCode', 'users'));
     }
-
 
     public function store(Request $request)
     {
+
         // Validasyon işlemi
         $validatedData = $request->validate([
+            'created_by' => 'required|integer|exists:users,id',
             'proje_adi' => 'required|string|max:255',
             'musteri' => 'required|string|max:255',
             'teslim_tarihi' => 'required|date_format:d/m/Y', // Gün/Ay/Yıl formatını zorunlu kıl
@@ -81,26 +90,27 @@ class ProjectController extends Controller
         $newProjectCode = $newProjectNumber . '-' . $currentYear . '-00';
     
         // Yeni projeyi oluştur ve veritabanına kaydet
-        try {
+ 
             $proje = Project::create([
                 'proje_kodu' => $newProjectCode, // Oluşturulan proje kodunu kullan
+                'created_by' => $validatedData['created_by'],
                 'proje_adi' => $validatedData['proje_adi'],
                 'musteri' => $validatedData['musteri'],
                 'teslim_tarihi' => $validatedData['teslim_tarihi'],
             ]);
-        } catch (\Exception $e) {
-            return back()->with('error', 'Proje oluşturulurken bir hata oluştu: ' . $e->getMessage());
-        }
     
         // Sabit notları ekle
         $this->ekleSabitNotlar($proje->id);
+
+
+        $proje->save();
     
         // Başarılı mesajı ile yönlendirme
         return redirect()->route('proje.edit', $proje->id)->with('success', 'Proje başarıyla eklendi. Şimdi ürün ekleyebilirsiniz.');
     }
     
     public function ekleSabitNotlar($project_id)
-{
+    {
     $sabit_notlar = [
       'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
                         'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
@@ -125,9 +135,7 @@ class ProjectController extends Controller
     }
 
     return response()->json(['status' => 'success']);
-}
-
-
+    }
 
 
     public function edit($id)
@@ -151,143 +159,132 @@ class ProjectController extends Controller
         return redirect()->route('proje-liste')->with('success', 'Proje başarıyla güncellendi.');
     }
 
-
     public function ilerletSurec($id)
-{
-    $proje = Project::find($id);
+    {
+        $proje = Project::find($id);
     
-    // Süreç sırası dizisi
-    $sira = [
-        'Yeni Proje',
-        'Teknik Çizimler Yapıldı',
-        'Proje Onaylandı',
-        'Proje Ön Hazırlık',
-        'Üretime Gönderildi',
-        'Sevk İçin Hazır',
-        'Sevk Edildi'
-    ];
-
-    // Süreç ile Durum eşleşmesi
-    $durumEslesmesi = [
-        'Yeni Proje' => 'BEKLETİLEN PROJELER',
-        'Teknik Çizimler Yapıldı' => 'ÜRETİMİ DEVAM EDEN PROJELER',
-        'Proje Onaylandı' => 'BEKLETİLEN PROJELER',
-        'Proje Ön Hazırlık' => 'BEKLETİLEN PROJELER',
-        'Üretime Gönderildi' => 'ÜRETİMİ DEVAM EDEN PROJELER',
-        'Sevk İçin Hazır' => 'SEVK İÇİN HAZIR PROJELER',
-        'Sevk Edildi' => 'SEVK EDİLMİŞ PROJELER',
-    ];
-
+        // Süreç sırası dizisi
+        $sira = [
+            'Yeni Proje',
+            'Teknik Çizimler Yapıldı',
+            'Proje Onaylandı',
+            'Proje Ön Hazırlık',
+            'Üretime Gönderildi',
+            'Sevk İçin Hazır',
+            'Sevk Edildi'
+        ];
     
-    // Mevcut sürecin indexini al
-    $currentIndex = array_search($proje->surec, $sira);
+        // Mevcut sürecin indexini al
+        $currentIndex = array_search($proje->surec, $sira);
     
-    // Eğer mevcut süreç dizide bulunuyorsa ve son aşama değilse
-    if ($currentIndex !== false && $currentIndex < count($sira) - 1) {
-        // Süreci bir sonraki adıma ilerlet
-        $proje->durum = $durumEslesmesi[$proje->surec];
+        if ($currentIndex !== false && $currentIndex < count($sira) - 1) {
+            $proje->surec = $sira[$currentIndex + 1];
 
-        $proje->surec = $sira[$currentIndex + 1];
+                // Sürecin ilerletildiği tarih ve saati kaydet
+                ProjeSurecTarihleri::create([
+                    'proje_id' => $proje->id,
+                    'surec' => $proje->surec,
+                    'tarih' => now(),
+                ]);
 
-        // Durumu da eşleşmeye göre güncelle
-        $proje->durum = $durumEslesmesi[$proje->surec];
-        
-        // Veritabanında güncelle
-        $proje->save();
-
-        return redirect()->route('proje.detay', $proje->id)->with('warning', 'Proje süreci başarıyla ilerletildi!');
-    } else {
-        return redirect()->route('proje.detay', $proje->id)->with('error', 'Proje süreci zaten son aşamada, daha ileriye gidemez!');
-    }
-}
+            $proje->save();
 
 
-public function show($id)
-{
-    $proje = Project::with('urunler', 'files')->find($id);
-
-    if (!$proje) {
-        return redirect()->route('proje-liste')->with('error', 'Proje bulunamadı.');
-    }
-
-    return view('admin.include.proje_detay', compact('proje'));
-}
-
-
-public function storeNote(Request $request)
-{
-    $request->validate([
-        'proje_id' => 'required|string|exists:proje_ekle,id',
-        'surec' => 'required|string',
-        'not' => 'required|string',
-    ]);
-
-    $note = new ProjectNote();
-    $note->proje_id = $request->input('proje_id');
-    $note->surec = $request->input('surec');
-    $note->is_order_note = $request->input('is_order_note') ? true : false;
-    $note->not = $request->input('not');
-    $note->save();
-    
-    return redirect()->back()->with('success', 'Not başarıyla eklendi.');
-}
-
-
-public function updateNoteStatus(Request $request, $noteId)
-{
-    $note = ProjectNote::findOrFail($noteId);
-    $note->tamamlandi = $request->input('tamamlandi') ? true : false;
-    $note->save();
-
-    return response()->json(['status' => 'success']);
-}
-
-
-
-public function toggleCheckbox($noteId, Request $request)
-{
-    $type = $request->input('type'); // Checkbox türü alınıyor
-
-    if ($type == 'dynamic') {
-        $note = ProjectNote::find($noteId);
-        if ($note) {
-            $note->checked = $request->input('checked'); // 'checked' alanı güncelleniyor
-            $note->save();
-            return response()->json(['status' => 'success']);
+            return redirect()->route('proje.detay', $proje->id)->with('warning', 'Proje süreci başarıyla ilerletildi!');
+        } else {
+            return redirect()->route('proje.detay', $proje->id)->with('error', 'Proje süreci zaten son aşamada, daha ileriye gidemez!');
         }
-    } else {
-        // Sabit notlar için özel bir işlem gerekiyorsa burada yapılabilir
-        // Örneğin, sabit notların durumu session ya da belirli bir key'de saklanabilir
     }
 
-    return response()->json(['status' => 'error']);
-}
+
+    public function show($id)
+    {
+        $proje = Project::with('urunler', 'files')->find($id);
+
+        // Proje süreç tarihlerini al
+        $surecTarihleri = $proje->surecTarihleri()->orderBy('tarih', 'asc')->get();
+
+        if (!$proje) {
+            return redirect()->route('proje-liste')->with('error', 'Proje bulunamadı.');
+        }
+
+        return view('admin.include.proje_detay', compact('proje', 'surecTarihleri'));
+    }
 
 
-public function generatePDF($id)
-{
-    // İlgili projeyi ve ürün bilgilerini veritabanından çekiyoruz
-    $proje = Project::with('urunler')->findOrFail($id);
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'proje_id' => 'required|string|exists:proje_ekle,id',
+            'surec' => 'required|string',
+            'not' => 'required|string',
+        ]);
 
-    // Proje notlarını çekiyoruz
-    $siparisNotlari = ProjectNote::where('proje_id', $id)
-    ->where('is_order_note', 1)
-    ->get();
+        $note = new ProjectNote();
+        $note->proje_id = $request->input('proje_id');
+        $note->surec = $request->input('surec');
+        $note->is_order_note = $request->input('is_order_note') ? true : false;
+        $note->not = $request->input('not');
+        $note->save();
+        
+        return redirect()->back()->with('success', 'Not başarıyla eklendi.');
+    }
 
 
-    // PDF görünümü için gerekli verileri ayarlıyoruz
-    $data = [
-        'proje' => $proje,
-        'siparisNotlari' => $siparisNotlari, // Sipariş notlarını PDF'de kullanmak için ekledik
-        'logo' =>  public_path('admin/dist/img/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekleyin
-    ];
+    public function updateNoteStatus(Request $request, $noteId)
+    {
+        $note = ProjectNote::findOrFail($noteId);
+        $note->tamamlandi = $request->input('tamamlandi') ? true : false;
+        $note->save();
 
-    // PDF dökümanını oluşturup, kullanıcıya indirme veya görüntüleme seçeneği sunuyoruz
-    $pdf = PDF::loadView('pdf.proje_detay', $data);
+        return response()->json(['status' => 'success']);
+    }
 
-    // İndirilebilir PDF dökümanı olarak döndürüyoruz
-    return $pdf->download('proje_detay_'.$proje->id.'.pdf');
-}
+
+    public function toggleCheckbox($noteId, Request $request)
+    {
+        $type = $request->input('type'); // Checkbox türü alınıyor
+
+        if ($type == 'dynamic') {
+            $note = ProjectNote::find($noteId);
+            if ($note) {
+                $note->checked = $request->input('checked'); // 'checked' alanı güncelleniyor
+                $note->save();
+                return response()->json(['status' => 'success']);
+            }
+        } else {
+            // Sabit notlar için özel bir işlem gerekiyorsa burada yapılabilir
+            // Örneğin, sabit notların durumu session ya da belirli bir key'de saklanabilir
+        }
+
+        return response()->json(['status' => 'error']);
+    }
+
+
+    public function generatePDF($id)
+    {
+        // İlgili projeyi ve ürün bilgilerini veritabanından çekiyoruz
+        $proje = Project::with('urunler')->findOrFail($id);
+
+        // Proje notlarını çekiyoruz
+        $siparisNotlari = ProjectNote::where('proje_id', $id)
+        ->where('is_order_note', 1)
+        ->get();
+
+
+        // PDF görünümü için gerekli verileri ayarlıyoruz
+        $data = [
+            'proje' => $proje,
+            'siparisNotlari' => $siparisNotlari, // Sipariş notlarını PDF'de kullanmak için ekledik
+            'logo' =>  public_path('admin/dist/img/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekleyin
+        ];
+
+        // PDF dökümanını oluşturup, kullanıcıya indirme veya görüntüleme seçeneği sunuyoruz
+        $pdf = PDF::loadView('pdf.proje_detay', $data);
+
+        // İndirilebilir PDF dökümanı olarak döndürüyoruz
+        return $pdf->download('proje_detay_'.$proje->id.'.pdf');
+    }
 
 
 

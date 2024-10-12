@@ -77,7 +77,7 @@
 @section('master')
 <!-- Main content -->
 <div class="content">
-    <div class="container-fluid">
+    <div class="container-fluid"> 
 
         @if(isset($proje))
         <!-- Sipariş Notu Oluştur Modal -->
@@ -123,9 +123,13 @@
                             <span class="h4 m-0">{{ isset($proje) ? 'Proje Düzenle' : 'Proje Ekle' }}</span>
 
                             <div class="row" style=" justify-content: end;">
-                                            <button type="button" class="btn btn-success" style="margin-right: 20px;"
-                                                onclick="">{{ isset($proje) ? 'Siparişi
-                                                    Güncelle' : 'Yeni Sipariş Oluştur' }}</button>
+                                <!-- Siparişi Tamamla Butonu -->
+                                @if(isset($proje))
+                                    <button type="button" class="btn btn-success" style="margin-right: 20px;"
+                                        onclick="window.location.href='{{ route('proje.detay', $proje->id) }}'">Siparişi
+                                        Tamamla</button>
+                                @endif
+                                
                             </div>
                         </div>
                     </div>
@@ -153,6 +157,8 @@
                                                          <input type="hidden" name="proje_kodu" value="{{ isset($proje) ? $proje->proje_kodu : $newProjectCode }}">
                                               </div>
                                           </div>
+                                          <!-- Buraya gizli input içerisinde User id gönderilecek Auth::user()->email  -->
+                                            <input type="hidden" name="created_by" value="{{ Auth::user()->id }}">
                                           <div class="col-sm-3">
                                               <div class="form-group">
                                                   <label>Proje Adı</label>

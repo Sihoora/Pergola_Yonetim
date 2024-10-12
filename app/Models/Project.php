@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 use App\Models\Urun;
 use App\Models\File;
+use App\Models\ProjeSurecTarihleri;
 use App\Models\ProjectNote; 
 
 class Project extends Model
@@ -23,6 +26,7 @@ class Project extends Model
     // Formdan gelen verilerin toplu atamasına izin verilen alanlar
     protected $fillable = [
         'proje_kodu', 
+        'created_by',
         'proje_adi', 
         'musteri', 
         'teslim_tarihi', 
@@ -32,6 +36,11 @@ class Project extends Model
     // Bu modelle ilgili dönüştürülecek tarih alanları
     protected $dates = ['teslim_tarihi'];
 
+    // Proje modelinin oluşturucu kullanıcıyla ilişkisini tanımlayın
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by'); // 'created_by' alanı, projenin hangi kullanıcı tarafından oluşturulduğunu belirtir
+    }
 
     public function urunler()
     {
@@ -52,6 +61,12 @@ class Project extends Model
     public function uretimMalzemeleri()
     {
         return $this->hasMany(UretimMalzeme::class, 'proje_id');
+    }
+
+    // ProjeSurecTarihleri modeli ile ilişki
+    public function surecTarihleri()
+    {
+        return $this->hasMany(ProjeSurecTarihleri::class, 'proje_id');
     }
     
 }

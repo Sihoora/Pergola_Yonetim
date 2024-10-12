@@ -2,7 +2,13 @@
 
 @section('css')
 <style>
-   
+    
+    .surec-tarih {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 5px;
+    }
+
     .taskbar-container {
         margin-bottom: 20px;
     }
@@ -184,7 +190,7 @@
         border-bottom:2px solid #dee2e6;
         margin-bottom: 8px;
         padding-bottom: 2px;
-    }
+    }   
 
 </style>
 @endsection
@@ -198,35 +204,46 @@
             <div class="col-12">
                 <ul class="taskbar">
                     @php
-                    $sira = [
-                        'Yeni Proje',
-                        'Teknik Çizimler Yapıldı',
-                        'Proje Onaylandı',
-                        'Proje Ön Hazırlık', 
-                        'Üretime Gönderildi',
-                        'Sevk İçin Hazır',
-                        'Sevk Edildi'
-                    ];
-                    $sabit_notlar = [
-                        'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
-                        'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
-                        'Proje Onaylandı' => ['Proje onayı alındı.', 'Deneme Sabit Not'],
-                        'Proje Ön Hazırlık' => ['Proje için ön hazırlıklar yapıldı.'],
-                        'Üretime Gönderildi' => ['Üretim süreci başlatıldı.'],
-                        'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
-                        'Sevk Edildi' => ['Ürünler sevk edildi.', 'Proje tamamlandı.']
-                    ];
+                        $sira = [
+                            'Yeni Proje',
+                            'Teknik Çizimler Yapıldı',
+                            'Proje Onaylandı',
+                            'Proje Ön Hazırlık', 
+                            'Üretime Gönderildi',
+                            'Sevk İçin Hazır',
+                            'Sevk Edildi'
+                        ];
                     @endphp
                     @foreach($sira as $index => $step)
-                    <li class="{{ $proje->surec == $step ? 'active' : '' }}">
-                        <span>{{ $index + 1 }}</span>
-                        <p>{{ $step }}</p>
-                    </li>
+                        <li class="{{ $proje->surec == $step ? 'active' : '' }}">
+                            <span>{{ $index + 1 }}</span>
+                            <p>{{ $step }}</p>
+                            @php
+                                $surecTarih = $proje->surecTarihleri->where('surec', $step)->first();
+                            @endphp
+                            <p class="surec-tarih">
+                                {{ $surecTarih ? $surecTarih->tarih : ($proje->surec == $step ? 'Henüz tamamlanmadı' : '') }}
+                            </p>
+                        </li>
                     @endforeach
                 </ul>
             </div>
         </div>
-        @endif
+    @endif
+ 
+
+     <!-- Süreç tarihlerinin ham hali bu. @ ile {} işaretlerini doldurarak kullanabilirsin. -->
+
+    @if($surecTarihleri->isNotEmpty())
+        <ul>
+            @foreach($surecTarihleri as $surecTarih)
+                <li>{{ $surecTarih->surec }}: {{ \Carbon\Carbon::parse($surecTarih->tarih)->format('d F Y H:i') }}</li>
+            @endforeach
+            <li>{{ $proje->surec }}: <em>Henüz tamamlanmadı</em></li>
+        </ul>
+    @else
+        <p>Henüz süreç tarihi kaydı bulunmamaktadır.</p>
+    @endif 
 
 
         <!-- Üretim Emri Oluştur Modal -->

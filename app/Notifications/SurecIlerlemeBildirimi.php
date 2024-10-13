@@ -30,7 +30,7 @@ class SurecIlerlemeBildirimi extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('Proje Süreci İlerletildi')
             ->line('Projenizin süreci bir sonraki aşamaya ilerletildi: Teknik Çizimler Yapıldı.')
-            ->action('Proje Detayları', url('/proje/detay/' . $this->proje->id))
+            ->action('Proje Detayları', url('/dashboard/proje-detay/' . $this->proje->id))  
             ->line('Proje hakkında daha fazla bilgi almak için yukarıdaki bağlantıya tıklayabilirsiniz.');
     }
 
@@ -41,7 +41,7 @@ class SurecIlerlemeBildirimi extends Notification implements ShouldQueue
             'proje_id' => $this->proje->id,
             'title' => 'Proje Süreci İlerletildi',
             'message' => 'Projenizin süreci bir sonraki aşamaya ilerletildi: Teknik Çizimler Yapıldı.',
-            'url' => url('/proje/detay/' . $this->proje->id),
+            'url' => url('/dashboard/proje-detay/' . $this->proje->id),
         ];
     }
 }

@@ -55,59 +55,70 @@ class ProjectController extends Controller
         return view('admin.include.proje_ekle', compact('newProjectCode', 'users'));
     }
 
+    use Carbon\Carbon;
+
     public function store(Request $request)
     {
-
         // Validasyon işlemi
         $validatedData = $request->validate([
             'created_by' => 'required|integer|exists:users,id',
             'proje_adi' => 'required|string|max:255',
             'musteri' => 'required|string|max:255',
             'teslim_tarihi' => 'required|date_format:d/m/Y', // Gün/Ay/Yıl formatını zorunlu kıl
-
         ]);
     
-        $teslim_tarihi = Carbon::createFromFormat('d/m/Y', $request->teslim_tarihi)->format('Y-m-d');
-
+        // Teslim tarihini Carbon kullanarak formatlayalım
+        try {
+            $teslim_tarihi = Carbon::createFromFormat('d/m/Y', $request->teslim_tarihi)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['teslim_tarihi' => 'Geçersiz tarih formatı. Lütfen Gün/Ay/Yıl formatında bir tarih giriniz.']);
+        }
+    
         // Son projeyi al ve proje sırasını arttır
         $lastProject = Project::orderBy('id', 'desc')->first();
     
         // Eğer veritabanında bir proje varsa, proje kodunun sırasını bul ve artır
         if ($lastProject) {
-            // Proje kodunu parçala (Proje sırası - Yıl - 00)
             $lastProjectCode = $lastProject->proje_kodu;
-            $lastProjectNumber = intval(substr($lastProjectCode, 0, strpos($lastProjectCode, '-'))); // Sıra numarasını çek
-            $newProjectNumber = $lastProjectNumber + 1; // 1 arttır
+            $lastProjectNumber = intval(substr($lastProjectCode, 0, strpos($lastProjectCode, '-')));
+            $newProjectNumber = $lastProjectNumber + 1;
         } else {
-            // Eğer hiç proje yoksa ilk proje kodunu 1 yap
             $newProjectNumber = 1;
         }
     
         // Yıl bilgisini al
         $currentYear = date('Y');
     
-        // Yeni proje kodunu formatta oluştur (Proje sırası - Yıl - 00)
+        // Yeni proje kodunu oluştur
         $newProjectCode = $newProjectNumber . '-' . $currentYear . '-00';
     
         // Yeni projeyi oluştur ve veritabanına kaydet
- 
-            $proje = Project::create([
-                'proje_kodu' => $newProjectCode, // Oluşturulan proje kodunu kullan
-                'created_by' => $validatedData['created_by'],
-                'proje_adi' => $validatedData['proje_adi'],
-                'musteri' => $validatedData['musteri'],
-                'teslim_tarihi' => $validatedData['teslim_tarihi'],
-            ]);
+        $proje = Project::create([
+            'proje_kodu' => $newProjectCode,
+            'created_by' => $validatedData['created_by'],
+            'proje_adi' => $validatedData['proje_adi'],
+            'musteri' => $validatedData['musteri'],
+            'teslim_tarihi' => $teslim_tarihi,
+        ]);
+    
+        // Süreç 'Teknik Çizimler Yapıldı' aşamasına gelirse bildirim gönder
+        if ($proje->surec == 'Teknik Çizimler Yapıldı') {
+            $creator = $proje->creator;
+            if ($creator) {
+                $creator->notify(new SurecIlerlemeBildirimi($proje));
+            }
+        }
     
         // Sabit notları ekle
         $this->ekleSabitNotlar($proje->id);
-
-
+    
+        // Projeyi kaydet
         $proje->save();
     
         // Başarılı mesajı ile yönlendirme
         return redirect()->route('proje.edit', $proje->id)->with('success', 'Proje başarıyla eklendi. Şimdi ürün ekleyebilirsiniz.');
     }
+    
     
     public function ekleSabitNotlar($project_id)
     {
@@ -189,7 +200,17 @@ class ProjectController extends Controller
 
             $proje->save();
 
+        // Eğer süreç 'Teknik Çizimler Yapıldı' aşamasına gelirse, bildirimi gönder
+        if ($proje->surec == 'Teknik Çizimler Yapıldı') {
+            // Projeyi oluşturan kullanıcıyı al
+            $creator = $proje->creator; // İlişki kullanarak kullanıcıyı alıyoruz (örneğin, $proje->creator)
 
+            if ($creator) {
+                // Kullanıcıya bildirim gönder
+                $creator->notify(new SurecIlerlemeBildirimi($proje));
+            }
+        }
+    
             return redirect()->route('proje.detay', $proje->id)->with('warning', 'Proje süreci başarıyla ilerletildi!');
         } else {
             return redirect()->route('proje.detay', $proje->id)->with('error', 'Proje süreci zaten son aşamada, daha ileriye gidemez!');

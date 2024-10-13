@@ -126,8 +126,7 @@
                                 <!-- Siparişi Tamamla Butonu -->
                                 @if(isset($proje))
                                     <button type="button" class="btn btn-success" style="margin-right: 20px;"
-                                        onclick="window.location.href='{{ route('proje.detay', $proje->id) }}'">Siparişi
-                                        Tamamla</button>
+                                      onclick="confirmOrder('{{ route('proje.detay', $proje->id) }}')">Siparişi Tamamla</button>
                                 @endif
                                 
                             </div>
@@ -627,6 +626,23 @@
     }
 
 
+    function confirmOrder(url) {
+        Swal.fire({
+            title: 'Siparişi tamamlamak üzeresiniz',
+            text: "Bu işlemi onaylıyor musunuz?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet, tamamla!',
+            cancelButtonText: 'İptal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+
     $(document).ready(function () {
         @if (session('success'))
             Swal.fire({
@@ -649,27 +665,10 @@
         @endif
     });
 
-
-/*
-    // Datalist seçeneklerini dinamik olarak güncellemek için bir örnek
-    document.addEventListener('DOMContentLoaded', function () {
-        var options = ["Düz Krem", "Düz Beyaz", "Düz Gri"];
-        var dataList = document.getElementById('kumasCinsiOptions');
-
-        options.forEach(function (option) {
-            var opt = document.createElement('option');
-            opt.value = option;
-            dataList.appendChild(opt);
-        });
-    });
-*/
-
     function showFilePreview(url) {
         $('#filePreviewIframe').attr('src', url);
         $('#filePreviewModal').modal('show');
     }
-
-
 
     $(document).on('click', '.editProduct', function() {
             var urunId = $(this).data('id');

@@ -32,7 +32,7 @@ class FileController extends Controller
       $fileModel->file_name = $file->getClientOriginalName();
       $fileModel->save();
 
-      return redirect()->back()->with('success', 'Dosya başarıyla yüklendi.');
+      return redirect()->back()->with('info', 'Dosya başarıyla yüklendi.');
   }
 
   // Dosyaları listeleme metodu

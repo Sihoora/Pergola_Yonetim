@@ -206,12 +206,11 @@
                     @php
                         $sira = [
                             'Yeni Proje',
-                            'Teknik Çizimler Yapıldı',
-                            'Proje Onaylandı',
+                            'Teknik Çizim',
+                            'Proje Onay',
                             'Proje Ön Hazırlık', 
-                            'Üretime Gönderildi',
+                            'Üretim Aşaması',
                             'Sevk İçin Hazır',
-                            'Sevk Edildi'
                         ];
                     @endphp
                     @foreach($sira as $index => $step)
@@ -1045,14 +1044,27 @@ $(document).ready(function () {
             });
         @endif
 
+
         @if(session('success'))
             Swal.fire({
                 title: 'Başarılı!',
-                text: 'Not ekleme işlemini tamamladınız..',
+                text: 'Not Ekleme işlemi başarılı!',
                 icon: 'success'
             });
-         @endif  
+        @endif 
+        
+        
 
+
+     @if(session('info'))
+           Swal.fire({
+                  title: 'Başarılı!',
+                  text: 'Dosya başarıyla yüklendi.',
+                  icon: 'success' 
+           });
+         @endif
+
+    
 
         </script>   
 @endsection

@@ -55,7 +55,6 @@ class ProjectController extends Controller
         return view('admin.include.proje_ekle', compact('newProjectCode', 'users'));
     }
 
-    use Carbon\Carbon;
 
     public function store(Request $request)
     {
@@ -124,12 +123,11 @@ class ProjectController extends Controller
     {
     $sabit_notlar = [
       'Yeni Proje' => ['Proje bilgileri girildi.', 'Ürün bilgileri girildi.', 'Genel dosyalar yüklendi.'],
-                        'Teknik Çizimler Yapıldı' => ['Teknik çizimler tamamlandı.'],
-                        'Proje Onaylandı' => ['Proje onayı alındı.','Deneme Sabit Not' ],
+                        'Teknik Çizim' => ['Teknik çizimler tamamlandı.'],
+                        'Proje Onay' => ['Proje onayı alındı.','Deneme Sabit Not' ],
                         'Proje Ön Hazırlık' => ['Proje ön hazırlık tamamlandı.'],
-                        'Üretime Gönderildi' => ['Üretim süreci başlatıldı.'],
+                        'Üretime Aşaması' => ['Üretim süreci başlatıldı.'],
                         'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
-                        'Sevk Edildi' => ['Ürünler sevk edildi.', 'Proje tamamlandı.']
                     ];
 
     foreach ($sabit_notlar as $surec => $notlar) {
@@ -164,7 +162,7 @@ class ProjectController extends Controller
         $proje->proje_kodu = $request->proje_kodu;
         $proje->proje_adi = $request->proje_adi;
         $proje->musteri = $request->musteri;
-        $proje->teslim_tarihi = $request->teslim_tarihi;
+        $proje->teslim_tarihi = Carbon::createFromFormat('d/m/Y', $request->teslim_tarihi)->format('Y-m-d');
         $proje->save();
 
         return redirect()->route('proje-liste')->with('success', 'Proje başarıyla güncellendi.');
@@ -177,12 +175,11 @@ class ProjectController extends Controller
         // Süreç sırası dizisi
         $sira = [
             'Yeni Proje',
-            'Teknik Çizimler Yapıldı',
-            'Proje Onaylandı',
-            'Proje Ön Hazırlık',
-            'Üretime Gönderildi',
-            'Sevk İçin Hazır',
-            'Sevk Edildi'
+            'Teknik Çizim',
+            'Proje Onay',
+            'Proje Ön Hazırlık', 
+            'Üretim Aşaması',
+            'Sevk İçin Hazır',  
         ];
     
         // Mevcut sürecin indexini al
@@ -201,7 +198,7 @@ class ProjectController extends Controller
             $proje->save();
 
         // Eğer süreç 'Teknik Çizimler Yapıldı' aşamasına gelirse, bildirimi gönder
-        if ($proje->surec == 'Teknik Çizimler Yapıldı') {
+        if ($proje->surec == 'Teknik Çizim') {
             // Projeyi oluşturan kullanıcıyı al
             $creator = $proje->creator; // İlişki kullanarak kullanıcıyı alıyoruz (örneğin, $proje->creator)
 
@@ -247,7 +244,7 @@ class ProjectController extends Controller
         $note->is_order_note = $request->input('is_order_note') ? true : false;
         $note->not = $request->input('not');
         $note->save();
-        
+
         return redirect()->back()->with('success', 'Not başarıyla eklendi.');
     }
 

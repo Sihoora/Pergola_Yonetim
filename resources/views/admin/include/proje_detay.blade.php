@@ -3,10 +3,27 @@
 @section('css')
 <style>
     
-    .surec-tarih {
-    font-size: 0.9em;
-    color: #6c757d;
-    margin-top: 5px;
+    .taskbar-date {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+
+    }
+    .taskbar-date li {
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-align: center;
+        position: relative;
+        margin: 0;
+        margin-top: 5px;
+        padding: 5px; 
+        white-space: nowrap; 
+        flex-basis: 16%; 
+        border: 1px solid #ddd;
+        border-radius: 5px;
     }
 
     .taskbar-container {
@@ -200,7 +217,7 @@
     <div class="container-fluid">
         <!-- Süreç Task Bar -->
         @if(isset($proje))
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-12">
                 <ul class="taskbar">
                     @php
@@ -220,12 +237,19 @@
                             @php
                                 $surecTarih = $proje->surecTarihleri->where('surec', $step)->first();
                             @endphp
-                            <p class="surec-tarih">
-                                {{ $surecTarih ? $surecTarih->tarih : ($proje->surec == $step ? 'Henüz tamamlanmadı' : '') }}
-                            </p>
                         </li>
                     @endforeach
                 </ul>
+                     @if($surecTarihleri->isNotEmpty())
+                        <ul class="taskbar-date">
+                            @foreach($surecTarihleri as $surecTarih)
+                                <li>{{ $surecTarih->surec }}: {{ \Carbon\Carbon::parse($surecTarih->tarih)->format('d F Y H:i') }}</li>
+                            @endforeach
+                                <li>{{ $proje->surec }}: <em>Henüz tamamlanmadı</em></li>
+                        </ul>
+                            @else
+                                <p>Henüz süreç tarihi kaydı bulunmamaktadır.</p>
+                            @endif 
             </div>
         </div>
     @endif
@@ -233,16 +257,7 @@
 
      <!-- Süreç tarihlerinin ham hali bu. @ ile {} işaretlerini doldurarak kullanabilirsin. -->
 
-    @if($surecTarihleri->isNotEmpty())
-        <ul>
-            @foreach($surecTarihleri as $surecTarih)
-                <li>{{ $surecTarih->surec }}: {{ \Carbon\Carbon::parse($surecTarih->tarih)->format('d F Y H:i') }}</li>
-            @endforeach
-            <li>{{ $proje->surec }}: <em>Henüz tamamlanmadı</em></li>
-        </ul>
-    @else
-        <p>Henüz süreç tarihi kaydı bulunmamaktadır.</p>
-    @endif 
+
 
 
         <!-- Üretim Emri Oluştur Modal -->

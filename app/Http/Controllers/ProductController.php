@@ -15,8 +15,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
             'urun_name' => 'required|string|max:50',
-            'en' => 'required|string|max:50', 
-            'boy' => 'required|string|max:50', 
+            'en' => 'required|string|max:50',
+            'boy' => 'required|string|max:50',
             'ral_kodu' => 'required|string|max:50',
             'kumas_cinsi' => 'required|string|max:50',
             'kumas_profil_ral' => 'required|string|max:50',
@@ -79,8 +79,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
             'urun_name' => 'required|string|max:50',
-            'en' => 'required|string|max:50', 
-            'boy' => 'required|string|max:50', 
+            'en' => 'required|string|max:50',
+            'boy' => 'required|string|max:50',
             'ral_kodu' => 'required|string|max:50',
             'kumas_cinsi' => 'required|string|max:50',
             'kumas_profil_ral' => 'required|string|max:50',
@@ -99,7 +99,8 @@ class ProductController extends Controller
             'tasiyici_celik_not' => 'required|string|max:50',
         ]);
 
-        $urun = new Urun();
+
+        $urun = Urun::findOrFail($id);
         $urun->proje_id = $validatedData['proje_id'];
         $urun->urun_name = $validatedData['urun_name'];
         $urun->en = $validatedData['en'];
@@ -123,10 +124,5 @@ class ProductController extends Controller
         $urun->save();
 
         return redirect()->route('proje.edit', $urun->proje_id)->with('success', 'Ürün başarıyla güncellendi.');
-
     }
-
-
-    
-
 }

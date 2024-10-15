@@ -13,8 +13,8 @@ use App\Models\ProjeSurecTarihleri;
 use App\Notifications\SurecIlerlemeBildirimi;
 use App\HTTP\Controllers\ProductController;
 use App\HTTP\Controllers\FileController;
-use PDF;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class ProjectController extends Controller

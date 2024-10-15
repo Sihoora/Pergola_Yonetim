@@ -8,6 +8,7 @@ use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Exception\Handler;
+use Exception;
 
 class FileController extends Controller
 {

@@ -208,7 +208,7 @@
                             'Yeni Proje',
                             'Teknik Çizim',
                             'Proje Onay',
-                            'Proje Ön Hazırlık', 
+                            'Proje Ön Hazırlık',
                             'Üretim Aşaması',
                             'Sevk İçin Hazır',
                         ];

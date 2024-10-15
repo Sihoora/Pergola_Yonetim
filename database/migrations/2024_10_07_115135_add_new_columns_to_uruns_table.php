@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('led_adet'); 
             $table->string('led_alıcı'); 
             $table->string('kompozit_ral'); 
-            $table->string('arka_çelik_not');
-            $table->string('taşıyıcı_çelik_ayak');
-            $table->string('çelik_ayak_model');
-            $table->string('taşıyıcı_çelik_not');
+            $table->string('arka_celik_not');
+            $table->string('tasıyıcı_celik_ayak');
+            $table->string('celik_ayak_model');
+            $table->string('tasıyıcı_celik_not');
         });
     }
 

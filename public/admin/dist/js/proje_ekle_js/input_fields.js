@@ -201,8 +201,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
   } else if (selectedValue === "Pergola Elegant") {
     dynamicInputs.innerHTML = `
- 
-          <div class="form-group">
+           <div class="form-group">
         <label for="RalKodu">En</label>
         <input list="RalKoduOptions" id="en" name="en" value="${data ? data.en : ''}" class="form-control" placeholder=" En...">
         <datalist id="RalKoduOptions">
@@ -348,7 +347,7 @@ function getDynamicInputs(selectedValue, data = null) {
 
             <div class="form-group">
         <label for="LedModel">Taşıyıcı Çelik Ayak</label>
-        <input list="LedModelOptions" id="TaşıyıcıÇelikAyak" name="taşıyıcı_çelik_ayak" value="${data ? data.taşıyıcı_çelik_ayak : ''}" class="form-control" placeholder=" Taşıyıcı Çelik Ayak...">
+        <input list="LedModelOptions" id="TaşıyıcıÇelikAyak" name="tasıyıcı_celik_ayak" value="${data ? data.tasıyıcı_celik_ayak : ''}" class="form-control" placeholder=" Taşıyıcı Çelik Ayak...">
         <datalist id="LedModelOptions">
           <option value="Gizli Led 2700K">
           <option value="Profil Üstü Led 2700K">

@@ -186,27 +186,27 @@ class ProjectController extends Controller
         $currentIndex = array_search($proje->surec, $sira);
     
         if ($currentIndex !== false && $currentIndex < count($sira) - 1) {
+            // Önce mevcut sürecin tarihini kaydet
+            ProjeSurecTarihleri::create([
+                'proje_id' => $proje->id,
+                'surec' => $proje->surec,
+                'tarih' => now(),
+            ]);
+    
+            // Süreci bir sonraki aşamaya ilerlet
             $proje->surec = $sira[$currentIndex + 1];
-
-                // Sürecin ilerletildiği tarih ve saati kaydet
-                ProjeSurecTarihleri::create([
-                    'proje_id' => $proje->id,
-                    'surec' => $proje->surec,
-                    'tarih' => now(),
-                ]);
-
             $proje->save();
-
-        // Eğer süreç 'Teknik Çizimler Yapıldı' aşamasına gelirse, bildirimi gönder
-        if ($proje->surec == 'Teknik Çizim') {
-            // Projeyi oluşturan kullanıcıyı al
-            $creator = $proje->creator; // İlişki kullanarak kullanıcıyı alıyoruz (örneğin, $proje->creator)
-
-            if ($creator) {
-                // Kullanıcıya bildirim gönder
-                $creator->notify(new SurecIlerlemeBildirimi($proje));
+    
+            // Eğer süreç 'Teknik Çizim' aşamasına gelirse, bildirimi gönder
+            if ($proje->surec == 'Teknik Çizim') {
+                // Projeyi oluşturan kullanıcıyı al
+                $creator = $proje->creator; // İlişki kullanarak kullanıcıyı alıyoruz (örneğin, $proje->creator)
+    
+                if ($creator) {
+                    // Kullanıcıya bildirim gönder
+                    $creator->notify(new SurecIlerlemeBildirimi($proje));
+                }
             }
-        }
     
             return redirect()->route('proje.detay', $proje->id)->with('warning', 'Proje süreci başarıyla ilerletildi!');
         } else {

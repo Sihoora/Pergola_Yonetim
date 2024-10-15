@@ -343,7 +343,7 @@
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Led Model</strong>
-                                                                        <p>{{ $urun->led_alıcı}}</p>
+                                                                        <p>{{ $urun->led_alici}}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Motor Model</strong>
@@ -375,15 +375,15 @@
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Taşıyıcı Çelik Ayak</strong>
-                                                                        <p>{{ $urun->taşıyıcı_çelik_ayak }}</p>
+                                                                        <p>{{ $urun->tasiyici_celik_ayak }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Çelik Ayak Model</strong>
-                                                                        <p>{{ $urun->çelik_ayak_model }}</p>
+                                                                        <p>{{ $urun->celik_ayak_model }}</p>
                                                                     </div>
                                                                     <div class="product-info-item">
                                                                         <strong>Taşıyıcı Çelik Not</strong>
-                                                                        <p>{{ $urun->taşıyıcı_çelik_not }}</p>
+                                                                        <p>{{ $urun->tasiyici_celik_not }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

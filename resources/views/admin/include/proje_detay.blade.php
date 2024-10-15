@@ -493,6 +493,22 @@
                                 <strong>Arka Çelik</strong>
                                 <p>{{ $urun->arka_celik }}</p>
                             </div>
+                            <div class="product-info-item">
+                                <strong>Arka Çelik İçin Not</strong>
+                                <p>{{ $urun->arka_celik_not }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Taşıyıcı Çelik Ayak</strong>
+                                <p>{{ $urun->tasiyici_celik_ayak }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Çelik Ayak Model</strong>
+                                <p>{{ $urun->celik_ayak_model }}</p>
+                            </div>
+                            <div class="product-info-item">
+                                <strong>Taşıyıcı Çelik Not</strong>
+                                <p>{{ $urun->tasiyici_celik_not }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

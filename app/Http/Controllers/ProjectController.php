@@ -61,8 +61,8 @@ class ProjectController extends Controller
         // Validasyon işlemi
         $validatedData = $request->validate([
             'created_by' => 'required|integer|exists:users,id',
-            'proje_adi' => 'required|string|max:255',
-            'musteri' => 'required|string|max:255',
+            'proje_adi' => 'required|string|max:50',
+            'musteri' => 'required|string|max:50',
             'teslim_tarihi' => 'required|date_format:d/m/Y', // Gün/Ay/Yıl formatını zorunlu kıl
         ]);
     
@@ -126,7 +126,7 @@ class ProjectController extends Controller
                         'Teknik Çizim' => ['Teknik çizimler tamamlandı.'],
                         'Proje Onay' => ['Proje onayı alındı.','Deneme Sabit Not' ],
                         'Proje Ön Hazırlık' => ['Proje ön hazırlık tamamlandı.'],
-                        'Üretime Aşaması' => ['Üretim süreci başlatıldı.'],
+                        'Üretim Aşaması' => ['Üretim süreci başlatıldı.'],
                         'Sevk İçin Hazır' => ['Ürünler sevk için hazır.'],
                     ];
 
@@ -190,7 +190,8 @@ class ProjectController extends Controller
             ProjeSurecTarihleri::create([
                 'proje_id' => $proje->id,
                 'surec' => $proje->surec,
-                'tarih' => now(),
+                // carbon kütüphanesi kullanarak tarih ve saat bilgisini al
+                'tarih' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
     
             // Süreci bir sonraki aşamaya ilerlet

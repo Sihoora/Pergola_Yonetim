@@ -155,6 +155,8 @@
                         <td>{{ $urun->kumanda }}</td>
                         <td>{{ $urun->flans }}</td>
                         <td>{{ $urun->arka_celik }}</td>
+                        
+
                     </tr>
                     @endforeach
                 </tbody>

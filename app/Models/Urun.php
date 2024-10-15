@@ -23,16 +23,16 @@ class Urun extends Model
         'led_model',
         'led_dizilim',
         'led_adet',
-        'led_alıcı',
+        'led_alici',
         'motor_model',
         'kumanda',
         'flans',
         'arka_celik',
         'kompozit_ral',
         'arka_celik_not',
-        'taşıyıcı_çelik_ayak',
-        'çelik_ayak_model',
-        'taşıyıcı_çelik_not',
+        'tasiyici_celik_ayak',
+        'celik_ayak_model',
+        'tasiyici_celik_not',
     ];
 
     public function project()

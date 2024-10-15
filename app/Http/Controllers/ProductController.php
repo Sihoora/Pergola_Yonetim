@@ -14,26 +14,27 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
-            'urun_name' => 'required|string|max:255',
-            'en' => 'required|string|max:255', 
-            'boy' => 'required|string|max:255', 
-            'ral_kodu' => 'required|string|max:255',
-            'kumas_cinsi' => 'required|string|max:255',
-            'kumas_profil_ral' => 'required|string|max:255',
-            'led_model' => 'required|string|max:255',
-            'led_dizilim' => 'required|string|max:255',
-            'led_adet' => 'required|string|max:255',
-            'led_alıcı' => 'required|string|max:255',
-            'motor_model' => 'required|string|max:255',
-            'kumanda' => 'required|string|max:255',
-            'flans' => 'required|string|max:255',
-            'kompozit_ral' => 'required|string|max:255',
-            'arka_celik' => 'required|string|max:255',
-            'arka_celik_not' => 'required|string|max:255',
-            'tasıyıcı_celik_ayak' => 'required|string|max:255',
-            'celik_ayak_model' => 'required|string|max:255',
-            'tasıyıcı_celik_not' => 'required|string|max:255',
+            'urun_name' => 'required|string|max:50',
+            'en' => 'required|string|max:50', 
+            'boy' => 'required|string|max:50', 
+            'ral_kodu' => 'required|string|max:50',
+            'kumas_cinsi' => 'required|string|max:50',
+            'kumas_profil_ral' => 'required|string|max:50',
+            'led_model' => 'required|string|max:50',
+            'led_dizilim' => 'required|string|max:50',
+            'led_adet' => 'required|string|max:50',
+            'led_alici' => 'required|string|max:50',
+            'motor_model' => 'required|string|max:50',
+            'kumanda' => 'required|string|max:50',
+            'flans' => 'required|string|max:50',
+            'kompozit_ral' => 'required|string|max:50',
+            'arka_celik' => 'required|string|max:50',
+            'arka_celik_not' => 'required|string|max:50',
+            'tasiyici_celik_ayak' => 'required|string|max:50',
+            'celik_ayak_model' => 'required|string|max:50',
+            'tasiyici_celik_not' => 'required|string|max:50',
         ]);
+
 
         $urun = new Urun();
         $urun->proje_id = $validatedData['proje_id'];
@@ -46,16 +47,16 @@ class ProductController extends Controller
         $urun->led_model = $validatedData['led_model'];
         $urun->led_dizilim = $validatedData['led_dizilim'];
         $urun->led_adet = $validatedData['led_adet'];
-        $urun->led_alıcı = $validatedData['led_alıcı'];
+        $urun->led_alici = $validatedData['led_alici'];
         $urun->motor_model = $validatedData['motor_model'];
         $urun->kumanda = $validatedData['kumanda'];
         $urun->flans = $validatedData['flans'];
         $urun->kompozit_ral = $validatedData['kompozit_ral'];
         $urun->arka_celik = $validatedData['arka_celik'];
         $urun->arka_celik_not = $validatedData['arka_celik_not'];
-        $urun->tasıyıcı_celik_ayak = $validatedData['tasıyıcı_celik_ayak'];
+        $urun->tasiyici_celik_ayak = $validatedData['tasiyici_celik_ayak'];
         $urun->celik_ayak_model = $validatedData['celik_ayak_model'];
-        $urun->tasıyıcı_celik_not = $validatedData['tasıyıcı_celik_not'];
+        $urun->tasiyici_celik_not = $validatedData['tasiyici_celik_not'];
         $urun->save();
 
         return redirect()->route('proje.edit', $urun->proje_id)->with('success', 'Ürün başarıyla eklendi. Şimdi dosya ekleyebilirsiniz.');
@@ -77,28 +78,28 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'proje_id' => 'required|integer',
-            'urun_name' => 'required|string|max:255',
-            'en' => 'required|string|max:255', 
-            'boy' => 'required|string|max:255', 
-            'ral_kodu' => 'required|string|max:255',
-            'kumas_cinsi' => 'required|string|max:255',
-            'kumas_profil_ral' => 'required|string|max:255',
-            'led_model' => 'required|string|max:255',
-            'led_dizilim' => 'required|string|max:255',
-            'led_adet' => 'required|string|max:255',
-            'led_alıcı' => 'required|string|max:255',
-            'motor_model' => 'required|string|max:255',
-            'kumanda' => 'required|string|max:255',
-            'flans' => 'required|string|max:255',
-            'kompozit_ral' => 'required|string|max:255',
-            'arka_celik' => 'required|string|max:255',
-            'arka_celik_not' => 'required|string|max:255',
-            'tasıyıcı_celik_ayak' => 'required|string|max:255',
-            'celik_ayak_model' => 'required|string|max:255',
-            'tasıyıcı_celik_not' => 'required|string|max:255',
+            'urun_name' => 'required|string|max:50',
+            'en' => 'required|string|max:50', 
+            'boy' => 'required|string|max:50', 
+            'ral_kodu' => 'required|string|max:50',
+            'kumas_cinsi' => 'required|string|max:50',
+            'kumas_profil_ral' => 'required|string|max:50',
+            'led_model' => 'required|string|max:50',
+            'led_dizilim' => 'required|string|max:50',
+            'led_adet' => 'required|string|max:50',
+            'led_alici' => 'required|string|max:50',
+            'motor_model' => 'required|string|max:50',
+            'kumanda' => 'required|string|max:50',
+            'flans' => 'required|string|max:50',
+            'kompozit_ral' => 'required|string|max:50',
+            'arka_celik' => 'required|string|max:50',
+            'arka_celik_not' => 'required|string|max:50',
+            'tasiyici_celik_ayak' => 'required|string|max:50',
+            'celik_ayak_model' => 'required|string|max:50',
+            'tasiyici_celik_not' => 'required|string|max:50',
         ]);
 
-        $urun = Urun::findOrFail($id);
+        $urun = new Urun();
         $urun->proje_id = $validatedData['proje_id'];
         $urun->urun_name = $validatedData['urun_name'];
         $urun->en = $validatedData['en'];
@@ -109,16 +110,16 @@ class ProductController extends Controller
         $urun->led_model = $validatedData['led_model'];
         $urun->led_dizilim = $validatedData['led_dizilim'];
         $urun->led_adet = $validatedData['led_adet'];
-        $urun->led_alıcı = $validatedData['led_alıcı'];
+        $urun->led_alici = $validatedData['led_alici'];
         $urun->motor_model = $validatedData['motor_model'];
         $urun->kumanda = $validatedData['kumanda'];
         $urun->flans = $validatedData['flans'];
         $urun->kompozit_ral = $validatedData['kompozit_ral'];
         $urun->arka_celik = $validatedData['arka_celik'];
         $urun->arka_celik_not = $validatedData['arka_celik_not'];
-        $urun->tasıyıcı_celik_ayak = $validatedData['tasıyıcı_celik_ayak'];
+        $urun->tasiyici_celik_ayak = $validatedData['tasiyici_celik_ayak'];
         $urun->celik_ayak_model = $validatedData['celik_ayak_model'];
-        $urun->tasıyıcı_celik_not = $validatedData['tasıyıcı_celik_not'];
+        $urun->tasiyici_celik_not = $validatedData['tasiyici_celik_not'];
         $urun->save();
 
         return redirect()->route('proje.edit', $urun->proje_id)->with('success', 'Ürün başarıyla güncellendi.');

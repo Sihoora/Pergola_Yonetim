@@ -122,36 +122,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mt-4">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">Ürün Listesi</h3>
-                    </div>
-                    <div class="card-body">
-                        <table id="urunTable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Ürün Adı</th>
-                                    <th>RAL Kodu</th>
-                                    <th>Kumaş Cinsi</th>
-                                    <th>Kumaş Profil RAL</th>
-                                    <th>LED Model</th>
-                                    <th>Motor Model</th>
-                                    <th>Kumanda</th>
-                                    <th>Flans</th>
-                                    <th>Arka Çelik</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- AJAX ile doldurulacak -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 @endsection
 
@@ -165,44 +136,6 @@
 <script>
     $(document).ready(function() {
         $('#projectTable').DataTable();
-
-
-        $(document).on('click', '.getUrunler', function() {
-            var projeId = $(this).data('id');
-
-            $.ajax({
-                url: '/proje/' + projeId + '/urunler',
-                method: 'GET',
-                success: function(data) {
-                    var urunTable = $('#urunTable').DataTable();
-                    urunTable.clear().draw();
-
-                    data.forEach(function(urun) {
-                        urunTable.row.add([
-                            urun.urun_name,
-                            urun.ral_kodu,
-                            urun.kumas_cinsi,
-                            urun.kumas_profil_ral,
-                            urun.led_model,
-                            urun.motor_model,
-                            urun.kumanda,
-                            urun.flans,
-                            urun.arka_celik,
-                              '<div class="text-center"><a href="#" class="btn btn-warning btn-sm editProduct" data-id="' + urun.id + '">Düzenle</a></div>'
-                        ]).draw(false);
-                    });
-                },
-                error: function(xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Hata',
-                        text: 'Ürünleri getirirken bir hata oluştu. Lütfen tekrar deneyin.',
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
-                }
-            });
-        });
 
         $(document).on('click', '.editProduct', function() {
             var urunId = $(this).data('id');
@@ -258,13 +191,7 @@
         @endif
     });
 
- function asagiKaydir()
-  {
-    window.scrollBy(0,2000);  
-    setTimeout(function() {
-        window.scrollBy(0, 2000);
-        }, 1000);
-  } 
+
 
 </script>
 @endsection

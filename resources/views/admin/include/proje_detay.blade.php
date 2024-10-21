@@ -433,10 +433,10 @@
         <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Proje Detayı</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
+        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
+        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="custom-tabs-one-uretim-malzeme-tab" data-toggle="pill" href="#custom-tabs-one-uretim-malzeme" role="tab" aria-controls="custom-tabs-one-uretim-malzeme" aria-selected="false">Üretim Malzeme Listesi</a>

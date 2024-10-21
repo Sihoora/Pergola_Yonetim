@@ -417,47 +417,61 @@
                         </div>
                     </form>
                     <hr>
-                    <form id="formTeknikCizim" method="POST" action="{{ route('file.upload') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="proje_id" value="{{ isset($proje) ? $proje->id : '' }}">
-                        <input type="hidden" name="file_type" value="technical_drawing">
-                        <div class="form-group text-center">
-                            <label>Teknik Çizim Dosyası Yükle</label>
-                            <div class="file-loading">
-                                <input id="file-upload-technical" type="file" name="file" class="file" data-show-preview="false">
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
-                        </div>
-                    </form>
+
                     <div class="text-center">
                         <h5 class="mt-4">Yüklenen Dosyalar</h5>
                     </div>
+                    
                     <ul class="list-group" style="gap: 8px;">
                         @if(isset($proje) && $proje->files->count() > 0)
-                            @foreach($proje->files as $file)
-                                <li class="list-group-item text-center" style="border-radius: 10px;">
-                                    {{ $file->file_name }}
-                                    <div class="row justify-content-center" style="gap: 2px;">
-                                        <a href="{{ route('file.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
-                                        <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
-                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Sil</button>
-                                        </form>
-                                    </div>
-                                </li>
-                            @endforeach
+                            @if($proje->files->where('file_type', 'general')->count() > 0)
+                                <h5 class="mt-4">Genel Dosyalar</h5>
+                                @foreach($proje->files as $file)
+                                    @if($file->file_type == 'general')
+                                        <li class="list-group-item text-center" style="border-radius: 10px;">
+                                            {{ $file->file_name }}
+                                            <div class="row justify-content-center" style="gap: 2px;">
+                                                <a href="{{ route('file.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
+                                                <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                                <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endif
+                    
+                            @if($proje->files->where('file_type', 'technical_drawing')->count() > 0)
+                            <h5 class="mt-4">Teknik Çizim Dosyaları</h5>
+                                @foreach($proje->files as $file)
+                                    @if($file->file_type == 'technical_drawing')
+                                        <li class="list-group-item text-center" style="border-radius: 10px;">
+                                            {{ $file->file_name }}
+                                            <div class="row justify-content-center" style="gap: 2px;">
+                                                <a href="{{ route('file.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
+                                                <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('file.preview', $file->id) }}')">Görüntüle</button>
+                                                <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endif
+                    
                         @else
                             <li class="list-group-item text-center">Yüklenen dosya yok.</li>
                         @endif
                     </ul>
-                </div>
-            </div>
+                    
 
-                <div class="card card-primary card-outline" style="margin-top: 5px">
+    
+                <div class="card card-primary card-outline" style="margin-top: 10px">
             <div class="card-header">
                 <h5 class="card-title mb-0">Sipariş Notları</h5>
             </div>

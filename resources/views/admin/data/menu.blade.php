@@ -45,6 +45,18 @@
             </li>
             @endcan
             <li class="nav-item">
+              <a href="{{route('order-create')}}" class="nav-link">
+                <i class="fa fa-list-ul nav-icon"></i>
+                <p>Satın Alma</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('order.list')}}" class="nav-link">
+                <i class="fa fa-list-ul nav-icon"></i>
+                <p>Sipariş Listesi</p>
+              </a>
+            </li>
+            <li class="nav-item">
             </li>
           </ul>
         </li>

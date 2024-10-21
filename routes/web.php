@@ -6,7 +6,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuNavigate;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\OrderFileController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +40,28 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard/proje_ekle', [ProjectController::class, "create"])->name('proje_ekle');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    Route::get('/dashboard/orders', [OrderController::class, 'index'])->name(name: 'order-create');
+
+    Route::post('orders/store', [OrderController::class, 'store'])->name('orders.store');
+
+    Route::get('orders-list', [OrderController::class, 'order_list'])->name('order.list');
+
+    Route::get('orders-details/{id}', [OrderController::class, 'show'])->name('order.details');
+
+    Route::post('/order-files/upload/{order}', [OrderFileController::class, 'upload'])->name('order-files.upload');
+    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
+
+    // Order File preview
+    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
+    Route::get('/file/preview/{id}', action: [FileController::class, 'preview'])->name('file.preview');
+
+    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
+
+    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
+    Route::get('/order-files/download/{id}', [OrderFileController::class, 'download'])->name('order-files.download');
+    Route::delete('/order-files/{id}', [OrderFileController::class, 'delete'])->name('order-files.delete');
+
 
     Route::post('/users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
 
@@ -77,7 +105,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/file-delete/{id}', [FileController::class, 'delete'])->name('file.delete');
 
     // Dosya önizleme işlemi
-    Route::get('/file/preview/{id}', [FileController::class, 'preview'])->name('file.preview');
+    Route::get('/file/preview/{id}', action: [FileController::class, 'preview'])->name('file.preview');
 
     // Proje detay sayfası
     Route::get('/dashboard/proje-detay/{id}', [ProjectController::class, 'show'])->name('proje.detay');

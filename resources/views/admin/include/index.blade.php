@@ -1,5 +1,8 @@
 @extends('admin.tema')
 
+@section('css')
+@endsection
+
 @section('master')
 
 <div class="container">
@@ -55,5 +58,10 @@
 
 
 
+
+@endsection
+
+
+@section('js')
 
 @endsection

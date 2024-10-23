@@ -1,6 +1,7 @@
 @extends('admin.tema')
 
 @section('css')
+
 @endsection
 
 @section('master')
@@ -98,4 +99,7 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
 @endsection

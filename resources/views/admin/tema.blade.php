@@ -34,27 +34,7 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    body {
-        background-color: #f8f9fa;
-        padding: 20px;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    label {
-        font-weight: bold;
-    }
-    input[type="text"],
-    input[list] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    .form-control::placeholder {
-        color: #6c757d;
-    }
+
 </style>
 
 

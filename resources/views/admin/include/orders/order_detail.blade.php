@@ -1,6 +1,7 @@
 @extends('admin.tema')
 
 @section('css')
+
 @endsection
 
 @section('master')
@@ -320,14 +321,15 @@
 @endsection
 
 @section('js')
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+
 // Dosya önizleme modalı açma fonksiyonu
 function showFilePreview(url) {
     $('#filePreviewIframe').attr('src', url);
     $('#filePreviewModal').modal('show');
 }
-
-
 
    $(document).ready(function() {
         $('.toggle-checkbox, .static-checkbox').on('change', function() {
@@ -388,6 +390,7 @@ function showFilePreview(url) {
         document.body.appendChild(form);
         form.submit();
     });
+
 
 
 

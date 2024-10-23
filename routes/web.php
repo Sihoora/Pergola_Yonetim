@@ -41,7 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-    Route::get('/dashboard/orders', [OrderController::class, 'index'])->name(name: 'order-create');
+    Route::get('/dashboard/orders', [OrderController::class, 'index'])->name( 'order-create');
 
     Route::post('orders/store', [OrderController::class, 'store'])->name('orders.store');
 

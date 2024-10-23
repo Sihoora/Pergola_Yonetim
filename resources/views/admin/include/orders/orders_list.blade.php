@@ -1,5 +1,22 @@
 @extends('admin.tema')
 
+
+@section('css')
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap5.css">
+
+<style>
+    .dataTables_wrapper .dataTables_processing .text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+</style>
+@endsection
+
 @section('master')
 <div class="content">
     <div class="container-fluid">
@@ -54,4 +71,21 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('js')
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+$(document).ready(function() {
+    $('#projectTable').DataTable();
+});
+</script>
+
 @endsection

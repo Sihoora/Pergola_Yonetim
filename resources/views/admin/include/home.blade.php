@@ -77,103 +77,98 @@
 </style>
 
 <div class="welcome-container">
-  <h1 class="welcome-heading">Hoşgeldiniz!</h1>
-  <p class="welcome-subheading">Pergola Yönetim Sistemine hoşgeldiniz.</p>
-
-  
-
-<div class="row mt-5">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          <i class="fa fa-book"></i>
-          Kerim Kur'an
-        </h3>
-      </div>
-      <div class="card-body">
-        <blockquote>
-          <p>O halde her fırsatta kararlılıkla yeni şeyler yapmaya giriş.</p>
-          <small>İnşirah Suresi</small>
-        </blockquote>
-      </div>
-    </div>
+  <div style="border-bottom: 3px solid #eee; margin-bottom: 30px;">
+  <h1 class="welcome-heading">HOŞGELDİNİZ!</h1>
+  <p class="welcome-subheading">Pergola Yönetim Sistemine Hoşgeldin, {{ Auth::user()->name }}!</p>
   </div>
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          <i class="fas fa-user-alt"></i>
-          Sözler
-        </h3>
-      </div>
-      <div class="card-body clearfix">
-        <blockquote class="quote-secondary">
-          <p>Güç zihninizdedir, dışarıda bir yerlerde değil. Bunu anladığınızda dayanıklılık gücünüzü de bulacaksınız.</p>
-          <small>Marcus Aurelius</small>
-        </blockquote>
-      </div>
-    </div>
-  </div>
+        <div class="row">
+                <div class="col-md-6">
+                                  <!-- Gelen Kutusu -->
+                              <div class="card" style="">
+                            <div class="card-header border-transparent">
+                              <h5>Gelen Kutusu</h5>
+                            </div>
+                            <div class="card-body p-1">
+                              <div class="table-responsive">
+                                <table class="table m-0">
+                                      @if(auth()->user()->unreadNotifications->count())
+                                          <tbody>
+                                        @foreach(auth()->user()->unreadNotifications as $notification)
+                                              <tr>
+                                                  <td style="width: 50px;">
+                                                    <i class="fa fa-exclamation-circle" style="font-size:24px; color:red;"></i>
+                                                  </td>
+                                                  <td style="text-align: start;">
+                                                        <a href="{{ $notification->data['url'] }}">
+                                                          {{ $notification->data['title'] }}
+                                                        </a>
+                                                  </td>
+                                              </tr>
+                                        @endforeach
+                                          </tbody>
+                                        @else
+                                              <p>Henüz okunmamış bildiriminiz yok.</p>
+                                        @endif
+                                  </table>
+                              </div>
+                                  </div>
+                                    <div class="card-footer">
+                                </div>
+                      </div>  
+                  </div>
+                  <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="fa fa-book"></i>
+                            
+                          </h3>
+                      </div>
+                    <div class="card-body">
+                        <blockquote style="border-bottom: 3px solid #eee;">
+                          <p>O halde her fırsatta kararlılıkla yeni şeyler yapmaya giriş.</p>
+                          <small>İnşirah Suresi</small>
+                        </blockquote>
+                        <blockquote class="quote-secondary" style="border-bottom: 3px solid #eee;">
+                          <p>Güç zihninizdedir, dışarıda bir yerlerde değil. Bunu anladığınızda dayanıklılık gücünüzü de bulacaksınız.</p>
+                           <small>Marcus Aurelius</small>
+                        </blockquote>
+                    </div>
+                  </div>
+                    <div>
+                    <div class="row mt-5">
+                            <div class="col-md-3">
+                              <div class="stat-card">
+                                <h5>Üretimi Devam Eden Projeler</h5>
+                                <p>{{ $devamEdenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="stat-card">
+                                <h5>Bekletilen Projeler</h5>
+                                <p>{{ $bekletilenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="stat-card">
+                                <h5>Sevk İçin Hazır Projeler</h5>
+                                <p>{{ $sevkeHazirProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="stat-card">
+                                <h5>Sevk Edilmiş Projeler</h5>
+                                <p>{{ $sevkEdilmisProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+        </div>
+
 </div>
 
-
-  <div class="row mt-5">
-    <div class="col-md-3">
-      <div class="stat-card">
-        <h5>Üretimi Devam Eden Projeler</h5>
-        <p>{{ $devamEdenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="stat-card">
-        <h5>Bekletilen Projeler</h5>
-        <p>{{ $bekletilenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="stat-card">
-        <h5>Sevk İçin Hazır Projeler</h5>
-        <p>{{ $sevkeHazirProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="stat-card">
-        <h5>Sevk Edilmiş Projeler</h5>
-        <p>{{ $sevkEdilmisProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row mt-5">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          <i class="fas fa-list"></i>
-          İnbox
-        </h3>
-      </div>
-      <div class="card-body">
-        @if(auth()->user()->unreadNotifications->count())
-        <ul>
-            @foreach(auth()->user()->unreadNotifications as $notification)
-                <li>
-                    <a href="{{ $notification->data['url'] }}">
-                        {{ $notification->data['message'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    @else
-        <p>Henüz okunmamış bildiriminiz yok.</p>
-    @endif
-    
-      </div>
-    </div>
-  </div>
-</div>
 
 @endsection
 
@@ -196,6 +191,7 @@
               }
           }
       });
+
   });
 </script>
 @endsection

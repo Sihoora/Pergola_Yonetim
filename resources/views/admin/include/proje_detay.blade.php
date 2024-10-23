@@ -255,10 +255,6 @@
     @endif
  
 
-     <!-- Süreç tarihlerinin ham hali bu. @ ile {} işaretlerini doldurarak kullanabilirsin. -->
-
-
-
 
         <!-- Üretim Emri Oluştur Modal -->
         <div class="modal fade" id="modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

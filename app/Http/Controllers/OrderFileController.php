@@ -21,7 +21,7 @@ class OrderFileController extends Controller
                'file_type' => 'required|string|max:255',
            ]);
    
-           $file = $request->file('file');
+           $file = $request->file('file');  
            $path = $file->store('order_files');
            $fileType = $request->file_type;
    

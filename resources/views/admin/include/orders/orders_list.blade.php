@@ -29,7 +29,7 @@
                                         <td>{{ $order->order_type }}</td>
                                         <td>{{ $order->quantity }}</td>
                                         <td>
-                                            <span class="badge {{ $order->status == 'completed' ? 'badge-success' : 'badge-warning' }}">
+                                            <span class="badge {{ $order->status == 'Sipariş Teslim Alındı' ? 'badge-success' : 'badge-warning' }}">
                                                 {{ $order->status }}
                                             </span>
                                         </td>

@@ -27,7 +27,13 @@ class Order extends Model
         // Order Files ile ilişki tanımı
         public function order_files()
         {   
-            return $this->hasMany(OrderFile::class, 'order_id');  // hasMany ilişkisinin ismi 'order_files'
+            return $this->hasMany(OrderFile::class, 'order_id'); 
+        }
+
+        // Order Notes ile ilişki tanımı
+        public function order_notes()
+        {
+            return $this->hasMany(OrderNote::class, 'order_id'); 
         }
 
 }

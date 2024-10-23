@@ -58,6 +58,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
 
+        // Sipariş not ekleme işlemi
+    Route::post('/siparis-not-ekle', [OrderController::class, 'storeNote'])->name('order.note.store');
+
+    // Sipariş not durum güncelleme işlemi
+    Route::post('/siparis-not-durum-guncelle', [OrderController::class, 'updateNoteStatus'])->name('order.note.update');
+
+    // Sipariş not checkbox durum güncelleme işlemi
+    Route::post('/siparis/{noteId}/toggle-checkbox', [OrderController::class, 'toggleCheckbox']);
+
+    // Sipariş ilerletme işlemi
+    Route::get('/siparis/ilerlet-surec/{id}', [OrderController::class, 'ilerletSurec'])->name('order.ilerletSurec');
+
     Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
     Route::get('/order-files/download/{id}', [OrderFileController::class, 'download'])->name('order-files.download');
     Route::delete('/order-files/{id}', [OrderFileController::class, 'delete'])->name('order-files.delete');

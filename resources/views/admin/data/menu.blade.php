@@ -1,3 +1,8 @@
+
+  @section('css')
+
+  @endsection
+  
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -21,9 +26,9 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item has-treeview menu-open">
-          <a href="#" class="nav-link active">
-            <i class="nav-icon fa fa-compass"></i>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link active" style="padding-left: 15px;">
+            <i class="nav-icon bi bi-buildings" style="padding-left: 0px;"></i>
             <p>
               İmalat Menüsü
               <i class="right fas fa-angle-left"></i>
@@ -32,7 +37,7 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ route('proje_ekle') }}" class="nav-link ">
-                <i class="fa fa-pencil-square-o nav-icon"></i>
+                <i class="fa fa-plus-circle nav-icon"></i>
                 <p>Yeni Proje/Sipariş Oluştur</p>
               </a>
             </li>
@@ -44,33 +49,47 @@
               </a>
             </li>
             @endcan
-            <li class="nav-item">
-              <a href="{{route('order-create')}}" class="nav-link">
-                <i class="fa fa-list-ul nav-icon"></i>
-                <p>Satın Alma</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{route('order.list')}}" class="nav-link">
-                <i class="fa fa-list-ul nav-icon"></i>
-                <p>Sipariş Listesi</p>
-              </a>
-            </li>
-            <li class="nav-item">
-            </li>
           </ul>
         </li>
 
         <div class="user-menu mt-auto">
-        <li class="nav-item has-treeview menu-open">
+        <li class="nav-item has-treeview">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fa fa-cogs"></i>
-              <p>
+              <i class="nav-icon bi bi-box-seam"></i>
+              <p style="margin-left: 12px;">
+                 Sipariş Menüsü
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" >
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                  <a href="{{route('order-create')}}" class="nav-link">
+                    <i class="fa fa-plus-circle nav-icon"></i>
+                    <p>Satın Alma</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{route('order.list')}}" class="nav-link">
+                    <i class="fa fa-list-ul nav-icon"></i>
+                    <p>Sipariş Yönetim</p>
+                  </a>
+                </li>
+                </ul>
+            </ul>
+          </li>
+        </div>
+
+        <div class="user-menu mt-auto">
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon bi bi-person-gear"></i>
+              <p style="margin-left: 12px;">
                  Profil Ayarları
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" >
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                   <li class="nav-item">
                     <a href="{{ route('profile.show') }}" class="nav-link">
@@ -100,8 +119,15 @@
           </li>
         </div>
 
+
       </ul>
     </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+
+    @section('js')
+    
+    <script src="{{ asset('admin') }}/dist/js/menu.js"></script>
+    
+    @endsection

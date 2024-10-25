@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DashboardController;
@@ -32,48 +33,17 @@ Route::get('/', function () {
 
 // Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-
+    
     // Dashboard sayfası    
     Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 
-    // Proje ekleme sayfası
-    Route::get('/dashboard/proje_ekle', [ProjectController::class, "create"])->name('proje_ekle');
-
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-    Route::get('/dashboard/orders', [OrderController::class, 'index'])->name( 'order-create');
 
-    Route::post('orders/store', [OrderController::class, 'store'])->name('orders.store');
+    // Proje Modülü API
 
-    Route::get('orders-list', [OrderController::class, 'order_list'])->name('order.list');
-
-    Route::get('orders-details/{id}', [OrderController::class, 'show'])->name('order.details');
-
-    Route::post('/order-files/upload/{order}', [OrderFileController::class, 'upload'])->name('order-files.upload');
-    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
-
-    // Order File preview
-    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
-    Route::get('/file/preview/{id}', action: [FileController::class, 'preview'])->name('file.preview');
-
-    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
-
-        // Sipariş not ekleme işlemi
-    Route::post('/siparis-not-ekle', [OrderController::class, 'storeNote'])->name('order.note.store');
-
-    // Sipariş not durum güncelleme işlemi
-    Route::post('/siparis-not-durum-guncelle', [OrderController::class, 'updateNoteStatus'])->name('order.note.update');
-
-    // Sipariş not checkbox durum güncelleme işlemi
-    Route::post('/siparis/{noteId}/toggle-checkbox', [OrderController::class, 'toggleCheckbox']);
-
-    // Sipariş ilerletme işlemi
-    Route::get('/siparis/ilerlet-surec/{id}', [OrderController::class, 'ilerletSurec'])->name('order.ilerletSurec');
-
-    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
-    Route::get('/order-files/download/{id}', [OrderFileController::class, 'download'])->name('order-files.download');
-    Route::delete('/order-files/{id}', [OrderFileController::class, 'delete'])->name('order-files.delete');
-
+    // Proje ekleme sayfası
+    Route::get('/dashboard/proje_ekle', [ProjectController::class, "create"])->name('proje_ekle');
 
     Route::post('/users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
 
@@ -136,6 +106,67 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // Proje PDF oluşturma işlemi
     Route::get('/proje/{id}/pdf-olustur', [ProjectController::class, 'generatePDF'])->name('proje.pdf');
+
+
+
+    // Sipariş Modülü API
+    
+    Route::get('/dashboard/orders', [OrderController::class, 'index'])->name( 'order-create');
+
+    Route::post('orders/store', [OrderController::class, 'store'])->name('orders.store');
+
+    Route::get('orders-list', [OrderController::class, 'order_list'])->name('order.list');
+
+    Route::get('orders-details/{id}', [OrderController::class, 'show'])->name('order.details');
+
+    Route::post('/order-files/upload/{order}', [OrderFileController::class, 'upload'])->name('order-files.upload');
+
+    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
+
+    // Order File preview
+    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
+    
+    Route::get('/file/preview/{id}', action: [FileController::class, 'preview'])->name('file.preview');
+
+    Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
+    // Sipariş not ekleme işlemi
+    Route::post('/siparis-not-ekle', [OrderController::class, 'storeNote'])->name('order.note.store');
+
+    // Sipariş not durum güncelleme işlemi
+    Route::post('/siparis-not-durum-guncelle', [OrderController::class, 'updateNoteStatus'])->name('order.note.update');
+
+    // Sipariş not checkbox durum güncelleme işlemi
+    Route::post('/siparis/{noteId}/toggle-checkbox', [OrderController::class, 'toggleCheckbox']);
+
+    // Sipariş ilerletme işlemi
+    Route::get('/siparis/ilerlet-surec/{id}', [OrderController::class, 'ilerletSurec'])->name('order.ilerletSurec');
+
+    Route::get('/order-files/preview/{id}', [OrderFileController::class, 'preview'])->name('order-files.preview');
+    Route::get('/order-files/download/{id}', [OrderFileController::class, 'download'])->name('order-files.download');
+    Route::delete('/order-files/{id}', [OrderFileController::class, 'delete'])->name('order-files.delete');
+
+    // Sipariş Düzenleme Sayfası
+    Route::get('/dashboard/order-edit/{id}', [OrderController::class, "edit"])->name('order.edit');
+
+    // Sipariş Kaydetme İşlemi
+    Route::put('/order-update/{id}', [OrderController::class, 'update'])->name('order.update');
+
+
+
+    // Firma Modülü API
+    
+    Route::get('/dashboard/company', [CompanyController::class, 'create'])->name( 'company-create');
+
+    Route::post('companies/store', [CompanyController::class, 'store'])->name('companies.store');
+
+    Route::get('companies-edit/{id}', [CompanyController::class, 'edit'])->name('company-edit');
+
+    Route::put('companies-update/{id}', [CompanyController::class, 'update'])->name('company-update');
+
+    Route::get('companies-list', [CompanyController::class, 'company_list'])->name('company.list');
+
+    Route::get('companies-details/{id}', [CompanyController::class, 'show'])->name('company.details');
+
 
 
 

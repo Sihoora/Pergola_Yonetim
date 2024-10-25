@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('product_name');
             $table->integer('quantity');
             $table->unsignedBigInteger('created_by');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('Sipariş Verildi');
             $table->timestamps();
             
             // Foreign key constraint

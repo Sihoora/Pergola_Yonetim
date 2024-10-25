@@ -80,6 +80,35 @@
           </li>
         </div>
 
+
+        <div class="user-menu mt-auto">
+          <li class="nav-item has-treeview">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon bi bi-box-seam"></i>
+                <p style="margin-left: 12px;">
+                   Firma Menüsü
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" >
+                  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                      <li class="nav-item">
+                    <a href="{{route('company-create')}}" class="nav-link">
+                      <i class="fa fa-plus-circle nav-icon"></i>
+                      <p>Firma Oluştur</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('company.list')}}" class="nav-link">
+                      <i class="fa fa-list-ul nav-icon"></i>
+                      <p>Firma Yönetim</p>
+                    </a>
+                  </li>
+                  </ul>
+              </ul>
+            </li>
+          </div>
+
         <div class="user-menu mt-auto">
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link active">

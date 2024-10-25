@@ -26,18 +26,18 @@
                                 <div class="card card-primary">
                                     <div class="card-header"></div>
                                     <div class="card-body">
-                                        <form role="form" id="orderForm" action="{{ route('orders.store') }}" method="post" enctype="multipart/form-data"> 
+                                        <form role="form" id="orderForm" action="{{ isset($order) ? route('order.update', $order->id) : route('orders.store') }}" method="post" enctype="multipart/form-data"> 
                                             @csrf
-                                            @if(isset($proje))
+                                            @if(isset($order))
                                                 @method('PUT')
                                             @endif
-                                            
+                    
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label>Sipariş Kodu</label>
-                                                        <input type="text" name="order_code" class="form-control" value="{{$newOrderNumber}}" placeholder="Sipariş Kodu" disabled>
-                                                        <input type="hidden" name="order_code" value="{{$newOrderNumber}}">
+                                                        <input type="text" name="order_code" class="form-control" value="{{ isset($order) ? $order->order_code : $newOrderNumber }}" placeholder="Sipariş Kodu" disabled>
+                                                        <input type="hidden" name="order_code" value="{{ isset($order) ? $order->order_code : $newOrderNumber }}">
                                                     </div>
                                                 </div>
                                         

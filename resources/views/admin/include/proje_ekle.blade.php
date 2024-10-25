@@ -156,7 +156,6 @@
                                                          <input type="hidden" name="proje_kodu" value="{{ isset($proje) ? $proje->proje_kodu : $newProjectCode }}">
                                               </div>
                                           </div>
-                                          <!-- Buraya gizli input içerisinde User id gönderilecek Auth::user()->email  -->
                                             <input type="hidden" name="created_by" value="{{ Auth::user()->id }}">
                                           <div class="col-sm-3">
                                               <div class="form-group">

@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-12" style="align-items: right; text-align: right;">
                                 @can('view projects')
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-order-note">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-order-note">
                                     <i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> Sipariş Notu Oluştur
                                 </button>
                                 @endcan

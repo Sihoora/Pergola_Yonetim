@@ -39,10 +39,6 @@ class OrderController extends Controller
         return view("admin.include.orders.orders_list", compact("orders"));
     }
 
-
-
-
-
     public function store(Request $request)
     {
         DB::beginTransaction(); 
@@ -97,9 +93,40 @@ class OrderController extends Controller
             return redirect()->back()->withErrors('Sipariş oluşturulurken bir hata oluştu: ' . $e->getMessage());
         }
     }
+
+    public function edit($id)
+    {
+        $order = Order::find($id);
     
+        if (!$order) {
+            return redirect()->back()->with('error', 'Sipariş bulunamadı.');
+        }
+    
+        return view('admin.include.orders.order_create', compact('order'));
+    }
 
-
+    public function update(Request $request, $id)
+    {
+        $order = Order::find($id);
+    
+        if (!$order) {
+            return redirect()->back()->with('error', 'Sipariş bulunamadı.');
+        }
+    
+        $validatedData = $request->validate([
+            'order_type' => 'required|string|max:50',
+            'product_name' => 'required|string|max:50',
+            'quantity' => 'required|numeric',
+        ]);
+    
+        $order->order_type = $validatedData['order_type'];
+        $order->product_name = $validatedData['product_name'];
+        $order->quantity = $validatedData['quantity'];
+        $order->save();
+    
+        return redirect()->route('order.details', $order->id)->with('success', 'Sipariş başarıyla güncellendi.');
+    }
+    
     public function ekleSabitNotlar($orderId)
 {
     $sabitNotlar = [
@@ -116,10 +143,7 @@ class OrderController extends Controller
             'checked' => false // Notlar başlangıçta "unchecked" olarak ekleniyor.
         ]);
     }
-}
-
-
-    
+    }
 
     public function show($id)
     {
@@ -150,53 +174,53 @@ class OrderController extends Controller
     ]);
 
     return redirect()->back()->with('success', 'Sipariş notu başarıyla eklendi.');
-}
-
-public function ilerletSurec($id)
-{
-    $order = Order::find($id);
-    $allNotesChecked = $order->order_notes()->where('checked', false)->count() === 0;
-
-    if ($allNotesChecked) {
-        $order->status = 'Sipariş Teslim Alındı';
-        $order->save();
-
-        return redirect()->route('order.details', $order->id)->with('success', 'Sipariş süreci başarıyla ilerletildi!');
     }
 
-    return redirect()->route('order.details', $order->id)->with('error', 'Tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
-}
+    public function ilerletSurec($id)
+    {
+        $order = Order::find($id);
+        $allNotesChecked = $order->order_notes()->where('checked', false)->count() === 0;
 
-public function toggleCheckbox($noteId, Request $request)
-{
-    $note = OrderNote::find($noteId);
-    
-    if ($note) {
-        // Checkbox verisini güncelliyoruz
-        $note->checked = $request->input('checked');
-        $note->save();
+        if ($allNotesChecked) {
+            $order->status = 'Sipariş Teslim Alındı';
+            $order->save();
+
+            return redirect()->route('order.details', $order->id)->with('success', 'Sipariş süreci başarıyla ilerletildi!');
+        }
+
+        return redirect()->route('order.details', $order->id)->with('error', 'Tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
+    }
+
+    public function toggleCheckbox($noteId, Request $request)
+    {
+        $note = OrderNote::find($noteId);
         
-        return response()->json(['status' => 'success']);
+        if ($note) {
+            // Checkbox verisini güncelliyoruz
+            $note->checked = $request->input('checked');
+            $note->save();
+            
+            return response()->json(['status' => 'success']);
+        }
+        
+        return response()->json(['status' => 'error']);
     }
-    
-    return response()->json(['status' => 'error']);
-}
-public function updateNoteStatus(Request $request)
-{
-    $request->validate([
-        'note_id' => 'required|exists:order_notes,id',
-        'checked' => 'required|boolean',
-    ]);
+    public function updateNoteStatus(Request $request)
+    {
+        $request->validate([
+            'note_id' => 'required|exists:order_notes,id',
+            'checked' => 'required|boolean',
+        ]);
 
-    $note = OrderNote::find($request->input('note_id'));
+        $note = OrderNote::find($request->input('note_id'));
 
-    if ($note) {
-        $note->checked = $request->input('checked');
-        $note->save();
+        if ($note) {
+            $note->checked = $request->input('checked');
+            $note->save();
+        }
+
+        return redirect()->back()->with('success', 'Not durumu başarıyla güncellendi.');
     }
-
-    return redirect()->back()->with('success', 'Not durumu başarıyla güncellendi.');
-}
 
 
 

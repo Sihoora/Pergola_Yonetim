@@ -135,37 +135,71 @@
                         </blockquote>
                     </div>
                   </div>
-                    <div>
-                    <div class="row mt-5">
-                            <div class="col-md-3">
-                              <div class="stat-card">
-                                <h5>Üretimi Devam Eden Projeler</h5>
-                                <p>{{ $devamEdenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="stat-card">
-                                <h5>Bekletilen Projeler</h5>
-                                <p>{{ $bekletilenProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="stat-card">
-                                <h5>Sevk İçin Hazır Projeler</h5>
-                                <p>{{ $sevkeHazirProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="stat-card">
-                                <h5>Sevk Edilmiş Projeler</h5>
-                                <p>{{ $sevkEdilmisProjeSayisi }} / {{ $toplamProjeSayisi }}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-
         </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{ $devamEdenProjeSayisi }}</h3>
+
+                <p>Üretimi Devam Eden Proje</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-cogs"></i>
+              </div>
+              <div class="small-box-footer"></div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{ $sevkeHazirProjeSayisi }}</h3>
+
+                <p>Sevk İçin Hazır Proje</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-cubes"></i>
+              </div>
+              <div class="small-box-footer"></div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ $bekletilenProjeSayisi }}</h3>
+
+                <p>Bekletilen Proje</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-hourglass-half"></i>
+              </div>
+              <div class="small-box-footer"></div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ $sevkEdilmisProjeSayisi }}</h3>
+
+                <p>Sevk Edilmiş Proje</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-check-square-o"></i>
+              </div>
+              <div class="small-box-footer"></div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
 
 </div>
 

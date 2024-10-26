@@ -6,7 +6,7 @@
 @section('master')
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white text-center">
             <h4>{{ isset($company) ? 'Firmayı Güncelle' : 'Yeni Firma Oluştur' }}</h4>
         </div>
         <div class="card-body">
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 text-end">
+                    <div class="col-12" style="text-align: end; justify-content: end; align-items: end">
                         <button type="submit" class="btn btn-success">{{ isset($company) ? 'Firmayı Güncelle' : 'Yeni Firma Oluştur' }}</button>
                     </div>
                 </div>

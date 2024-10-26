@@ -84,7 +84,7 @@
         <div class="user-menu mt-auto">
           <li class="nav-item has-treeview">
               <a href="#" class="nav-link active">
-                <i class="nav-icon bi bi-box-seam"></i>
+                <i class="nav-icon bi bi-building-add"></i>
                 <p style="margin-left: 12px;">
                    Firma Menüsü
                   <i class="right fas fa-angle-left"></i>

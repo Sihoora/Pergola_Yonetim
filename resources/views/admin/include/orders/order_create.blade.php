@@ -53,6 +53,19 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="company">Firma Seçin</label>
+                                                    <select name="company_id" id="company" class="form-control" required>
+                                                        <option value="">Firma Seçin</option>
+                                                        @foreach($companies as $company)
+                                                        <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                                            {{ $company->company_name }}
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                </div>
                                         
                                                 <div class="col-sm-3">
                                                     <div class="form-group">

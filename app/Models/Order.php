@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\OrderFile;
+use App\Models\Company;
 
 class Order extends Model
 {
@@ -12,6 +13,7 @@ class Order extends Model
 
     protected $fillable = [
         'order_code',
+        'company_id',
         'order_type',
         'product_name',
         'quantity',
@@ -39,7 +41,7 @@ class Order extends Model
           
         public function company()
         {
-            return $this->belongsTo(Company::class); 
+            return $this->belongsTo(Company::class, 'company_id'); 
         }
 
 }

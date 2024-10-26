@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\OrderNote;
 use App\Models\OrderFile;
+use App\Models\Company;
 use App\Models\File;
 use App\Http\Controllers\OrderFileController;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class OrderController extends Controller
     {
         
         $users = User::all();
+        $companies = Company::all();
         
         $lastOrder = Order::orderBy('id', 'desc')->first();
 
@@ -30,7 +32,7 @@ class OrderController extends Controller
             $newOrderNumber = 1;
         }  
 
-             return view('admin.include.orders.order_create', compact('newOrderNumber', 'users'));
+             return view('admin.include.orders.order_create', compact('newOrderNumber', 'users', 'companies'));
     }
 
     public function order_list()
@@ -53,6 +55,7 @@ class OrderController extends Controller
                 'product_name' => 'required|string|max:50',
                 'quantity' => 'required|numeric',
                 'created_by' => 'required|integer|exists:users,id',
+                'company_id' => 'required|exists:companies,id',
                 // Dosya yükleme kontrolü
                 'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
                 'file_type' => 'nullable|string|max:255',
@@ -60,6 +63,7 @@ class OrderController extends Controller
     
             $order = Order::create([
                 'order_code' => $newOrderNumber,
+                'company_id'=> $validatedData['company_id'],
                 'order_type' => $validatedData['order_type'],
                 'product_name' => $validatedData['product_name'],
                 'quantity' => $validatedData['quantity'],

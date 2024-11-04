@@ -39,7 +39,7 @@ class SurecIlerlemeBildirimi extends Notification implements ShouldQueue
     {
         return [
             'proje_id' => $this->proje->id,
-            'title' => 'Proje Süreci İlerletildi',
+            'title' => 'Proje Süreci İlerletildi. ',
             'message' => 'Projenizin süreci bir sonraki aşamaya ilerletildi: Teknik Çizimler Yapıldı.',
             'url' => url('/dashboard/proje-detay/' . $this->proje->id),
         ];

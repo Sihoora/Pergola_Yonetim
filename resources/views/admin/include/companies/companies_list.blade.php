@@ -29,10 +29,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-left">Firma Adı</th>
-                                    <th>Telefon</th>
                                     <th>E-posta</th>
-                                    <th>Vergi Kimlik Numarası</th>
                                     <th>Şehir</th>
+                                    <th>Yetkili Kişi</th>
                                     <th>İşlemler</th>
                                 </tr>
                             </thead>
@@ -40,10 +39,9 @@
                                 @foreach ($companies as $company)
                                     <tr>
                                         <td class="text-left">{{ $company->company_name }}</td>
-                                        <td>{{ $company->phone }}</td>
                                         <td>{{ $company->email }}</td>
-                                        <td>{{ $company->tax_id }}</td>
                                         <td>{{ $company->city }}</td>
+                                        <td>{{ $company->contact_person }}</td>
                                         <td class="text-center align-middle">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

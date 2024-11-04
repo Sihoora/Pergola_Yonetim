@@ -38,6 +38,8 @@
 </style>
 
 
+
+
  @yield('css')
 </head>
 
@@ -127,5 +129,7 @@
 
 
 @yield('js')
+
+
 </body>
 </html>

@@ -40,3 +40,16 @@
     * - Üretim malzeme listesi, Montaj malzeme listesi, Depo&Sevkiyat, Proje İçin ilave siparişler alanı eklendi.
     * - Oluşturulma tarihi eklendi.
  */
+
+/* 
+    * v0.0.4
+    * Emirhan Gedik
+    * 04-11-2024
+    * 
+    * Versiyon Aciklamasi:
+    * - Sohbet - Mesajlaşma özelliği eklendi.
+    * - Sohbet uygulaması ilk versiyonu yayınlandı.
+    * - Sohbet uygulaması için gerekli olan veritabanı tabloları oluşturuldu.
+    * - Sohbet uygulaması için gerekli olan API'lar yazıldı.
+
+ */

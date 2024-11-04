@@ -19,14 +19,11 @@ input::file-selector-button {
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="h4 m-0">Sipariş Oluştur</span>
-                            <div class="row" style=" justify-content: end;">
-                                <!-- Siparişi Tamamla Butonu -->
-                                <button type="submit" form="orderForm" class="btn btn-success" style="margin-right: 20px;">Siparişi Tamamla</button>
-                            </div>
+                            <span class="h4 m-0">Sipariş Oluştur</span>                  
                         </div>
                     </div>
 
+                    
                     <div class="card-body pad table-responsive">
                         <div class="row" style="text-align: center; align-items: center; justify-content: center;">
                             <div class="col-md-10">
@@ -61,6 +58,7 @@ input::file-selector-button {
                                                     </div>
                                                 </div>
 
+                                                @if(!(isset($order)))
                                                 <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="company">Firma Seçin</label>
@@ -73,6 +71,7 @@ input::file-selector-button {
                                                     </select>
                                                 </div>
                                                 </div>
+                                                @endif
                                         
                                                 <div class="col-sm-8">
                                                     <div class="form-group">
@@ -101,7 +100,7 @@ input::file-selector-button {
                                                 <div class="row" style="margin-top: auto;">
                                                     <label for="file" style="display: block;">
                                                         <img src="https://i.imgur.com/MXDcuyY.png" alt="" style="width: 90px; height: auto; margin-left: 5px;">
-                                                        <h6>(Opsiyonel)</h6>
+                                                        <h6>Sipariş İçeriği(Opsiyonel)</h6>
                                                         <input type="file" name="file" id="file"> 
                                                     </label>
                                                 </div>
@@ -129,4 +128,32 @@ input::file-selector-button {
 @endsection
 
 @section('js')
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Başarılı',
+            text: '{{ session('success') }}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Tamam'
+        });
+    @endif
+
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Hata',
+            text: '{{ session('error') }}',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Tamam'
+        });
+    @endif
+});
+</script>
+
+
 @endsection

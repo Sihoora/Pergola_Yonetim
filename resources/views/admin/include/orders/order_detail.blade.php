@@ -1,6 +1,26 @@
 @extends('admin.tema')
 
 @section('css')
+<style>
+.uploaded-file {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 200px; /* Görünüm için belirli bir genişlik sınırı */
+}
+
+.file-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+</style>
 
 @endsection
 
@@ -117,10 +137,10 @@
                         <!-- Nav Tabs -->
                         <ul class="nav nav-tabs mt-4" id="custom-tabs-one-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Depo</a>
+                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Depo & Sipariş Emirleri</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Üretim Emirleri</a>
+                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Geçmiş Siparişler</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
@@ -132,13 +152,13 @@
                             <!-- Sipariş Detayı Tab İçeriği -->
                             <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                                 
-                                        <!-- Proje Detayı -->
         <div class="card-body pad table-responsive" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
             <!-- Ürün Bilgileri -->
             <div class="col-md-8" style="border-right:2px solid #dee2e6">
                 <h5 class="details-header-text">Depo Onay & Sayım İşlemleri</h5>
                 <hr>
 
+  
                 @if(isset($order->order_notes) && $order->order_notes->count() > 0)
                 <!-- SÜREÇ NOTLARI -->
                 <div class="card" style="margin-top: 15px;">
@@ -152,63 +172,71 @@
                         <ul class="todo-list" data-widget="todo-list">
                             <!-- Dinamik Notlar -->
                             @foreach($order->order_notes as $note)
-                                <li class="@if($note->checked) done @endif">
-                                    <span>
-                                        <i class="fa fa-sticky-note"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
-                                        <label for="todoCheck{{ $note->id }}"></label>
-                                    </div>
-                                    <span class="text">{{ $note->note }}</span>
-                                    <div class="tools"></div>
-                                </li>
+                                    <li class="@if($note->checked) done @endif">
+                                        <span><i class="fa fa-sticky-note"></i></span>
+                                        <div class="icheck-primary d-inline ml-2">
+                                            <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
+                                            <label for="todoCheck{{ $note->id }}"></label>
+                                        </div>
+                                        <span class="text">{{ $note->note }}</span>
+                                    </li>
                             @endforeach
                         </ul>
                     </div>
-                    @if(isset($order) && $order->status == 'Sipariş Verildi')
                     <div class="card-footer clearfix">
-                            <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled >Süreci İlerlet</button>
+                        <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
                     </div>
-                    @endif
                 </div>
-            @else
-                <p>Sipariş emri bulunmamaktadır.</p>
-            @endif
-
-
-
-
+                @else
+                    <p>Sipariş emri bulunmamaktadır.</p>
+                @endif
             </div>
 
-            <!-- Notlar -->
-            <div class="col-md-4">
-                <h5 class="details-header-text">NOTLAR</h5>
-                <ul class="todo-list" data-widget="todo-list">
-                    <!-- Bildirim?nof -->
-                    <li class="" style="border: 0.1rem solid;">
-                        <span>
-                            <i class="fa fa-sticky-note"></i>
-                        </span>
-                        <div class="icheck-primary d-inline"></div>
-                        <span class="text"></span>
-                        <div class="tools"></div>
-                    </li>
-                </ul>
+            <div class="col-md-4 d-flex flex-column align-items-center">
+                <h5 class="details-header-text text-center" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 15px;">Sipariş İçeriği</h5>
+                <div class="uploaded-file border border-primary rounded shadow" id="uploaded-file-container" style="width: 100%; max-width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                    <p>Yükleniyor...</p>
+                </div>
             </div>
-        </div>
-
-
-                            </div>
-
+        </div> 
+    </div>
                             <!-- Üretim Emirleri Tab İçeriği -->
                             <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                                 <div class="card-body pad table-responsive">
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <p>Üretim emirleri bu alanda görüntülenecektir.</p>
-                                        </div>
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            <i class="ion ion-clipboard mr-1"></i>
+                                            Firmadan Yapılan Geçmiş Siparişler
+                                        </h3>
                                     </div>
+                                    <br>
+                                 
+                                @if($company->id && $company->orders->count() > 0)
+                                    <div class="row">
+                                        @foreach($company->orders as $order)
+                                            <div class="col-md-6 col-lg-4 mb-4">
+                                                <div class="card shadow-sm border-light">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title font-weight-bold">{{ $order->product_name }}</h5>
+                                                        <p class="card-text">
+                                                            <strong>Adet:</strong> {{ $order->quantity }}<br>
+                                                            <strong>Tip:</strong> {{ $order->type }}<br>
+                                                            <strong>Sipariş Kodu:</strong> {{ $order->order_code }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-footer text-right">
+                                                        <small class="text-muted">Sipariş Tarihi: {{ $order->created_at->format('d-m-Y') }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted">Bu şirkete ait geçmiş sipariş bulunamadı.</p>
+                                @endif
+                                
+
+
                                 </div>
                             </div>
 
@@ -393,14 +421,60 @@ function showFilePreview(url) {
 
 
 
-
-
-
-
-
-
-
-
-
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Tamam'
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata',
+                text: '{{ session('error') }}',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Tamam'
+            });
+        @endif
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileId = {{ $order->order_files->first()->id ?? 'null' }};
+
+        if (fileId) {
+            fetchFilePreview(fileId);
+        } else {
+            document.getElementById('uploaded-file-container').innerHTML = '<p>Dosya bulunamadı.</p>';
+        }
+
+        function fetchFilePreview(id) {
+            fetch(`/order-files/preview/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Dosya alınamadı.');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const imgUrl = URL.createObjectURL(blob);
+                    document.getElementById('uploaded-file-container').innerHTML = `
+                        <img src="${imgUrl}" alt="Yüklenen Dosya" class="img-fluid rounded" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('uploaded-file-container').innerHTML = `<p>${error.message}</p>`;
+                });
+        }
+    });
+</script>
+
 @endsection

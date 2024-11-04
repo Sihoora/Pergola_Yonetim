@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
@@ -11,9 +12,9 @@ use App\Http\Controllers\OrderFileController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
-
-
-
+use App\Http\Controllers\ChatController;
+use App\Events\MessageSent;
+use App\Livewire\GroupChat;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,6 +129,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     Route::get('/file/preview/{id}', action: [FileController::class, 'preview'])->name('file.preview');
 
+    Route::get('/order-files/{filename}', [OrderFileController::class, 'showFile'])->name('order-files.show');
+
+
     Route::get('/order-files/{orderId}', [OrderFileController::class, 'getFiles'])->name('order-files.list');
     // Sipariş not ekleme işlemi
     Route::post('/siparis-not-ekle', [OrderController::class, 'storeNote'])->name('order.note.store');
@@ -166,6 +170,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('companies-list', [CompanyController::class, 'company_list'])->name('company.list');
 
     Route::get('companies-details/{id}', [CompanyController::class, 'show'])->name('company.details');
+
+
+
+    // Real Time Chat Modülü API
+
+    Route::get('/dashboard/chat', function () {
+        return view('admin.include.chat.group-chat');
+    })->name('chat.index');
+
+
 
 
 

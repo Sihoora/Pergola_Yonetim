@@ -1,7 +1,6 @@
 @extends('admin.tema')
 
 @section('css')
-
 @endsection
 
 @section('master')
@@ -49,8 +48,8 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>Vergi Numarası</label>
-                                        <input type="text" name="tax_number" class="form-control" value="{{ $company->tax_id }}" disabled>
+                                        <label>E-posta</label>
+                                        <input type="text" name="e-mail" class="form-control" value="{{ $company->email }}" disabled>
                                     </div>
                                 </div>
 
@@ -62,13 +61,34 @@
                                 </div>
                             </div>
                         </form>
+                        <hr>
 
-                        <!-- Actions -->
-                        <div class="row">
-                            <div class="col-12 text-right">
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-company-note">
-                                    <i class="fa fa-pencil-square-o"></i> Şirket Notu Ekle
-                                </button>
+                        <!-- New Cards for Contact and Address Information -->
+                        <div class="row mt-4">
+                            <!-- Contact Information Card -->
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="m-0">İletişim Bilgileri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>İlgili Kişi:</strong> {{ $company->contact_person }}</p>
+                                        <p><strong>İletişim Numarası:</strong> {{ $company->contact_phone }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address Information Card -->
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-secondary">
+                                    <div class="card-header bg-secondary text-white">
+                                        <h5 class="m-0">Adres Bilgileri</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Adres:</strong> {{ $company->address }}</p>
+                                        <p><strong>Şehir:</strong> {{ $company->city }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -86,19 +106,45 @@
                             <!-- Files Tab -->
                             <div class="tab-pane fade show active" id="custom-tabs-one-files" role="tabpanel">
                                 <div class="card-body pad table-responsive">
+                                    <!-- Files content here -->
                                 </div>
                             </div>
 
                             <!-- Orders Tab -->
                             <div class="tab-pane fade" id="custom-tabs-one-orders" role="tabpanel">
                                 <div class="card-body pad table-responsive">
+                                    <!-- Orders content here -->
+
+                                    @if($company->id && $company->orders->count() > 0)
+                                    <div class="row">
+                                        @foreach($company->orders as $order)
+                                            <div class="col-md-6 col-lg-4 mb-4">
+                                                <div class="card shadow-sm border-light">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title font-weight-bold">{{ $order->product_name }}</h5>
+                                                        <p class="card-text">
+                                                            <strong>Adet:</strong> {{ $order->quantity }}<br>
+                                                            <strong>Tip:</strong> {{ $order->type }}<br>
+                                                            <strong>Sipariş Kodu:</strong> {{ $order->order_code }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-footer text-right">
+                                                        <small class="text-muted">Sipariş Tarihi: {{ $order->created_at->format('d-m-Y') }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted">Bu şirkete ait geçmiş sipariş bulunamadı.</p>
+                                @endif
+                                
+
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

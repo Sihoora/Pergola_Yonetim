@@ -53,7 +53,7 @@ class OrderController extends Controller
             $validatedData = $request->validate([
                 'order_type' => 'required|string|max:50',
                 'product_name' => 'required|string|max:50',
-                'quantity' => 'required|numeric',
+                'quantity' => 'nullable|numeric',
                 'created_by' => 'required|integer|exists:users,id',
                 'company_id' => 'required|exists:companies,id',
                 // Dosya yükleme kontrolü
@@ -71,6 +71,7 @@ class OrderController extends Controller
             ]);
     
             $this->ekleSabitNotlar($order->id);
+
     
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
@@ -89,7 +90,7 @@ class OrderController extends Controller
             // if success, commit the transaction
             DB::commit();
     
-            return redirect()->route('order-create', $order->id)->with('success', 'Sipariş başarıyla oluşturuldu.');
+            return redirect()->route('order.details', $order->id)->with('success', 'Sipariş başarıyla oluşturuldu.');
     
         } catch (\Exception $e) {
             // if any exception, rollback the transaction
@@ -101,12 +102,14 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order = Order::find($id);
+        $companies = Company::all();
+
     
         if (!$order) {
             return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
     
-        return view('admin.include.orders.order_create', compact('order'));
+        return view('admin.include.orders.order_create', compact('order', 'companies'));
     }
 
     public function update(Request $request, $id)
@@ -147,20 +150,21 @@ class OrderController extends Controller
             'checked' => false // Notlar başlangıçta "unchecked" olarak ekleniyor.
         ]);
     }
-    }
+} 
 
     public function show($id)
     {
         // Dosyalarla birlikte sipariş verisini getiriyoruz
         $order = Order::with('order_files')->find($id);
         $order_notes = Order::with('order_notes')->find($id);
+        $company = Company::with('orders')->find($order->company_id);
 
     
         if (!$order) {
             return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
     
-        return view('admin.include.orders.order_detail', compact('order', 'order_notes'));  // order_detail.blade.php sayfasına veriyi geçiyoruz
+        return view('admin.include.orders.order_detail', compact('order', 'order_notes', 'company'));  // order_detail.blade.php sayfasına veriyi geçiyoruz
     }
 
     public function storeNote(Request $request)
@@ -180,20 +184,40 @@ class OrderController extends Controller
     return redirect()->back()->with('success', 'Sipariş notu başarıyla eklendi.');
     }
 
+    
     public function ilerletSurec($id)
     {
         $order = Order::find($id);
-        $allNotesChecked = $order->order_notes()->where('checked', false)->count() === 0;
-
-        if ($allNotesChecked) {
-            $order->status = 'Sipariş Teslim Alındı';
-            $order->save();
-
-            return redirect()->route('order.details', $order->id)->with('success', 'Sipariş süreci başarıyla ilerletildi!');
+    
+        if (!$order) {
+            return redirect()->route('order.details', $id)->with('error', 'Sipariş bulunamadı.');
         }
-
-        return redirect()->route('order.details', $order->id)->with('error', 'Tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
+    
+        $allNotesChecked = $order->order_notes()->where('checked', false)->count() === 0;
+    
+        if (!$allNotesChecked) {
+            return redirect()->route('order.details', $order->id)->with('error', 'Tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
+        }
+    
+        // Statü sırasını kontrol ederek güncelleme yapalım
+        switch ($order->status) {
+            case 'Talep Oluşturuldu':
+                $order->status = 'Sipariş Verildi';
+                break;
+    
+            case 'Sipariş Verildi':
+                $order->status = 'Teslim Alındı';
+                break;
+    
+            case 'Teslim Alındı':
+                return redirect()->route('order.details', $order->id)->with('success', 'Sipariş zaten tamamlanmış durumda.');
+        }
+    
+        $order->save();
+    
+        return redirect()->route('order.details', $order->id)->with('success', 'Sipariş süreci başarıyla ilerletildi!');
     }
+    
 
     public function toggleCheckbox($noteId, Request $request)
     {

@@ -15,26 +15,69 @@ class OrderFileController extends Controller
        // Dosya yükleme metodu
        public function upload(Request $request)
        {
+           // Dosya yükleme doğrulama kuralları
            $request->validate([
                'file' => 'required|file|mimes:pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
                'order_id' => 'required|exists:orders,id',
                'file_type' => 'required|string|max:255',
            ]);
-   
-           $file = $request->file('file');  
-           $path = $file->store('order_files');
-           $fileType = $request->file_type;
-   
+       
+           $file = $request->file('file');
+           $filename = $file->getClientOriginalName();
+       
+           // Dosyayı public diskinde 'order_files' klasörüne yükle
+           $path = $file->storeAs('order_files', $filename, 'public');
+           
+       
+           // Veritabanına 'order_files/filename' formatında yolu kaydet
            $orderFile = new OrderFile();
            $orderFile->order_id = $request->order_id;
-           $orderFile->file_path = $path;
-           $orderFile->file_type = $fileType;
-           $orderFile->file_name = $file->getClientOriginalName();
-
+           $orderFile->file_path = $path; // `order_files/filename` şeklinde kaydedilir
+           $orderFile->file_type = $request->file_type;
+           $orderFile->file_name = $filename;
            $orderFile->save();
-   
-           return redirect()->back()->with('info', 'Dosya başarıyla yüklendi.');
+       
+           return redirect()->back()->with('success', 'Dosya başarıyla yüklendi.');
        }
+
+       
+
+
+
+
+       public function preview($id)
+       {
+           $file = OrderFile::findOrFail($id);
+           $path = storage_path('app/' . $file->file_path);
+       
+           if (!file_exists($path)) {
+               abort(404);
+           }
+       
+           return response()->file($path);
+       }
+
+       public function showFile($filename)
+       {
+           // Tam dosya yolunu tanımla
+           $path = storage_path('app/order_files/' . $filename);
+       
+           // Eğer dosya mevcut değilse hata döndür
+           if (!file_exists($path)) {
+               abort(404, 'Dosya bulunamadı.');
+           }
+       
+           // Dosya tipini dinamik olarak ayarla
+           $mimeType = mime_content_type($path);
+       
+           // Dosyayı doğru MIME türü ile döndür
+           return response()->file($path, [
+               'Content-Type' => $mimeType,
+           ]);
+       }
+       
+
+       
    
        // Dosyaları listeleme metodu
        public function getFiles($orderId)
@@ -51,18 +94,8 @@ class OrderFileController extends Controller
        }
 
             
-        public function preview($id)
-        {
-            $file = OrderFile::findOrFail($id);
-            $path = storage_path('app/' . $file->file_path);
-
-            if (!file_exists($path)) {
-                abort(404);
-            }
-
-            return response()->file($path);
-        }
-   
+ 
+       
        // Dosya silme metodu
        public function delete($id)
        {

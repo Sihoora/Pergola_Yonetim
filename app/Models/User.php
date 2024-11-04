@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Project;
+use App\Models\Message;
 
 
 
@@ -66,10 +69,18 @@ class User extends Authenticatable
     ];
 
 
-    public function createdProjects()
+
+    public function ChatMessage()
+    {
+        return $this->belongsTo(ChatMessage::class);
+    }
+
+public function createdProjects()
 {
     return $this->hasMany(Project::class, 'created_by');
 }
+
+
 
     
 

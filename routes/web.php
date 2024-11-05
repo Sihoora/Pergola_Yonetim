@@ -179,6 +179,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('admin.include.chat.group-chat');
     })->name('chat.index');
 
+    Route::post('/mark-mentions-as-read', function () {
+        auth()->user()->notifications()
+            ->where('type', 'App\Notifications\MentionNotification')
+            ->get()
+            ->each(function($notification) {
+                $notification->markAsRead();
+            });
+        
+        return response()->json(['success' => true]);
+    })->middleware('auth');
+
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 use App\Events\MessageSent;
 use App\Models\ChatMessage;
 use App\Models\User;
+use App\Notifications\MentionNotification;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -79,6 +80,15 @@ class ChatComponent extends Component
         $newMessage->load('user');
         
         broadcast(new MessageSent($newMessage))->toOthers();
+
+        if (!empty($mentionedUsers)) {
+            foreach ($mentionedUsers as $userId) {
+                $mentionedUser = User::find($userId);
+                if ($mentionedUser) {
+                    $mentionedUser->notify(new MentionNotification($newMessage, auth()->user(), route('dashboard')));
+                }
+            }
+        }
         
         $this->messages->push($newMessage);
         $this->message = '';

@@ -93,7 +93,7 @@
                                 <table class="table m-0">
                                       @if(auth()->user()->unreadNotifications->count())
                                           <tbody>
-                                        @foreach(auth()->user()->unreadNotifications as $notification)
+                                        @foreach(auth()->user()->notifications()->where('type', 'App\Notifications\SurecIlerlemeBildirimi')->latest()->get() as $notification)
                                               <tr>
                                                   <td style="width: 50px;">
                                                     <i class="fa fa-exclamation-circle" style="font-size:24px; color:red;"></i>
@@ -116,25 +116,53 @@
                                 </div>
                       </div>  
                   </div>
+
                   <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="fa fa-book"></i>
-                            
-                          </h3>
-                      </div>
-                    <div class="card-body">
-                        <blockquote style="border-bottom: 3px solid #eee;">
-                          <p>O halde her fırsatta kararlılıkla yeni şeyler yapmaya giriş.</p>
-                          <small>İnşirah Suresi</small>
-                        </blockquote>
-                        <blockquote class="quote-secondary" style="border-bottom: 3px solid #eee;">
-                          <p>Güç zihninizdedir, dışarıda bir yerlerde değil. Bunu anladığınızda dayanıklılık gücünüzü de bulacaksınız.</p>
-                           <small>Marcus Aurelius</small>
-                        </blockquote>
+                    <div class="card">
+                        <div class="card-header border-transparent">
+                            <h5>Bahsedilmeler</h5>
+                        </div>
+                        <div class="card-body p-1">
+                            <div class="table-responsive">
+                                <table class="table m-0">
+                                    @if(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->count())
+                                        <tbody>
+                                            @foreach(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->latest()->get() as $notification)
+                                                <tr>
+                                                    <td style="width: 50px;">
+                                                        <i class="fas fa-at" style="font-size:24px; color:#2196f3;"></i>
+                                                    </td>
+                                                    <td style="text-align: start;">
+                                                        <a href="{{ $notification->data['url'] }}" class="text-dark">
+                                                            {{ $notification->data['title'] }}
+                                                            <small class="text-muted d-block">
+                                                                {{ $notification->created_at->diffForHumans() }}
+                                                            </small>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    @else
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                Henüz bahsedilme bildiriminiz yok.
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @if(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->count() > 0)
+                                <a href="#" onclick="markAllAsRead()" class="btn btn-sm btn-outline-secondary">
+                                    Tümünü Okundu İşaretle
+                                </a>
+                            @endif
+                        </div>
                     </div>
-                  </div>
+                </div>
+
         </div>
 
         <div class="row">
@@ -228,4 +256,27 @@
 
   });
 </script>
+
+
+<script>
+
+function markAllAsRead() {
+    fetch('/mark-mentions-as-read', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            window.location.reload();
+        }
+    });
+}
+
+
+</script>
+
 @endsection

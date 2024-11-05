@@ -13,6 +13,7 @@ class DashboardController extends Controller
     public function home()
     {
         $projeler = Project::all();
+        $notifications = auth()->user()->notifications;
         $devamEdenProjeSayisi = Project::where('durum', 'ÜRETİMİ DEVAM EDEN PROJELER')->count();
         $bekletilenProjeSayisi = Project::where('durum', 'BEKLETİLEN PROJELER')->count();
         $sevkeHazirProjeSayisi = Project::where('durum', 'SEVK İÇİN HAZIR PROJELER')->count();
@@ -20,7 +21,7 @@ class DashboardController extends Controller
         
         $toplamProjeSayisi = Project::count(); // Toplam proje sayısı
     
-        return view('admin.include.home', compact('devamEdenProjeSayisi', 'bekletilenProjeSayisi', 'sevkeHazirProjeSayisi', 'sevkEdilmisProjeSayisi', 'toplamProjeSayisi','projeler'));
+        return view('admin.include.home', compact('devamEdenProjeSayisi', 'bekletilenProjeSayisi', 'sevkeHazirProjeSayisi', 'sevkEdilmisProjeSayisi', 'toplamProjeSayisi','projeler', 'notifications'));
     }
 
    public function index()

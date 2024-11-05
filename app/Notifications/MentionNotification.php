@@ -12,9 +12,9 @@ class MentionNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $message;
-    private $sender;
-    private $url;
+    public $message;
+    public $sender;
+    public $url;
 
     public function __construct($message, $sender, $url)
     {
@@ -31,17 +31,10 @@ class MentionNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'message' => [
-                'id' => $this->message->id,
-                'content' => $this->message->message,
-                'created_at' => $this->message->created_at
-            ],
-            'sender' => [
-                'id' => $this->sender->id,
-                'name' => $this->sender->name,
-                'avatar' => $this->sender->avatar
-            ],
-            'url' => $this->url
+            'title' => is_string($this->sender->name) ? $this->sender->name . ' sizi bir mesajda etiketledi' : json_encode($this->sender->name) . ' sizi bir mesajda etiketledi',
+            'message' => is_string($this->message->message) ? $this->message->message : json_encode($this->message->message),
+            'url' => $this->url,
+
         ];
     }
 
@@ -52,15 +45,15 @@ class MentionNotification extends Notification implements ShouldQueue
             'type' => 'mention',
             'message' => [
                 'id' => $this->message->id,
-                'content' => $this->message->message,
+                'content' => is_string($this->message->message) ? $this->message->message : json_encode($this->message->message),
                 'created_at' => $this->message->created_at->toDateTimeString()
             ],
             'sender' => [
                 'id' => $this->sender->id,
-                'name' => $this->sender->name,
+                'name' => is_string($this->sender->name) ? $this->sender->name : json_encode($this->sender->name),
                 'avatar' => $this->sender->avatar
             ],
-            'url' => $this->url
         ]);
     }
+
 }

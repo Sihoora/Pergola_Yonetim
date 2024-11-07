@@ -179,7 +179,8 @@ class ProjectController extends Controller
             'Proje Onay',
             'Proje Ön Hazırlık', 
             'Üretim Aşaması',
-            'Sevk İçin Hazır',  
+            'Sevk İçin Hazır',
+            'Sevk Edildi',
         ];
     
         // Mevcut sürecin indexini al
@@ -195,8 +196,10 @@ class ProjectController extends Controller
             ]);
     
             // Süreci bir sonraki aşamaya ilerlet
+            if ($currentIndex < 6) {
             $proje->surec = $sira[$currentIndex + 1];
             $proje->save();
+            }   
     
             // Eğer süreç 'Teknik Çizim' aşamasına gelirse, bildirimi gönder
             if ($proje->surec == 'Teknik Çizim') {

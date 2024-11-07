@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 use App\Events\MessageSent;
 use App\Livewire\GroupChat;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,16 +180,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('admin.include.chat.group-chat');
     })->name('chat.index');
 
-    Route::post('/mark-mentions-as-read', function () {
-        auth()->user()->notifications()
-            ->where('type', 'App\Notifications\MentionNotification')
-            ->get()
-            ->each(function($notification) {
-                $notification->markAsRead();
-            });
-        
-        return response()->json(['success' => true]);
-    })->middleware('auth');
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+
 
 
 

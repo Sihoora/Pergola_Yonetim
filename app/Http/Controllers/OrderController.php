@@ -55,7 +55,7 @@ class OrderController extends Controller
                 'product_name' => 'required|string|max:50',
                 'quantity' => 'nullable|numeric',
                 'created_by' => 'required|integer|exists:users,id',
-                'company_id' => 'required|exists:companies,id',
+                'company_id' => 'nullable|exists:companies,id',
                 // Dosya yükleme kontrolü
                 'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
                 'file_type' => 'nullable|string|max:255',
@@ -135,22 +135,43 @@ class OrderController extends Controller
     }
     
     public function ekleSabitNotlar($orderId)
-{
-    $sabitNotlar = [
-        'Sipariş oluşturuldu.',
-        'Ürün bilgileri sisteme girildi.',
-        'Miktar doğrulandı.',
-        'Sipariş kontrol ediliyor.'
-    ];
+    {
+        $order = Order::find($orderId);
+        
+        // Her durum için sabit notlar
+        $sabitNotlar = [
+            'Talep Oluşturuldu' => [
+                'Sipariş talebi oluşturuldu.',
+                'Ürün ve miktar bilgileri kontrol edildi.',
+                'Tedarikçi seçimi yapıldı.',
+                'Fiyat teklifi bekleniyor.'
+            ],
+            'Sipariş Verildi' => [
+                'Tedarikçi ile sipariş görüşüldü.',
+                'Fiyat ve ödeme şartları belirlendi.',
+                'Sipariş tedarikçiye iletildi.',
+                'Teslimat tarihi netleştirildi.'
+            ],
+            'Teslim Alındı' => [
+                'Ürünler depoya ulaştı.',
+                'Ürün kalite kontrolü yapıldı.',
+                'İrsaliye kontrolü yapıldı.',
+                'Stok girişi tamamlandı.'
+            ]
+        ];
 
-    foreach ($sabitNotlar as $note) {
-        OrderNote::create([
-            'order_id' => $orderId,
-            'note' => $note,
-            'checked' => false // Notlar başlangıçta "unchecked" olarak ekleniyor.
-        ]);
+        // Sadece mevcut duruma ait notları ekle
+        if (isset($sabitNotlar[$order->status])) {
+            foreach ($sabitNotlar[$order->status] as $not) {
+                OrderNote::create([
+                    'order_id' => $orderId,
+                    'note' => $not, 
+                    'checked' => false,
+                    'status' => $order->status
+                ]);
+            }
+        }
     }
-} 
 
     public function show($id)
     {
@@ -183,23 +204,26 @@ class OrderController extends Controller
 
     return redirect()->back()->with('success', 'Sipariş notu başarıyla eklendi.');
     }
-
-    
+   
     public function ilerletSurec($id)
     {
         $order = Order::find($id);
     
         if (!$order) {
-            return redirect()->route('order.details', $id)->with('error', 'Sipariş bulunamadı.');
+            return redirect()->back()->with('error', 'Sipariş bulunamadı.');
         }
     
-        $allNotesChecked = $order->order_notes()->where('checked', false)->count() === 0;
+        // Mevcut duruma ait tüm notların kontrolü
+        $allNotesChecked = $order->order_notes()
+            ->where('status', $order->status)
+            ->where('checked', false)
+            ->count() === 0;
     
         if (!$allNotesChecked) {
-            return redirect()->route('order.details', $order->id)->with('error', 'Tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
+            return redirect()->back()->with('error', 'Bu aşamadaki tüm notlar tamamlanmadan süreci ilerletemezsiniz.');
         }
     
-        // Statü sırasını kontrol ederek güncelleme yapalım
+        // Statü güncelleme
         switch ($order->status) {
             case 'Talep Oluşturuldu':
                 $order->status = 'Sipariş Verildi';
@@ -210,14 +234,16 @@ class OrderController extends Controller
                 break;
     
             case 'Teslim Alındı':
-                return redirect()->route('order.details', $order->id)->with('success', 'Sipariş zaten tamamlanmış durumda.');
+                return redirect()->back()->with('success', 'Sipariş zaten tamamlanmış durumda.');
         }
     
         $order->save();
+        
+        // Yeni duruma ait notları ekle
+        $this->ekleSabitNotlar($order->id);
     
-        return redirect()->route('order.details', $order->id)->with('success', 'Sipariş süreci başarıyla ilerletildi!');
+        return redirect()->back()->with('success', 'Sipariş süreci başarıyla ilerletildi!');
     }
-    
 
     public function toggleCheckbox($noteId, Request $request)
     {

@@ -25,7 +25,7 @@ class ChatComponent extends Component
 
     public function getUsersList($search = '')
     {
-        Log::info('Searching users with query: ' . $search);
+   //     Log::info('Searching users with query: ' . $search);
         
         $search = trim($search);
         
@@ -38,6 +38,8 @@ class ChatComponent extends Component
         ->get(['id', 'name'])
         ->toArray();
     }
+
+    
 
     public function loadMessages()
     {
@@ -61,14 +63,14 @@ class ChatComponent extends Component
         $mentionedUsers = [];
         
         if (!empty($matches[1])) {
-            Log::info('Found mentions:', $matches[1]);
+       //     Log::info('Found mentions:', $matches[1]);
             
             $mentionedUsernames = array_map('trim', $matches[1]);
             $mentionedUsers = User::whereIn('name', $mentionedUsernames)
                 ->pluck('id')
                 ->toArray();
                 
-            Log::info('Mentioned user IDs:', $mentionedUsers);
+          //  Log::info('Mentioned user IDs:', $mentionedUsers);
         }
 
         $newMessage = ChatMessage::create([

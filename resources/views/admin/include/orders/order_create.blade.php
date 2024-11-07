@@ -62,7 +62,7 @@ input::file-selector-button {
                                                 <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="company">Firma Seçin</label>
-                                                    <select name="company_id" id="company" class="form-control" required>
+                                                    <select name="company_id" id="company" class="form-control">
                                                         <option value="">Firma Seçin</option>
                                                         @foreach($companies as $company)
                                                         <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
@@ -104,7 +104,6 @@ input::file-selector-button {
                                                         <input type="file" name="file" id="file"> 
                                                     </label>
                                                 </div>
-
                                                 <div>
                                                 <input type="hidden" name="file_type" id="file_type" value="order_content">
                                                     </div>

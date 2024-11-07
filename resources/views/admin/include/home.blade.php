@@ -101,7 +101,9 @@
                                                   <td style="text-align: start;">
                                                         <a href="{{ $notification->data['url'] }}">
                                                           {{ $notification->data['title'] }}
-                                                        </a>
+                                                          <small class="text-muted d-block">
+                                                        </small>
+                                                        </a>  
                                                   </td>
                                               </tr>
                                         @endforeach
@@ -125,7 +127,7 @@
                         <div class="card-body p-1">
                             <div class="table-responsive">
                                 <table class="table m-0">
-                                    @if(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->count())
+                                    @if(auth()->user()->unreadNotifications->count())
                                         <tbody>
                                             @foreach(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->latest()->get() as $notification)
                                                 <tr>
@@ -134,11 +136,15 @@
                                                     </td>
                                                     <td style="text-align: start;">
                                                         <a href="{{ $notification->data['url'] }}" class="text-dark">
-                                                            {{ $notification->data['title'] }}
+                                                            {{ $notification->data['title'] }}   
+                                                             <br><small class="text-muted">
+                                                              "{{ $notification->data['message'] }}" 
+                                                            </small>        
                                                             <small class="text-muted d-block">
                                                                 {{ $notification->created_at->diffForHumans() }}
                                                             </small>
                                                         </a>
+
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -155,7 +161,7 @@
                         </div>
                         <div class="card-footer">
                             @if(auth()->user()->notifications()->where('type', 'App\Notifications\MentionNotification')->count() > 0)
-                                <a href="#" onclick="markAllAsRead()" class="btn btn-sm btn-outline-secondary">
+                                <a href="#" onclick="" class="btn btn-sm btn-outline-secondary">
                                     Tümünü Okundu İşaretle
                                 </a>
                             @endif

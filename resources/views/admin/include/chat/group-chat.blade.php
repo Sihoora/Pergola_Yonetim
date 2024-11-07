@@ -139,7 +139,7 @@ body {
 @endsection
 
 @section('master')
-<div class="container-fluid">
+<div class="container-fluid" style="">
     @livewire('chat-component')
 </div>
 @endsection
@@ -163,13 +163,13 @@ document.addEventListener('livewire:load', function () {
     let mentionInProgress = false;
     
     function initializeUsersList() {
-        if (!usersList) {
-            usersList = document.createElement('div');
-            usersList.className = 'users-list';
-            document.querySelector('.chat-input').appendChild(usersList);
-            console.log('Users list initialized');
-        }
+    if (!usersList) {
+        usersList = document.createElement('div');
+        usersList.className = 'users-list';
+        document.querySelector('.chat-input .input-group').appendChild(usersList);
+        console.log('Users list initialized');
     }
+}
     
     initializeUsersList();
     
@@ -201,31 +201,36 @@ document.addEventListener('livewire:load', function () {
     }
     
     function showUsersList(users) {
-        if (!usersList) initializeUsersList();
-        
-        usersList.innerHTML = users.map((user, index) => `
-            <div class="user-item ${index === 0 ? 'selected' : ''}" 
-                 data-user-id="${user.id}" 
-                 data-user-name="${user.name}">
-                ${user.name}
-            </div>
-        `).join('');
-        
-        positionUsersList();
-        usersList.classList.add('visible');
-        addUserClickListeners();
-    }
+    if (!usersList) initializeUsersList();
     
-    function positionUsersList() {
+    usersList.innerHTML = users.map((user, index) => `
+        <div class="user-item ${index === 0 ? 'selected' : ''}" 
+             data-user-id="${user.id}" 
+             data-user-name="${user.name}">
+            ${user.name}
+        </div>
+    `).join('');
+    
+    usersList.style.display = 'block';
+    usersList.classList.add('visible');
+    
+    positionUsersList();
+    
+    addUserClickListeners();
+}
+
+
+function positionUsersList() {
     if (!usersList || !chatInput) return;
     
     const inputRect = chatInput.getBoundingClientRect();
-    const chatInputContainer = document.querySelector('.chat-input');
+    const inputGroupRect = document.querySelector('.input-group').getBoundingClientRect();
     
     usersList.style.position = 'absolute';
-    usersList.style.bottom = '100%';
-    usersList.style.left = '16px';
-    usersList.style.width = `${inputRect.width - 100}px`;
+    usersList.style.bottom = `${inputRect.height + 5}px`; 
+    usersList.style.left = '0';
+    usersList.style.width = `${inputGroupRect.width - 120}px`; 
+    usersList.style.zIndex = '1000';
 }
     
 function selectUser(userItem) {
@@ -252,15 +257,16 @@ function selectUser(userItem) {
     chatInput.focus();
 }
     
-    function hideUsersList() {
-        if (usersList) {
-            usersList.classList.remove('visible');
-            isUserListVisible = false;
-            if (!mentionInProgress) {
-                currentMentionStart = -1;
-            }
+function hideUsersList() {
+    if (usersList) {
+        usersList.style.display = 'none';
+        usersList.classList.remove('visible');
+        isUserListVisible = false;
+        if (!mentionInProgress) {
+            currentMentionStart = -1;
         }
     }
+}
     
     let inputTimeout;
     chatInput.addEventListener('input', function(e) {

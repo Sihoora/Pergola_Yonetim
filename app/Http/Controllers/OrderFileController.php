@@ -11,7 +11,6 @@ use Exception;
 
 class OrderFileController extends Controller
 {
-    //
        // Dosya yükleme metodu
        public function upload(Request $request)
        {
@@ -41,10 +40,6 @@ class OrderFileController extends Controller
        }
 
        
-
-
-
-
        public function preview($id)
        {
            $file = OrderFile::findOrFail($id);

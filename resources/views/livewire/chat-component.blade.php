@@ -20,7 +20,7 @@
 
     <div class="chat-input relative">
         <form wire:submit.prevent="sendMessage">
-            <div class="input-group">
+            <div class="input-group position-relative"> 
                 <input 
                     type="text" 
                     wire:model.defer="message" 

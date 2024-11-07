@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\DatabaseMessage;
 use Illuminate\Notifications\Notification;
+use Carbon\Carbon;
 
 class MentionNotification extends Notification implements ShouldQueue
 {
@@ -31,10 +32,15 @@ class MentionNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
+            'id' => $this->id,
             'title' => is_string($this->sender->name) ? $this->sender->name . ' sizi bir mesajda etiketledi' : json_encode($this->sender->name) . ' sizi bir mesajda etiketledi',
             'message' => is_string($this->message->message) ? $this->message->message : json_encode($this->message->message),
             'url' => $this->url,
-
+            'sender_id' => $this->sender->id,
+            'sender_name' => $this->sender->name,
+            'chat_message_id' => $this->message->id,
+            'created_at' => now(),
+            'read_at' => null
         ];
     }
 
@@ -53,7 +59,7 @@ class MentionNotification extends Notification implements ShouldQueue
                 'name' => is_string($this->sender->name) ? $this->sender->name : json_encode($this->sender->name),
                 'avatar' => $this->sender->avatar
             ],
+            'read_at' => null
         ]);
     }
-
 }

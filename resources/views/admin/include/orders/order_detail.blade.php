@@ -145,6 +145,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Dosyalar</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Sipariş İçeriği</a>
+                            </li>
                         </ul>
 
                         <!-- Tab Content -->
@@ -159,36 +162,41 @@
                 <hr>
 
   
-                @if(isset($order->order_notes) && $order->order_notes->count() > 0)
+                @if(isset($order->order_notes) && $order->order_notes->where('status', $order->status)->count() > 0)
                 <!-- SÜREÇ NOTLARI -->
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="ion ion-clipboard mr-1"></i>
-                            Sipariş Emirleri ve Süreç Notları
+                            {{ $order->status }} - Süreç Notları
                         </h3>
                     </div>
                     <div class="card-body">
                         <ul class="todo-list" data-widget="todo-list">
-                            <!-- Dinamik Notlar -->
-                            @foreach($order->order_notes as $note)
-                                    <li class="@if($note->checked) done @endif">
-                                        <span><i class="fa fa-sticky-note"></i></span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" class="toggle-checkbox" data-note-id="{{ $note->id }}" id="todoCheck{{ $note->id }}" @if($note->checked == 1) checked @endif>
-                                            <label for="todoCheck{{ $note->id }}"></label>
-                                        </div>
-                                        <span class="text">{{ $note->note }}</span>
-                                    </li>
+                            @foreach($order->order_notes->where('status', $order->status) as $note)
+                                <li class="@if($note->checked) done @endif">
+                                    <span><i class="fa fa-sticky-note"></i></span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" 
+                                               class="toggle-checkbox" 
+                                               data-note-id="{{ $note->id }}" 
+                                               id="todoCheck{{ $note->id }}" 
+                                               @if($note->checked) checked @endif>
+                                        <label for="todoCheck{{ $note->id }}"></label>
+                                    </div>
+                                    <span class="text">{{ $note->note }}</span>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
                     <div class="card-footer clearfix">
-                        <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
+                        <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>
+                            Süreci İlerlet
+                        </button>
                     </div>
                 </div>
                 @else
-                    <p>Sipariş emri bulunmamaktadır.</p>
+                    <p>Bu aşama için henüz not bulunmamaktadır.</p>
                 @endif
             </div>
 
@@ -200,6 +208,7 @@
             </div>
         </div> 
     </div>
+
                             <!-- Üretim Emirleri Tab İçeriği -->
                             <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                                 <div class="card-body pad table-responsive">
@@ -211,6 +220,7 @@
                                     </div>
                                     <br>
                                  
+                              @if($company)
                                 @if($company->id && $company->orders->count() > 0)
                                     <div class="row">
                                         @foreach($company->orders as $order)
@@ -234,6 +244,10 @@
                                 @else
                                     <p class="text-muted">Bu şirkete ait geçmiş sipariş bulunamadı.</p>
                                 @endif
+                                
+                            @else
+                            <p class="text-muted">Firma seçimi yapılmadığı için geçmiş sipariş bilgilerine ulaşılamıyor.</p>
+                            @endif
                                 
 
 
@@ -261,7 +275,8 @@
                                                     </select>
                                                 </div>
                                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                                <button type="submit" class="btn btn-success">Yükle</button>
+                                                <button type="submit" class="btn btn-success">Yükle</button> 
+                                                <hr>   
                                             </form>
                                         </div>
                                     </div>
@@ -339,6 +354,93 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <!-- Sipariş İçeriği Tab İçeriği -->
+                            <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                                <div class="card-body pad table-responsive">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!-- Dosya Yükleme Formu -->
+                                            <form action=C method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="file">Dosya Yükle</label>
+                                                    <input type="file" class="form-control" name="file" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="file_type">Dosya Türü</label>
+                                                    <select name="file_type" class="form-control">
+                                                        <option value="order_detail">Sipariş Dosyası</option>
+                                                        <option value="order_content">Sipariş İçeriği Resim Dosyası</option>                                                        
+                                                        <option value="other">Diğer</option>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                                <button type="submit" class="btn btn-success">Yükle</button> 
+                                                <hr>   
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dosya Listeleme -->
+                                    <ul class="list-group" style="gap: 8px;">
+                                        @if($order->order_files->count() > 0)
+
+                                            <!-- Fatura Dosyaları -->
+                                            @if($order->order_files->where('file_type', 'order_detail')->count() > 0)
+                                                <h5 class="mt-4">Sipariş İçeriği Dosyaları</h5>
+                                                @foreach($order->order_files as $file)
+                                                    @if($file->file_type == 'order_detail')
+                                                        <li class="list-group-item text-center" style="border-radius: 10px;">
+                                                            {{ $file->file_name }} - {{ ucfirst($file->file_type) }}
+                                                            <div class="row justify-content-center" style="gap: 2px;">
+                                                                <a href="{{ route('order-files.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
+                                                                <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('order-files.preview', $file->id) }}')">Görüntüle</button>
+                                                                <form action="{{ route('order-files.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                                                </form>
+                                                            </div>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+
+                                            <!-- Diğer Dosyalar -->
+                                            @if($order->order_files->where('file_type', 'other')->count() > 0)
+                                                <h5 class="mt-4">Diğer Dosyalar</h5>
+                                                @foreach($order->order_files as $file)
+                                                    @if($file->file_type == 'other')
+                                                        <li class="list-group-item text-center" style="border-radius: 10px;">
+                                                            {{ $file->file_name }} - {{ ucfirst($file->file_type) }}
+                                                            <div class="row justify-content-center" style="gap: 2px;">
+                                                                <a href="{{ route('order-files.download', $file->id) }}" class="btn btn-sm btn-primary">İndir</a>
+                                                                <button type="button" class="btn btn-sm btn-info" onclick="showFilePreview('{{ route('order-files.preview', $file->id) }}')">Görüntüle</button>
+                                                                <form action="{{ route('order-files.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                                                </form>
+                                                            </div>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+
+                                        @else
+                                            <li class="list-group-item text-center">Bu sipariş için henüz dosya yüklenmemiş.</li>
+                                        @endif
+                                    </ul>
+                                </div>
+
+
+
+
+
+
+
+
                         </div>
                     </div> <!-- card-body Sonu -->
                 </div> <!-- card Sonu -->

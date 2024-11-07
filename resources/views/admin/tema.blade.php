@@ -150,93 +150,40 @@
 <script src="{{ asset('admin') }}/dist/js/menu.js"></script>
 
 <script>
-  // Bildirim izni kontrolü ve isteme
-  function requestNotificationPermission() {
-      if ('Notification' in window) {
-          Notification.requestPermission();
+function markNotificationAsRead(notificationId) {
+  fetch(`/notifications/${notificationId}/mark-as-read`, {
+      method: 'POST',
+      headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
       }
-  }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          // Bildirimi okundu olarak işaretle ve UI'ı güncelle
+          document.querySelector(`#notification-${notificationId}`).classList.add('read');
+      }
+  });
+}
 
-  // Sayfa yüklendiğinde bildirim izni iste
-  document.addEventListener('DOMContentLoaded', requestNotificationPermission);
-
-  // Echo kanalını dinle
-  window.Echo.private(`App.Models.User.${userId}`)
-      .notification((notification) => {
-          if (notification.type === 'mention') {
-              // Masaüstü bildirimi göster
-              if ('Notification' in window && Notification.permission === 'granted') {
-                  const notificationOptions = {
-                      body: notification.message.content,
-                      icon: notification.sender.avatar || '/default-avatar.png', // Varsayılan avatar yolunu ayarlayın
-                      badge: '/notification-badge.png', // Bildirim rozeti için bir resim yolu
-                      tag: 'mention-notification',
-                      data: {
-                          url: notification.url
-                      }
-                  };
-
-                  const desktopNotification = new Notification(notification.title, notificationOptions);
-
-                  // Bildirime tıklandığında ilgili URL'ye yönlendir
-                  desktopNotification.onclick = function() {
-                      window.focus();
-                      window.location.href = this.data.url;
-                  };
-              }
-
-              // Özel bildirim kutusu oluştur
-              const notificationHtml = `
-                  <div class="custom-notification" style="
-                      position: fixed;
-                      top: 20px;
-                      right: 20px;
-                      background: white;
-                      padding: 15px;
-                      border-radius: 8px;
-                      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                      z-index: 9999;
-                      max-width: 350px;
-                      display: flex;
-                      align-items: start;
-                      gap: 10px;
-                      animation: slideIn 0.5s ease-out;
-                  ">
-                      <img src="${notification.sender.avatar || '/default-avatar.png'}" 
-                           style="width: 40px; height: 40px; border-radius: 50%;" 
-                           alt="${notification.sender.name}">
-                      <div>
-                          <div style="font-weight: bold; margin-bottom: 5px;">
-                              ${notification.title}
-                          </div>
-                          <div style="color: #666; font-size: 0.9em;">
-                              ${notification.message.content}
-                          </div>
-                      </div>
-                      <button onclick="this.parentElement.remove()" 
-                              style="position: absolute; top: 5px; right: 5px; 
-                                     border: none; background: none; cursor: pointer; 
-                                     font-size: 18px; color: #999;">
-                          ×
-                      </button>
-                  </div>
-              `;
-
-              // Bildirimi DOM'a ekle
-              document.body.insertAdjacentHTML('beforeend', notificationHtml);
-
-              // 5 saniye sonra bildirimi otomatik olarak kaldır
-              setTimeout(() => {
-                  const notification = document.querySelector('.custom-notification');
-                  if (notification) {
-                      notification.style.animation = 'slideOut 0.5s ease-out';
-                      setTimeout(() => notification.remove(), 500);
-                  }
-              }, 5000);
-          }
-      });
+function markAllNotificationsAsRead() {
+  fetch('/notifications/mark-all-as-read', {
+      method: 'POST',
+      headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          // Tüm bildirimleri okundu olarak işaretle ve UI'ı güncelle
+          document.querySelectorAll('.notification-item').forEach(item => {
+              item.classList.add('read');
+          });
+      }
+  });
+}
 </script>
-
 
 @yield('js')
 

@@ -3,103 +3,134 @@
 @section('css')
 
 <style>
-    .chat-container {
-        display: flex;
-        flex-direction: column;
-        height: 600px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-image: url('{{ asset('admin/dist/img/chat_background.png') }}');
-        background-size: cover;
-        background-position: center;
-    }
-    
-    .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem;
-        background-color: rgba(255, 255, 255, 0.8);
-    }
-    
-    .message {
-        margin-bottom: 1rem;
-        padding: 0.5rem;
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.8);
-    }
-    
-    .message-mine {
-        background-color: rgba(220, 248, 198, 0.8);
-        margin-left: 20%;
-    }
-    
-    .message-other {
-        background-color: rgba(255, 255, 255, 0.8);
-        margin-right: 20%;
-    }
-    
-    .message-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.25rem;
-    }
-    
-    .chat-input {
+
+ /* Sayfa ortalama için body düzenlemeleri */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Sayfanın tamamını kaplaması için */
+    margin: 0;
+    background-color: #f0f2f5; /* Chat arka planı ile uyumlu bir arka plan rengi */
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vh; /* Genişlik, ekranın %80'i olacak şekilde ayarlandı */
+    height: 85vh; /* Yüksekliği ekranın %80’i olacak şekilde ayarlandı */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f4f6f9;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: #ffffff;
+    opacity: 0.95; /* Opaklık ile daha yumuşak bir görünüm */
+    border-bottom: 1px solid #ddd;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.message-mine {
+    background-color: #e1ffc7;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.message-other {
+    background-color: #f1f1f1;
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.chat-input {
     padding: 1rem;
     border-top: 1px solid #ddd;
     background-color: rgba(255, 255, 255, 0.9);
-    position: relative;
-    }
+    height: 80px; /* Input kısmının yüksekliğini artırdık */
+    display: flex; /* Flex yapısıyla daha iyi hizalama */
+    align-items: center;
+    gap: 0.5rem; /* Buton ve input arasındaki boşluk */
+}
 
-.input-group {
-    display: flex;
-    gap: 0.5rem;
+.chat-input input[type="text"] {
+    flex: 1; /* Input'un genişliğini esnetir */
+    flex-grow: 1;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.chat-input button {
+    padding: 0.5rem 1rem;
+    border-radius: 0px 20px 20px 0px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+    background-color: #45a049;
 }
 
 .users-list {
     position: absolute;
-    top: auto; /* top: -200px yerine */
-    bottom: 100%; /* Input'un altında konumlandırma */
-    left: 16px;
-    background: white;
+    bottom: 100%;
+    left: 10px;
+    background: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     max-height: 200px;
     overflow-y: auto;
-    width: calc(100% - 100px);
-    z-index: 9999;
+    width: calc(100% - 80px);
+    z-index: 10;
     display: none;
-    margin-bottom: 8px; /* Input ile liste arasında boşluk */
-}
-
-.users-list.visible {
-    display: block; /* Görünür olduğunda */
 }
 
 .user-item {
-    padding: 10px 12px;
+    padding: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid #eee;
-}
-
-.user-item:last-child {
-    border-bottom: none;
+    transition: all 0.2s;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .user-item:hover,
 .user-item.selected {
-    background-color: #f5f5f5;
+    background-color: #f0f8ff;
 }
+
+
+    /* Mention edilmiş kullanıcı vurgusu */
     .mentioned-user {
-        color: #2196f3;
+        color: #1e88e5;
         font-weight: 500;
-        background-color: rgba(33, 150, 243, 0.1);
-        padding: 2px 4px;
+        background-color: rgba(30, 136, 229, 0.1);
+        padding: 2px 6px;
         border-radius: 4px;
     }
-    </style>
+</style>
 
 
 
@@ -293,6 +324,27 @@ function selectUser(userItem) {
     });
     
     window.addEventListener('resize', positionUsersList);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const chatMessages = document.querySelector('.chat-messages');
+
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Sayfa yüklendiğinde en alta kaydır
+    scrollToBottom();
+
+    // Yeni mesaj geldiğinde en alta kaydır
+    chatMessages.addEventListener('DOMNodeInserted', scrollToBottom);
+
+        // Mesaj gönderildiğinde de en alta kaydır
+        document.querySelector('.chat-input').addEventListener('submit', function (e) {
+        e.preventDefault();
+        // Mesaj gönderildikten sonra en alta kaydır
+        setTimeout(scrollToBottom, 100); // Biraz gecikmeyle çalıştır, yeni mesaj eklendiğinde kayar
+    });
 });
 </script>
 

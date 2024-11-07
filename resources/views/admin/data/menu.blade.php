@@ -112,9 +112,9 @@
           <div class="user-menu mt-auto">
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link active">
-                  <i class="nav-icon bi bi-box-seam"></i>
+                  <i class="nav-icon bi bi-chat-square-quote"></i>
                   <p style="margin-left: 12px;">
-                     Chat
+                     İletişim
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -122,14 +122,8 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                       <a href="{{route('chat.index')}}" class="nav-link">
-                        <i class="fa fa-plus-circle nav-icon"></i>
+                        <i class="bi bi-chat-square-dots-fill nav-icon"></i>
                         <p>Sohbet Odası</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{{route('order.list')}}" class="nav-link">
-                        <i class="fa fa-list-ul nav-icon"></i>
-                        <p>Sipariş Yönetim</p>
                       </a>
                     </li>
                     </ul>

@@ -1,4 +1,5 @@
 {{-- chat-component.blade.php --}}
+<div class="all-might">
 <div class="chat-container" id="chat-container" wire:poll.10s="loadMessages">
     <div class="chat-messages" id="chat-messages">
         @foreach($messages as $message)
@@ -18,6 +19,7 @@
         @endforeach
     </div>
 
+    <div>
     <div class="chat-input relative">
         <form wire:submit.prevent="sendMessage">
             <div class="input-group position-relative"> 
@@ -35,4 +37,5 @@
         </form>
     </div>
 </div>
-
+</div>
+</div>

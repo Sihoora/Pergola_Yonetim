@@ -5,23 +5,24 @@
 <style>
 
  /* Sayfa ortalama için body düzenlemeleri */
-body {
+.all-might {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Sayfanın tamamını kaplaması için */
     margin: 0;
-    background-color: #f0f2f5; /* Chat arka planı ile uyumlu bir arka plan rengi */
 }
 
 .chat-container {
     display: flex;
     flex-direction: column;
-    width: 100vh; /* Genişlik, ekranın %80'i olacak şekilde ayarlandı */
-    height: 85vh; /* Yüksekliği ekranın %80’i olacak şekilde ayarlandı */
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f4f6f9;
+    width: 100%; /* Bulunduğu alanın tamamını kaplasın */
+    height: 100%;
+    height: 95vh; /* Yükseklik ayarı, ihtiyaca göre değiştirilebilir */
+    box-sizing: border-box; /* Padding dahil ederek tam uyum sağlar */
+    
 }
 
 .chat-messages {
@@ -34,23 +35,31 @@ body {
 }
 
 .message {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    max-width: 45%; /* Mesaj baloncuğunun genişliği */
+    padding: 10px 15px;
+    margin: 5px 0; /* Her mesaj arasında boşluk */
+    border-radius: 18px;
+    position: relative;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box; /* Taşmayı önler */
 }
 
 .message-mine {
-    background-color: #e1ffc7;
+    background-color: #dcf8c6;
     align-self: flex-end;
+    border-radius: 18px 18px 0 18px;
     margin-left: auto;
+    text-align: left;
 }
 
 .message-other {
     background-color: #f1f1f1;
     align-self: flex-start;
+    border-radius: 18px 18px 18px 0;
     margin-right: auto;
+    text-align: left;
 }
 
 .message-header {
@@ -65,10 +74,9 @@ body {
     padding: 1rem;
     border-top: 1px solid #ddd;
     background-color: rgba(255, 255, 255, 0.9);
-    height: 80px; /* Input kısmının yüksekliğini artırdık */
-    display: flex; /* Flex yapısıyla daha iyi hizalama */
     align-items: center;
-    gap: 0.5rem; /* Buton ve input arasındaki boşluk */
+
+    
 }
 
 .chat-input input[type="text"] {
@@ -88,6 +96,7 @@ body {
     border: none;
     font-size: 1rem;
     transition: background-color 0.3s;
+    
 }
 
 .chat-input button:hover {
@@ -352,6 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(scrollToBottom, 100); // Biraz gecikmeyle çalıştır, yeni mesaj eklendiğinde kayar
     });
 });
+
 </script>
 
 

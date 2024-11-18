@@ -25,7 +25,7 @@ class OrderFileController extends Controller
            $filename = $file->getClientOriginalName();
        
            // Dosyayı public diskinde 'order_files' klasörüne yükle
-           $path = $file->storeAs('order_files', $filename, 'public');
+           $path = $file->store('order_files');
            
        
            // Veritabanına 'order_files/filename' formatında yolu kaydet
@@ -35,6 +35,8 @@ class OrderFileController extends Controller
            $orderFile->file_type = $request->file_type;
            $orderFile->file_name = $filename;
            $orderFile->save();
+
+
        
            return redirect()->back()->with('success', 'Dosya başarıyla yüklendi.');
        }
@@ -88,9 +90,6 @@ class OrderFileController extends Controller
            return Storage::download($file->file_path, $file->file_name);
        }
 
-            
- 
-       
        // Dosya silme metodu
        public function delete($id)
        {

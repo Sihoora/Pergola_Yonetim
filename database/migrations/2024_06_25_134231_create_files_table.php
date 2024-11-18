@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('file_path');
             $table->timestamps();
 
-            $table->foreign('proje_id')->references('id')->on('projeler')->onDelete('cascade');
+            $table->foreign('proje_id')->references('id')->on('proje_ekle')->onDelete('cascade');
         });
     }
 

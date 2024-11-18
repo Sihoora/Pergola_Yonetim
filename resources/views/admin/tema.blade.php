@@ -116,10 +116,6 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('admin') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="{{ asset('admin') }}/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="{{ asset('admin') }}/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
 <script src="{{ asset('admin') }}/plugins/jqvmap/jquery.vmap.min.js"></script>
 <script src="{{ asset('admin') }}/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
@@ -145,7 +141,6 @@
 <script src="{{ asset('admin') }}/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <script src="{{ asset('admin') }}/dist/js/menu.js"></script>
 

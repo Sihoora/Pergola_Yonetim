@@ -124,11 +124,14 @@ class OrderController extends Controller
             'order_type' => 'required|string|max:50',
             'product_name' => 'required|string|max:50',
             'quantity' => 'required|numeric',
+            'company_id' => 'nullable|exists:companies,id',
+
         ]);
     
         $order->order_type = $validatedData['order_type'];
         $order->product_name = $validatedData['product_name'];
         $order->quantity = $validatedData['quantity'];
+        $order->company_id = $validatedData['company_id'];
         $order->save();
     
         return redirect()->route('order.details', $order->id)->with('success', 'Sipariş başarıyla güncellendi.');

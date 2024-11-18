@@ -39,7 +39,6 @@ class ChatComponent extends Component
         ->toArray();
     }
 
-    
 
     public function loadMessages()
     {
@@ -136,6 +135,7 @@ class ChatComponent extends Component
 
     public function render()
     {
+        
         return view('livewire.chat-component', [
             'messages' => $this->messages
         ]);

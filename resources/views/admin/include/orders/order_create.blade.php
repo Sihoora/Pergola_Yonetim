@@ -58,12 +58,11 @@ input::file-selector-button {
                                                     </div>
                                                 </div>
 
-                                                @if(!(isset($order)))
                                                 <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label for="company">Firma Seçin</label>
                                                     <select name="company_id" id="company" class="form-control">
-                                                        <option value="">Firma Seçin</option>
+                                                        <option value="{{ old('company_id', isset($order) ? $order->company_id : '') }}">Seçiniz..</option>
                                                         @foreach($companies as $company)
                                                         <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
                                                             {{ $company->company_name }}
@@ -71,7 +70,6 @@ input::file-selector-button {
                                                     </select>
                                                 </div>
                                                 </div>
-                                                @endif
                                         
                                                 <div class="col-sm-8">
                                                     <div class="form-group">

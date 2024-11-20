@@ -70,8 +70,8 @@ return [
     |
     */
 
-     storage_path('app/public') => public_path('storage/app'),
+    //storage_path('app/public') => public_path('storage/app'),
 
-
+    storage_path('app/public') => public_path('storage/app'),
 
 ];

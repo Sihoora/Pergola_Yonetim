@@ -303,7 +303,7 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="proje_id" value="{{ $proje->id }}">
-                    <input type="hidden" name="surec" value="Üretime Gönderildi">
+                    <input type="hidden" name="surec" value="Yeni Proje">
                     <input type="hidden" name="is_order_note" value="1"> <!-- Sipariş notu olduğunu belirten alan -->
                     
                     <div class="form-group">
@@ -532,7 +532,7 @@
                 <ul class="todo-list" data-widget="todo-list">
                     <!-- Dinamik Notlar -->
                     @foreach($proje->notlar as $note)
-                    @if($note->surec == $proje->surec)
+                    @if(($note->surec == 'Yeni Proje') && ($note->is_order_note))
                     <li class="@if($note->checked) done @endif" style="border: 0.1rem solid;">
                         <span>
                             <i class="fa fa-sticky-note"></i>

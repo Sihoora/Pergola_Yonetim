@@ -671,9 +671,7 @@
                 </ul>
             </div>
             <div class="card-footer clearfix">
-                @can('view projects')
                 <button type="button" class="btn btn-primary float-right" id="advance-process-btn" disabled>Süreci İlerlet</button>
-                @endcan
             </div>
         </div>
         @else

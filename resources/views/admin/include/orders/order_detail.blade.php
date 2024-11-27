@@ -361,7 +361,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <!-- Dosya Yükleme Formu -->
-                                            <form action=C method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('order-files.upload', $order->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="file">Dosya Yükle</label>
@@ -372,7 +372,6 @@
                                                     <select name="file_type" class="form-control">
                                                         <option value="order_detail">Sipariş Dosyası</option>
                                                         <option value="order_content">Sipariş İçeriği Resim Dosyası</option>                                                        
-                                                        <option value="other">Diğer</option>
                                                     </select>
                                                 </div>
                                                 <input type="hidden" name="order_id" value="{{ $order->id }}">

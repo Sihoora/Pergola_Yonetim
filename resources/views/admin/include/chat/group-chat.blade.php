@@ -71,6 +71,7 @@
 }
 
 .chat-input {
+    position: relative !important; /* position relative olmalı */
     padding: 1rem;
     border-top: 1px solid #ddd;
     background-color: rgba(255, 255, 255, 0.9);
@@ -99,6 +100,11 @@
     
 }
 
+.input-group {
+    position: relative !important;
+    width: 100%;
+}
+
 .chat-input button:hover {
     background-color: #45a049;
 }
@@ -106,30 +112,40 @@
 .users-list {
     position: absolute;
     bottom: 100%;
-    left: 10px;
+    left: 0;
     background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     max-height: 200px;
     overflow-y: auto;
-    width: calc(100% - 80px);
-    z-index: 10;
-    display: none;
+    width: 100%;
+    z-index: 1050;
+    margin-bottom: 8px;
+    display: none; /* varsayılan olarak gizli */
+}
+
+.users-list.visible {
+    display: block !important; /* görünürlüğü force et */
 }
 
 .user-item {
-    padding: 8px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: all 0.2s;
-    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.user-item:last-child {
+    border-bottom: none;
 }
 
 .user-item:hover,
 .user-item.selected {
     background-color: #f0f8ff;
 }
-
 
     /* Mention edilmiş kullanıcı vurgusu */
     .mentioned-user {
@@ -172,13 +188,13 @@ document.addEventListener('livewire:load', function () {
     let mentionInProgress = false;
     
     function initializeUsersList() {
-    if (!usersList) {
-        usersList = document.createElement('div');
-        usersList.className = 'users-list';
-        document.querySelector('.chat-input .input-group').appendChild(usersList);
-        console.log('Users list initialized');
+        if (!usersList) {
+            usersList = document.createElement('div');
+            usersList.className = 'users-list';
+            // Input grubunun içine ekleyelim
+            document.querySelector('.input-group').appendChild(usersList);
+        }
     }
-}
     
     initializeUsersList();
     
@@ -210,77 +226,81 @@ document.addEventListener('livewire:load', function () {
     }
     
     function showUsersList(users) {
-    if (!usersList) initializeUsersList();
-    
-    usersList.innerHTML = users.map((user, index) => `
-        <div class="user-item ${index === 0 ? 'selected' : ''}" 
-             data-user-id="${user.id}" 
-             data-user-name="${user.name}">
-            ${user.name}
-        </div>
-    `).join('');
-    
-    usersList.style.display = 'block';
-    usersList.classList.add('visible');
-    
-    positionUsersList();
-    
-    addUserClickListeners();
-}
+        if (!usersList) initializeUsersList();
+        
+        usersList.innerHTML = users.map((user, index) => `
+            <div class="user-item ${index === 0 ? 'selected' : ''}" 
+                 data-user-id="${user.id}" 
+                 data-user-name="${user.name}">
+                ${user.name}
+            </div>
+        `).join('');
+        
+        usersList.style.display = 'block';
+        usersList.classList.add('visible');
+        
+        // Kullanıcı listesini doğru pozisyonda göster
+        positionUsersList();
+        
+        addUserClickListeners();
+    }
 
-
-function positionUsersList() {
-    if (!usersList || !chatInput) return;
+    function positionUsersList() {
+        if (!usersList || !chatInput) return;
+        
+        const inputGroupRect = document.querySelector('.input-group').getBoundingClientRect();
+        
+        usersList.style.position = 'absolute';
+        usersList.style.bottom = '100%';
+        usersList.style.left = '0';
+        usersList.style.width = '100%';
+        usersList.style.maxHeight = '200px';
+    }
     
-    const inputRect = chatInput.getBoundingClientRect();
-    const inputGroupRect = document.querySelector('.input-group').getBoundingClientRect();
+    function selectUser(userItem) {
+        const userId = userItem.dataset.userId;
+        const userName = userItem.dataset.userName;
+        
+        const beforeMention = chatInput.value.substring(0, currentMentionStart);
+        const afterMention = chatInput.value.substring(chatInput.selectionStart);
+        
+        // Boşluk eklemeyi sadece cümle sonunda yap
+        const isEndOfInput = chatInput.selectionStart === chatInput.value.length;
+        const newValue = `${beforeMention}@${userName}${isEndOfInput ? ' ' : ''}${afterMention}`;
+        chatInput.value = newValue;
+        
+        // Livewire modelini güncelle
+        component.set('message', newValue);
+        
+        // İmleci mention'dan sonraya konumlandır
+        const newCursorPosition = currentMentionStart + userName.length + 1 + (isEndOfInput ? 1 : 0);
+        chatInput.setSelectionRange(newCursorPosition, newCursorPosition);
+        
+        mentionInProgress = false;
+        hideUsersList();
+        chatInput.focus();
+    }
     
-    usersList.style.position = 'absolute';
-    usersList.style.bottom = `${inputRect.height + 5}px`; 
-    usersList.style.left = '0';
-    usersList.style.width = `${inputGroupRect.width - 120}px`; 
-    usersList.style.zIndex = '1000';
-}
-    
-function selectUser(userItem) {
-    const userId = userItem.dataset.userId;
-    const userName = userItem.dataset.userName;
-    
-    const beforeMention = chatInput.value.substring(0, currentMentionStart);
-    const afterMention = chatInput.value.substring(chatInput.selectionStart);
-    
-    // Boşluk eklemeyi sadece cümle sonunda yap
-    const isEndOfInput = chatInput.selectionStart === chatInput.value.length;
-    const newValue = `${beforeMention}@${userName}${isEndOfInput ? ' ' : ''}${afterMention}`;
-    chatInput.value = newValue;
-    
-    // Livewire modelini güncelle
-    component.set('message', newValue);
-    
-    // İmleci mention'dan sonraya konumlandır
-    const newCursorPosition = currentMentionStart + userName.length + 1 + (isEndOfInput ? 1 : 0);
-    chatInput.setSelectionRange(newCursorPosition, newCursorPosition);
-    
-    mentionInProgress = false;
-    hideUsersList();
-    chatInput.focus();
-}
-    
-function hideUsersList() {
-    if (usersList) {
-        usersList.style.display = 'none';
-        usersList.classList.remove('visible');
-        isUserListVisible = false;
-        if (!mentionInProgress) {
-            currentMentionStart = -1;
+    function hideUsersList() {
+        if (usersList) {
+            usersList.style.display = 'none';
+            usersList.classList.remove('visible');
+            isUserListVisible = false;
+            if (!mentionInProgress) {
+                currentMentionStart = -1;
+            }
         }
     }
-}
     
     let inputTimeout;
     chatInput.addEventListener('input', function(e) {
-        clearTimeout(inputTimeout);
-        inputTimeout = setTimeout(() => handleMentionInput(this), 100);
+        const isAtSymbol = e.data === '@';
+        if (isAtSymbol) {
+            handleMentionInput(this);
+        } else {
+            clearTimeout(inputTimeout);
+            inputTimeout = setTimeout(() => handleMentionInput(this), 100);
+        }
     });
     
     chatInput.addEventListener('keydown', function(e) {
@@ -362,6 +382,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+<<<<<<< Updated upstream
+=======
+
+
+
+>>>>>>> Stashed changes
 </script>
 
 

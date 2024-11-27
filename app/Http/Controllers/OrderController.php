@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\File;
 use App\Http\Controllers\OrderFileController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class OrderController extends Controller
@@ -41,63 +42,68 @@ class OrderController extends Controller
         return view("admin.include.orders.orders_list", compact("orders"));
     }
 
-    public function store(Request $request)
-    {
-        DB::beginTransaction(); 
-    
-        try {
-            $lastOrder = Order::orderBy('id', 'desc')->first();
-            $newOrderNumber = $lastOrder ? intval($lastOrder->order_code) + 1 : 1;
-    
+public function store(Request $request)
+{
+    DB::beginTransaction(); 
 
-            $validatedData = $request->validate([
-                'order_type' => 'required|string|max:50',
-                'product_name' => 'required|string|max:50',
-                'quantity' => 'nullable|numeric',
-                'created_by' => 'required|integer|exists:users,id',
-                'company_id' => 'nullable|exists:companies,id',
-                // Dosya yükleme kontrolü
-                'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
-                'file_type' => 'nullable|string|max:255',
-            ]);
-    
-            $order = Order::create([
-                'order_code' => $newOrderNumber,
-                'company_id'=> $validatedData['company_id'],
-                'order_type' => $validatedData['order_type'],
-                'product_name' => $validatedData['product_name'],
-                'quantity' => $validatedData['quantity'],
-                'created_by' => $validatedData['created_by'],
-            ]);
-    
-            $this->ekleSabitNotlar($order->id);
+    try {
+        $lastOrder = Order::orderBy('id', 'desc')->first();
+        $newOrderNumber = $lastOrder ? intval($lastOrder->order_code) + 1 : 1;
 
-    
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
-                $fileType = $request->file_type;
-    
-                $path = $file->store('order_files');
-                $orderFile = new OrderFile();
-                $orderFile->order_id = $order->id; 
-                $orderFile->file_path = $path;
-                $orderFile->file_type = $fileType;
-                $orderFile->file_name = $file->getClientOriginalName();
-                
-                $orderFile->save();
-            }
-    
-            // if success, commit the transaction
-            DB::commit();
-    
-            return redirect()->route('order.details', $order->id)->with('success', 'Sipariş başarıyla oluşturuldu.');
-    
-        } catch (\Exception $e) {
-            // if any exception, rollback the transaction
-            DB::rollBack();
-            return redirect()->back()->withErrors('Sipariş oluşturulurken bir hata oluştu: ' . $e->getMessage());
+        $validatedData = $request->validate([
+            'order_type' => 'required|string|max:50',
+            'product_name' => 'required|string|max:50',
+            'quantity' => 'nullable|numeric',
+            'created_by' => 'required|integer|exists:users,id',
+            'company_id' => 'nullable|exists:companies,id',
+            // Dosya yükleme doğrulama kuralları güncellendi
+            'file' => 'nullable|file|mimes:pdf,png,jpg,jpeg,doc,docx,xlsx,txt|max:8192',
+            'file_type' => 'nullable|string|max:255',
+        ]);
+
+        // Önce siparişi oluştur
+        $order = Order::create([
+            'order_code' => $newOrderNumber,
+            'company_id'=> $validatedData['company_id'],
+            'order_type' => $validatedData['order_type'],
+            'product_name' => $validatedData['product_name'],
+            'quantity' => $validatedData['quantity'],
+            'created_by' => $validatedData['created_by'],
+        ]);
+
+        // Sabit notları ekle
+        $this->ekleSabitNotlar($order->id);
+
+        // Dosya yükleme işlemi
+        if ($request->hasFile('file')) {
+            // Dosyayı al ve orijinal adını kaydet
+            $file = $request->file('file');
+            $filename = $file->getClientOriginalName();
+            
+            // Dosyayı 'order_files' klasörüne yükle
+            $path = $file->store('order_files');
+            
+            // Dosya bilgilerini veritabanına kaydet
+            $orderFile = new OrderFile();
+            $orderFile->order_id = $order->id; // Yeni oluşturulan siparişin ID'si
+            $orderFile->file_path = $path;
+            $orderFile->file_type = $request->file_type;
+            $orderFile->file_name = $filename;
+            $orderFile->save();
         }
+
+        // Tüm işlemler başarılı ise commit yap
+        DB::commit();
+
+        return redirect()->route('order.details', $order->id)
+            ->with('success', 'Sipariş başarıyla oluşturuldu.');
+
+    }  catch (\Exception $e) {
+        Log::error('Veritabanı bağlantı hatası: ' . $e->getMessage());
+        return redirect()->back()
+            ->withErrors('Veritabanına bağlanılamıyor. Lütfen yapılandırmayı kontrol edin.');
     }
+}
 
     public function edit($id)
     {
@@ -124,11 +130,14 @@ class OrderController extends Controller
             'order_type' => 'required|string|max:50',
             'product_name' => 'required|string|max:50',
             'quantity' => 'required|numeric',
+            'company_id' => 'nullable|exists:companies,id',
+
         ]);
     
         $order->order_type = $validatedData['order_type'];
         $order->product_name = $validatedData['product_name'];
         $order->quantity = $validatedData['quantity'];
+        $order->company_id = $validatedData['company_id'];
         $order->save();
     
         return redirect()->route('order.details', $order->id)->with('success', 'Sipariş başarıyla güncellendi.');

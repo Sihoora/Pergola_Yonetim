@@ -15,6 +15,7 @@ use App\HTTP\Controllers\ProductController;
 use App\HTTP\Controllers\FileController;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProjectController extends Controller
@@ -293,12 +294,14 @@ class ProjectController extends Controller
         ->where('is_order_note', 1)
         ->get();
 
-
+        $logoPath = asset('storage/uploads/PDF_LOGO.png');
+        dd($logoPath);
+        
         // PDF görünümü için gerekli verileri ayarlıyoruz
         $data = [
             'proje' => $proje,
             'siparisNotlari' => $siparisNotlari, // Sipariş notlarını PDF'de kullanmak için ekledik
-            'logo' =>  public_path('admin/dist/img/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekleyin
+            'logo' => asset('storage/uploads/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekledik
         ];
 
         // PDF dökümanını oluşturup, kullanıcıya indirme veya görüntüleme seçeneği sunuyoruz

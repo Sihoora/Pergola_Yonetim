@@ -30,7 +30,7 @@
           <a href="#" class="nav-link active" style="padding-left: 15px;">
             <i class="nav-icon bi bi-buildings" style="padding-left: 0px;"></i>
             <p>
-              İmalat Menüsü
+              İmalat Menüsü----
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>

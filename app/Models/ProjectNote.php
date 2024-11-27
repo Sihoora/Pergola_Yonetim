@@ -13,6 +13,10 @@ class ProjectNote extends Model
 
     protected $fillable = ['proje_id', 'surec', 'not', 'checked', 'is_order_note'];
 
+    protected $casts = [
+        'is_order_note' => 'boolean',
+    ];
+
 
     public function proje()
     {

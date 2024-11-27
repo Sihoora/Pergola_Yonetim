@@ -1,0 +1,5 @@
+[14-Nov-2024 00:52:49 UTC] PHP Warning:  require(/home/client_718_1/Pergola_Yonetim/vendor/autoload.php): Failed to open stream: No such file or directory in /home/client_718_1/Pergola_Yonetim/artisan on line 18
+[14-Nov-2024 00:52:49 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/client_718_1/Pergola_Yonetim/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/client_718_1/Pergola_Yonetim/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/client_718_1/Pergola_Yonetim/artisan on line 18

@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Pergola Yönetim</title>
-
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -141,49 +140,9 @@
 <script src="{{ asset('admin') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="{{ asset('admin') }}/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="{{ asset('admin') }}/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
 <script src="{{ asset('admin') }}/dist/js/menu.js"></script>
-
-<script>
-function markNotificationAsRead(notificationId) {
-  fetch(`/notifications/${notificationId}/mark-as-read`, {
-      method: 'POST',
-      headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-      }
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          // Bildirimi okundu olarak işaretle ve UI'ı güncelle
-          document.querySelector(`#notification-${notificationId}`).classList.add('read');
-      }
-  });
-}
-
-function markAllNotificationsAsRead() {
-  fetch('/notifications/mark-all-as-read', {
-      method: 'POST',
-      headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-      }
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          // Tüm bildirimleri okundu olarak işaretle ve UI'ı güncelle
-          document.querySelectorAll('.notification-item').forEach(item => {
-              item.classList.add('read');
-          });
-      }
-  });
-}
-</script>
 
 @yield('js')
 

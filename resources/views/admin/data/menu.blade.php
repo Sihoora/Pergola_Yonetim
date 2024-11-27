@@ -26,7 +26,8 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item has-treeview">
+        
+      <li class="nav-item has-treeview">
           <a href="#" class="nav-link active" style="padding-left: 15px;">
             <i class="nav-icon bi bi-buildings" style="padding-left: 0px;"></i>
             <p>

@@ -298,7 +298,7 @@ class ProjectController extends Controller
         $data = [
             'proje' => $proje,
             'siparisNotlari' => $siparisNotlari, // Sipariş notlarını PDF'de kullanmak için ekledik
-            'logo' =>  public_path('admin/dist/img/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekleyin
+            'logo' => asset('storage/admin/dist/img/PDF_LOGO.png') // Logonun bulunduğu yolu buraya ekleyin
         ];
 
         // PDF dökümanını oluşturup, kullanıcıya indirme veya görüntüleme seçeneği sunuyoruz

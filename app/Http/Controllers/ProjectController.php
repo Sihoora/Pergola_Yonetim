@@ -181,7 +181,6 @@ class ProjectController extends Controller
             'Proje Ön Hazırlık', 
             'Üretim Aşaması',
             'Sevk İçin Hazır',
-            'Sevk Edildi',
         ];
     
         // Mevcut sürecin indexini al

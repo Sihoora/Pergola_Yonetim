@@ -32,29 +32,10 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">  
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  @livewireStyles
+
+
   <style>
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
 
 </style>
 
@@ -140,6 +121,7 @@
 <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 
 <script src="{{ asset('admin') }}/dist/js/menu.js"></script>
+@livewireScripts
 
 @yield('js')
 

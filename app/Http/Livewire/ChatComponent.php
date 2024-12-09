@@ -93,7 +93,6 @@ class ChatComponent extends Component
         
         $this->messages->push($newMessage);
         $this->message = '';
-        $this->emit('scrollToBottom');
     }
 
 

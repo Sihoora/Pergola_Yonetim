@@ -33,6 +33,7 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest'); // Sadece misafirler erişebilir.
 
+
 // Kullanıcı girişi yapıldıktan sonra erişilebilir olan sayfalar
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     

@@ -142,12 +142,6 @@
             <ul class="nav nav-treeview" >
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                   <li class="nav-item">
-                    <a href="{{ route('profile.show') }}" class="nav-link">
-                      <i class="nav-icon fas fa-user"></i>
-                      <p>Profilim</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
                     <a href="{{route('users.index')}}" class="nav-link">
                       <i class="fa fa-list-ul nav-icon"></i>
                       <p>Yönetim Paneli</p>
